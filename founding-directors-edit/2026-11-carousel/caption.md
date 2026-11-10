@@ -7,6 +7,7 @@ Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team,
 
 Type system: one serif size (Rhymes Text 72px) and one label size (Fakt 24px caps) on every card.
 Length rules: text-only cards (2, 5, 8) are 80-95 characters (4 lines); headlines are max 48 characters (2 lines); labels max 32 characters.
+Grid (measured on the rendered PNGs): 108px left and right margins; series tag at 96px; every bottom line ends 108px from the bottom edge; panels hold their text 86px below the photo; text-only cards put the globe at 400px and start the text at 573px.
 
 1. Where I'd look for value today. / A note from Michael Coombs
 2. Opportunity isn't always about a lower price. Sometimes it's what would take years to recreate.
