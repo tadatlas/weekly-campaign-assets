@@ -3,18 +3,21 @@
 8 slides, 1080 x 1350 (4:5). Post in order `01.png` to `08.png`.
 Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): brandmark and series tag top-left, photo-led slides, Stone, White and Terra, and a Stone end card with LINK IN BIO.
 
-## On-slide copy (tightened 10 Nov 2026, layout v4)
+## On-slide copy (final, 10 Nov 2026)
 
-1. A note from Michael Coombs / Where I'm seeing opportunity.
+Type system: one serif size (Rhymes Text 72px) and one label size (Fakt 24px caps) on every card.
+Length rules: text-only cards (2, 5, 8) are 80-95 characters (4 lines); headlines are max 48 characters (2 lines); labels max 32 characters.
+
+1. Where I'm seeing opportunity. / A note from Michael Coombs
 2. Some of the most compelling opportunities are in homes that would be difficult to recreate.
 3. The value of what's already built. / 9 Burrawong Avenue, Mosman
 4. Burrawong alone took six years to create. / Designed by McNally Architects
-5. What would it take to achieve the same result?
-6. LOOKING AHEAD (label) / My expectation is that the market will remain relatively steady.
+5. It's worth considering what it would take to achieve the same result, in time and cost.
+6. I expect the market to remain relatively steady. / Looking ahead
 7. Two exceptional Mosman residences. / 9 Burrawong Avenue / 9 Sirius Avenue
-8. "It's about recognising the right property, understanding its value and making an informed decision." / Michael Coombs, Founding Director / Link in bio
+8. "Recognising the right property, understanding its value and making an informed decision." / Michael Coombs, Founding Director / Link in bio
 
-Slides 2, 4, 6 and 8 are excerpts of Michael's approved email copy. Slide 5 rewords his line as a question; confirm he's happy with it.
+Cards 5, 6 and 8 reword Michael's approved email lines; confirm he's happy with them before posting.
 
 ## Caption
 
