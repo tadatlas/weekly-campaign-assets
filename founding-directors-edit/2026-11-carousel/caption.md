@@ -1,7 +1,7 @@
 # Instagram carousel: Founding Director's Edit, Oct/Nov 2026
 
 8 slides, 1080 x 1350 (4:5). Post in order `01.png` to `08.png`.
-Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): brandmark and series tag top-left, photo-led slides, Stone, White and Terra, and a Stone end card with LINK IN BIO.
+Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): photo cards carry the series tag top-left; text-only cards (2, 5, 8) have no tag, just the globe brandmark above the Rhymes text; Stone, White and Terra; a Stone end card with LINK IN BIO.
 
 ## On-slide copy (final, 10 Nov 2026)
 
