@@ -1,7 +1,8 @@
 # Instagram carousel: Founding Director's Edit, Oct/Nov 2026
 
 8 slides, 1080 x 1350 (4:5). Post in order `01.png` to `08.png`.
-Built 10 Nov 2026 from the email as sent. Every line on the slides is Michael's approved copy, word for word.
+Built 10 Nov 2026 from the email as sent. Every line on the slides is Michael's approved copy, word for word (headlines take a full stop, as in other Atlas posts).
+Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): brandmark and series tag top-left, photo-led slides, Stone, White and Terra, and a Stone end card with LINK IN BIO.
 
 ## Caption
 
