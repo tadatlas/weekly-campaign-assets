@@ -1,16 +1,28 @@
 # Instagram carousel: Founding Director's Edit, Oct/Nov 2026
 
 8 slides, 1080 x 1350 (4:5). Post in order `01.png` to `08.png`.
-Built 10 Nov 2026 from the email as sent. Every line on the slides is Michael's approved copy, word for word (headlines take a full stop, as in other Atlas posts).
 Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): brandmark and series tag top-left, photo-led slides, Stone, White and Terra, and a Stone end card with LINK IN BIO.
+
+## On-slide copy (tightened 10 Nov 2026)
+
+1. A note from Michael Coombs / Where I'm seeing opportunity.
+2. Homes that would be difficult to recreate.
+3. The value of what's already built. / 9 Burrawong Avenue, Mosman
+4. Burrawong alone took six years to create. / Designed by McNally Architects
+5. What would it take to achieve the same result?
+6. Looking ahead. / My expectation is that the market will remain relatively steady.
+7. Two exceptional Mosman residences. / 9 Burrawong Avenue / 9 Sirius Avenue
+8. "It's about recognising the right property, understanding its value and making an informed decision." / Michael Coombs, Founding Director / Link in bio
+
+Slides 2, 4, 6 and 8 are excerpts of Michael's approved email copy. Slide 5 rewords his line as a question; confirm he's happy with it.
 
 ## Caption
 
 Some of the most compelling opportunities in today's market are in homes that would be difficult to recreate.
 
-In his latest Founding Director's Edit, Michael Coombs looks at the value of what's already built. With today's building costs, buyers considering a new build have more to weigh up than the purchase price, and the quality, time and investment already behind a finished home can make it a compelling proposition.
+In his Founding Director's Edit, Michael considers what it would take to achieve the same result. At 9 Burrawong Avenue, that meant six years: two of planning and four of construction. With today's building costs, there's more to weigh up than purchase price alone.
 
-His outlook for the next 12 months: a relatively steady market, with quality stock likely to remain limited in tightly held locations.
+Over the next 12 months, Michael expects a relatively steady market, without dramatic movement in either direction, and quality stock to remain limited in tightly held locations. Rather than predicting the bottom, it's about recognising the right property and understanding its value.
 
 Explore 9 Burrawong Avenue and 9 Sirius Avenue, Mosman, via the link in bio.
 
