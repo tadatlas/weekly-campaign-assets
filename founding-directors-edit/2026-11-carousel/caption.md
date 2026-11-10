@@ -3,14 +3,14 @@
 8 slides, 1080 x 1350 (4:5). Post in order `01.png` to `08.png`.
 Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team, PM Case Study): brandmark and series tag top-left, photo-led slides, Stone, White and Terra, and a Stone end card with LINK IN BIO.
 
-## On-slide copy (tightened 10 Nov 2026)
+## On-slide copy (tightened 10 Nov 2026, layout v4)
 
 1. A note from Michael Coombs / Where I'm seeing opportunity.
-2. Homes that would be difficult to recreate.
+2. Some of the most compelling opportunities are in homes that would be difficult to recreate.
 3. The value of what's already built. / 9 Burrawong Avenue, Mosman
 4. Burrawong alone took six years to create. / Designed by McNally Architects
 5. What would it take to achieve the same result?
-6. Looking ahead. / My expectation is that the market will remain relatively steady.
+6. LOOKING AHEAD (label) / My expectation is that the market will remain relatively steady.
 7. Two exceptional Mosman residences. / 9 Burrawong Avenue / 9 Sirius Avenue
 8. "It's about recognising the right property, understanding its value and making an informed decision." / Michael Coombs, Founding Director / Link in bio
 
