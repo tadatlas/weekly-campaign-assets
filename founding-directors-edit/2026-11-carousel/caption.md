@@ -8,16 +8,17 @@ Layout follows the Atlas feed carousels in Canva (Life and Local, Meet the Team,
 Type system: one serif size (Rhymes Text 72px) and one label size (Fakt 24px caps) on every card.
 Length rules: text-only cards (2, 5, 8) are 80-95 characters (4 lines); headlines are max 48 characters (2 lines); labels max 32 characters.
 
-1. Where I'm seeing opportunity. / A note from Michael Coombs
-2. Some of the most compelling opportunities are in homes that would be difficult to recreate.
+1. Where I'd look for value today. / A note from Michael Coombs
+2. Opportunity isn't always about a lower price. Sometimes it's what would take years to recreate.
 3. The value of what's already built. / 9 Burrawong Avenue, Mosman
-4. Burrawong alone took six years to create. / Designed by McNally Architects
-5. It's worth considering what it would take to achieve the same result, in time and cost.
-6. I expect the market to remain relatively steady. / Looking ahead
-7. Two exceptional Mosman residences. / 9 Burrawong Avenue / 9 Sirius Avenue
-8. "Recognising the right property, understanding its value and making an informed decision." / Michael Coombs, Founding Director / Link in bio
+4. Two years to plan. Four years to build. / Designed by McNally Architects
+5. What would it cost to recreate this today? And what is six years of your time worth?
+6. I expect a relatively steady year ahead. / Looking ahead
+7. Two Mosman homes worth a closer look. / 9 Burrawong Avenue / 9 Sirius Avenue
+8. "It's not about timing the market. It's about recognising the right property and its value." / Michael Coombs, Founding Director / Link in bio
 
-Cards 5, 6 and 8 reword Michael's approved email lines; confirm he's happy with them before posting.
+Line breaks on cards 2, 4, 5 and 8 are hand-set so each sentence starts a new line.
+Card 3 is Michael's wording; the rest are reworded or adapted from his approved position. Card 8 is presented as a direct quote, so Michael must approve it before posting.
 
 ## Caption
 
