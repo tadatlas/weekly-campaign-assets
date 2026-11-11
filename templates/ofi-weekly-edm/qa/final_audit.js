@@ -1,0 +1,14 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();
+const p=await b.newPage({viewport:{width:660,height:900},deviceScaleFactor:2});
+await p.goto('file://'+process.cwd()+'/OFI_NSW_07Nov2026.html');
+await p.waitForTimeout(3000);
+const f=await p.evaluate(async()=>{await document.fonts.ready;
+  return {rhymes:document.fonts.check("22px 'Rhymes Display'"), fakt:document.fonts.check("12px Fakt"), faktB:document.fonts.check("bold 12px Fakt")};});
+console.log('fonts loaded:',JSON.stringify(f));
+await p.screenshot({path:'email_desk.png',fullPage:true});
+const m=await b.newPage({viewport:{width:375,height:812},deviceScaleFactor:2});
+await m.goto('file://'+process.cwd()+'/OFI_NSW_07Nov2026.html');await m.waitForTimeout(3000);
+const btn=await m.evaluate(()=>[...document.querySelectorAll('a.es-button')].slice(0,9).map(a=>getComputedStyle(a).padding));
+console.log('mobile btn padding:',JSON.stringify(btn));
+await m.screenshot({path:'email_mob.png',fullPage:true});
+await b.close();})();
