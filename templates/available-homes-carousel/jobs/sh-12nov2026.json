@@ -1,0 +1,557 @@
+{
+ "name": "SH Available Homes Carousel",
+ "cover": {
+  "title": "Southern Highlands",
+  "image": "footage/sh/ranges_sunset.jpg",
+  "x": 0.2,
+  "duration": 5.0
+ },
+ "cards": [
+  {
+   "name": "Bowral",
+   "intro": {
+    "titles": [
+     "Bowral"
+    ],
+    "shots": [
+     [
+      "footage/sh/bowral_aerial.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "11 Bloomfield Close",
+     "suburb": "Bowral",
+     "features": "5 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11132/photo/d/178398984778307737.jpg",
+     "render": false,
+     "id": "1P11132"
+    },
+    {
+     "street": "127 Bowral Street",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11241/photo/d/178901923559341011.jpg?wm=0",
+     "render": false,
+     "id": "1P11241"
+    },
+    {
+     "street": "3 Centennial Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11199/photo/d/179296678071809607.jpg?wm=0",
+     "render": false,
+     "id": "1P11199"
+    },
+    {
+     "street": "71/2-18 Centennial Road",
+     "suburb": "Bowral",
+     "features": "2 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11380/photo/d/179315304932161782.jpg?wm=0",
+     "render": false,
+     "id": "1P11380"
+    },
+    {
+     "street": "8 College Place",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11201/photo/d/178944362064967755.jpg?wm=0",
+     "render": false,
+     "id": "1P11201"
+    },
+    {
+     "street": "14A Cypress Parade",
+     "suburb": "Bowral",
+     "features": "3 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11326/photo/d/179090475783133841.jpg?wm=0",
+     "render": false,
+     "id": "1P11326"
+    },
+    {
+     "street": "19 Elm Street",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11044/photo/d/178702548747750802.jpg?wm=0",
+     "render": false,
+     "id": "1P11044"
+    },
+    {
+     "street": "16 Gibraltar Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   3 BATHS   6 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10828/photo/d/178330217295919559.jpg?wm=0",
+     "render": false,
+     "id": "1P10828"
+    },
+    {
+     "street": "17 Gibraltar Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11208/photo/d/179023234779953514.jpg?wm=0",
+     "render": false,
+     "id": "1P11208"
+    },
+    {
+     "street": "21 Glenquarry Crescent",
+     "suburb": "Bowral",
+     "features": "5 BEDS   2 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11172/photo/d/179263817552254860.jpg?wm=0",
+     "render": false,
+     "id": "1P11172"
+    },
+    {
+     "street": "31/9 Kangaloon Road",
+     "suburb": "Bowral",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11406/photo/d/179358600406814823.jpg?wm=0",
+     "render": false,
+     "id": "1P11406"
+    },
+    {
+     "street": "4/65-67 Kangaloon Road",
+     "suburb": "Bowral",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10964/photo/d/177694238715942903.jpg?wm=0",
+     "render": false,
+     "id": "1P10964"
+    },
+    {
+     "street": "6/18 Kangaloon Road",
+     "suburb": "Bowral",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11303/photo/d/179187218252908405.jpg?wm=0",
+     "render": false,
+     "id": "1P11303"
+    },
+    {
+     "street": "22 Kimberley Drive",
+     "suburb": "Bowral",
+     "features": "5 BEDS   4 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11154/photo/d/178494304849858444.jpg?wm=0",
+     "render": false,
+     "id": "1P11154"
+    },
+    {
+     "street": "11 Lavis Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10300/photo/d/178938006417137755.jpg?wm=0",
+     "render": false,
+     "id": "1P10300"
+    },
+    {
+     "street": "42-44 Old South Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11311/photo/d/179074396152424346.jpg?wm=0",
+     "render": false,
+     "id": "1P11311"
+    },
+    {
+     "street": "50 Park Road",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10713/photo/d/178789049372219320.jpg?wm=0",
+     "render": false,
+     "id": "1P10713"
+    },
+    {
+     "street": "25 Rosemary Crescent",
+     "suburb": "Bowral",
+     "features": "6 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10917/photo/d/178772291139998216.jpg?wm=0",
+     "render": false,
+     "id": "1P10917"
+    },
+    {
+     "street": "112-116 Shepherd Street",
+     "suburb": "Bowral",
+     "features": "3 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10756/photo/d/177380883588765964.jpg?wm=0",
+     "render": false,
+     "id": "1P10756"
+    },
+    {
+     "street": "91B Shepherd Street",
+     "suburb": "Bowral",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11374/photo/d/179375553555770084.jpg?wm=0",
+     "render": false,
+     "id": "1P11374"
+    },
+    {
+     "street": "1 Thompson Street",
+     "suburb": "Bowral",
+     "features": "3 BEDS   1 BATH   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11253/photo/d/179203439932904544.jpg?wm=0",
+     "render": false,
+     "id": "1P11253"
+    },
+    {
+     "street": "34 Victoria Street",
+     "suburb": "Bowral",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11055/photo/d/178951578066831096.jpg?wm=0",
+     "render": false,
+     "id": "1P11055"
+    },
+    {
+     "street": "3 Westbrook Crescent",
+     "suburb": "Bowral",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11150/photo/d/179031036433670591.jpg?wm=0",
+     "render": false,
+     "id": "1P11150"
+    },
+    {
+     "street": "Address on request",
+     "suburb": "Bowral",
+     "features": "100 ACRES",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11136/photo/d/179135009756739119.jpg?wm=0",
+     "render": false,
+     "id": "1P11136"
+    }
+   ]
+  },
+  {
+   "name": "Burradoo",
+   "intro": {
+    "titles": [
+     "Burradoo"
+    ],
+    "shots": [
+     [
+      "footage/sh/autumn_drive.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "1A Burradoo Road",
+     "suburb": "Burradoo",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11161/photo/d/178899982162796251.jpg?wm=0",
+     "render": false,
+     "id": "1P11161"
+    },
+    {
+     "street": "5A Eridge Park Road",
+     "suburb": "Burradoo",
+     "features": "6 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11214/photo/d/178648881000777492.jpg?wm=0",
+     "render": false,
+     "id": "1P11214"
+    },
+    {
+     "street": "Amanzi",
+     "suburb": "Burradoo",
+     "features": "5 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11351/photo/d/179193839130345973.jpg?wm=0",
+     "render": false,
+     "id": "1P11351"
+    }
+   ]
+  },
+  {
+   "name": "Moss Vale",
+   "intro": {
+    "titles": [
+     "Moss Vale"
+    ],
+    "shots": [
+     [
+      "footage/sh/cattle.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "33 Browley Street",
+     "suburb": "Moss Vale",
+     "features": "2 BEDS   1 BATH   1 CAR",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11020/177793645241678044-rsd.jpg",
+     "render": false,
+     "id": "1P11020"
+    },
+    {
+     "street": "46 Darraby Drive",
+     "suburb": "Moss Vale",
+     "features": "5 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11169/photo/d/178426428614943821.jpg?wm=0",
+     "render": false,
+     "id": "1P11169"
+    },
+    {
+     "street": "10 Dormie Place",
+     "suburb": "Moss Vale",
+     "features": "",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11147/photo/d/178426252078146482.jpg?wm=0",
+     "render": false,
+     "id": "1P11147"
+    },
+    {
+     "street": "19 Eliza Street",
+     "suburb": "Moss Vale",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11290/photo/d/179012125056476297.jpg?wm=0",
+     "render": false,
+     "id": "1P11290"
+    },
+    {
+     "street": "259 Headlam Road",
+     "suburb": "Moss Vale",
+     "features": "4 BEDS   2 BATHS   6 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11110/178364027649156792-rsd.jpg",
+     "render": false,
+     "id": "1P11110"
+    },
+    {
+     "street": "14 Meehan Place",
+     "suburb": "Moss Vale",
+     "features": "2095 SQM",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11340/photo/d/179184426605461736.jpg?wm=0",
+     "render": false,
+     "id": "1P11340"
+    },
+    {
+     "street": "31 Rosella Avenue",
+     "suburb": "Moss Vale",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10579/photo/d/179081560737752680.jpg?wm=0",
+     "render": false,
+     "id": "1P10579"
+    },
+    {
+     "street": "30 Watson Road",
+     "suburb": "Moss Vale",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11142/photo/d/178407954604137125.jpg?wm=0",
+     "render": false,
+     "id": "1P11142"
+    }
+   ]
+  },
+  {
+   "name": "Mittagong, Renwick",
+   "intro": {
+    "titles": [
+     "Renwick",
+     "Mittagong"
+    ],
+    "shots": [
+     [
+      "footage/sh/tall_trees.jpg",
+      0.5
+     ],
+     [
+      "footage/sh/golden_hills.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "136 Old Hume Highway",
+     "suburb": "Mittagong",
+     "features": "4 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10875/photo/d/178469405448156066.jpg?wm=0",
+     "render": false,
+     "id": "1P10875"
+    },
+    {
+     "street": "28 Windeyer Street",
+     "suburb": "Renwick",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10714/178833176841335493-rsd.jpg",
+     "render": false,
+     "id": "1P10714"
+    },
+    {
+     "street": "34 Windeyer Street",
+     "suburb": "Renwick",
+     "features": "4 BEDS   2 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10716/photo/d/178833203741335493.jpg?wm=0",
+     "render": false,
+     "id": "1P10716"
+    }
+   ]
+  },
+  {
+   "name": "Exeter, Sutton Forest, Wingello, Bundanoon",
+   "intro": {
+    "titles": [
+     "Exeter",
+     "Sutton Forest",
+     "Wingello",
+     "Bundanoon"
+    ],
+    "shots": [
+     [
+      "footage/sh/sheep_gate.jpg",
+      0.5
+     ],
+     [
+      "footage/sh/rolling_green.jpg",
+      0.5
+     ],
+     [
+      "footage/sh/misty_pasture.jpg",
+      0.5
+     ],
+     [
+      "footage/sh/forest_walk.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "31 Grice Drive",
+     "suburb": "Bundanoon",
+     "features": "5 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11392/photo/d/179332198803709537.jpg?wm=0",
+     "render": false,
+     "id": "1P11392"
+    },
+    {
+     "street": "15 Middle Road",
+     "suburb": "Exeter",
+     "features": "3 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11148/photo/d/178401206647354877.jpg?wm=0",
+     "render": false,
+     "id": "1P11148"
+    },
+    {
+     "street": "51 Middle Road",
+     "suburb": "Exeter",
+     "features": "5 BEDS   5 BATHS   8 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11138/178406851122426622-rsd.jpg",
+     "render": false,
+     "id": "1P11138"
+    },
+    {
+     "street": "506 Old Argyle Road",
+     "suburb": "Exeter",
+     "features": "4 BEDS   4 BATHS   3 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11219/178910642453628039-rsd.jpg",
+     "render": false,
+     "id": "1P11219"
+    },
+    {
+     "street": "312 Oldbury Road",
+     "suburb": "Sutton Forest",
+     "features": "5 BEDS   4 BATHS   5 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10576/176483105887212223-rsd.jpg",
+     "render": false,
+     "id": "1P10576"
+    },
+    {
+     "street": "Benbullen",
+     "suburb": "Wingello",
+     "features": "165 ACRES",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11018/photo/d/178718837196754834.jpg?wm=0",
+     "render": false,
+     "id": "1P11018"
+    },
+    {
+     "street": "Virginia Park",
+     "suburb": "Exeter",
+     "features": "8 BEDS   6 BATHS   5 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10441/176066168100861621-rsd.jpg",
+     "render": false,
+     "id": "1P10441"
+    },
+    {
+     "street": "Address on request",
+     "suburb": "Exeter",
+     "features": "4 BEDS   1 BATH",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10513/photo/d/176059311898932124.jpg?wm=0",
+     "render": false,
+     "id": "1P10513"
+    }
+   ]
+  },
+  {
+   "name": "Fitzroy Falls, Avoca",
+   "intro": {
+    "titles": [
+     "Avoca",
+     "Fitzroy Falls"
+    ],
+    "shots": [
+     [
+      "footage/sh/valley_mist.jpg",
+      0.5
+     ],
+     [
+      "footage/sh/fitzroy_falls.jpg",
+      0.3
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "103 Redhills Road",
+     "suburb": "Fitzroy Falls",
+     "features": "5 BEDS   5 BATHS   6 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11204/178839459791172359-rsd.jpg",
+     "render": false,
+     "id": "1P11204"
+    },
+    {
+     "street": "820-916 Sheepwash Road",
+     "suburb": "Avoca",
+     "features": "161 HECTARES",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11356/photo/d/179126601467862315.jpg?wm=0",
+     "render": false,
+     "id": "1P11356"
+    },
+    {
+     "street": "Address on request",
+     "suburb": "Fitzroy Falls",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11205/photo/d/178702634239116207.jpg?wm=0",
+     "render": false,
+     "id": "1P11205"
+    }
+   ]
+  },
+  {
+   "name": "Southern Tablelands & South Coast",
+   "intro": {
+    "title_lines": [
+     "Southern Tablelands &",
+     "South Coast"
+    ],
+    "shots": [
+     [
+      "footage/sh/pastel_sunset.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "63 Hazelton Road",
+     "suburb": "Bungonia",
+     "features": "3 BEDS   2 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11210/photo/d/178962448096842339.jpg?wm=0",
+     "render": false,
+     "id": "1P11210"
+    },
+    {
+     "street": "164 Princes Highway",
+     "suburb": "Kiama Heights",
+     "features": "2 BEDS   1 BATH",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11153/photo/d/178720494050309685.jpg?wm=0",
+     "render": false,
+     "id": "1P11153"
+    }
+   ]
+  }
+ ]
+}

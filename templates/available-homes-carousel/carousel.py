@@ -110,8 +110,8 @@ class Media:
         key = (a, b, slow, id(shade), dur)
         if key not in self._shots:
             if isinstance(a, str):
-                im = Image.open(self.path(a)).convert("RGB"); sc = H * (1 + ZOOM) / im.height
-                im = im.resize((round(im.width * sc), round(H * (1 + ZOOM))), Image.LANCZOS)
+                im = Image.open(self.path(a)).convert("RGB"); sc = (1 + ZOOM) * max(H / im.height, W / im.width)
+                im = im.resize((max(round(im.width * sc), round(W * (1 + ZOOM))), max(round(im.height * sc), round(H * (1 + ZOOM)))), Image.LANCZOS)
                 cx = W * (1 + ZOOM) / 2 + (im.width - W * (1 + ZOOM)) * float(b); cy = im.height / 2
                 n = max(1, round((dur or 1.0) * FPS)); fr = []
                 for i in range(n):
