@@ -37,6 +37,7 @@ for name, subs, img, x, lines in GROUPS:
     cards.append({"name": name, "intro": intro, "homes": hs})
 assert sum(len(c["homes"]) for c in cards) == len(R)
 job = {"name": "BYB Available Homes Carousel", "story_step": 2.0,
-       "cover": {"title": "Byron Bay", "image": "footage/byb/lighthouse_sunset.jpg", "x": 0.5, "duration": 5.0}, "cards": cards}
+       "footage": "footage/byb_clips.mp4", "footage_source": "Atlas iQ Lifestyle Gallery > Byron Bay lifestyle video collection",
+       "cover": {"title": "Byron Bay", "footage": [6.6, 9.3, 1.5], "shift": -170}, "cards": cards}
 json.dump(job, open("/home/claude/weekly-campaign-assets/templates/available-homes-carousel/jobs/byb-12nov2026.json", "w"), indent=1)
 for c in cards: print(c["name"], [h["street"] for h in c["homes"]])

@@ -14,7 +14,7 @@ Every other card is one suburb group:
      home every second; the active home is white, the rest dim. When a page is done, the whole
      list scrolls up (like the OFI story template) and the next page comes in from below.
 """
-import argparse, hashlib, json, os, subprocess, sys, urllib.request
+import re, argparse, hashlib, json, os, subprocess, sys, urllib.request
 import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
@@ -80,6 +80,12 @@ def title_block(c, lines, caps, alpha=1.0, caps_alpha=None):
         c.paste(l, (64, HEAD_Y), l)
 
 # ------------------------------------------------------------------ media
+def shifted(crop, dx):
+    """The footage crop moved dx source pixels sideways (negative = left), kept inside the 1920px frame."""
+    if not dx: return crop
+    w, h, x, y = map(int, re.match(r"crop=(\d+):(\d+):(\d+):(\d+)", crop).groups())
+    return crop.replace(f"crop={w}:{h}:{x}:{y}", f"crop={w}:{h}:{max(0, min(1920 - w, x + dx))}:{y}", 1)
+
 class Media:
     def __init__(self, job_path, job):
         self.root = os.path.dirname(os.path.abspath(job_path))
@@ -131,11 +137,11 @@ class Media:
             out.paste(SCRIM, (0, PHOTO_H - SCRIM.height), SCRIM)
             out.paste(AI_LABEL, (W - 64 - AI_LABEL.width, PHOTO_H - AI_LABEL.height - 22), AI_LABEL)
         return out
-    def clip(self, a, b, slow=1.0, shade=SHADE_INTRO, trim=0.05, dur=None):
+    def clip(self, a, b, slow=1.0, shade=SHADE_INTRO, trim=0.05, dur=None, shift=0):
         """Frames of footage a..b seconds, portrait crop, darkened. slow>1 plays it slower.
         A still instead of footage: a = image path, b = horizontal crop position (0 left .. 1 right),
         played for dur seconds with the same slow push-in as the home photos."""
-        key = (a, b, slow, id(shade), dur)
+        key = (a, b, slow, id(shade), dur, shift)
         if key not in self._shots:
             if isinstance(a, str):
                 im = Image.open(self.path(a)).convert("RGB"); sc = (1 + ZOOM) * max(H / im.height, W / im.width)
@@ -147,7 +153,7 @@ class Media:
                     fr.append(np.asarray(im.resize((W, H), Image.BILINEAR, box=(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2))))
             else:
                 raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{a + trim:.3f}", "-t", f"{b - a - 2 * trim:.3f}", "-i", self.footage,
-                                      "-an", "-vf", f"setpts={slow}*PTS,{CROP},fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                                      "-an", "-vf", f"setpts={slow}*PTS,{shifted(CROP, shift)},fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                                      capture_output=True, check=True).stdout
                 fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
             self._shots[key] = [Image.fromarray((f.astype(float) * shade).astype(np.uint8)) for f in fr]
@@ -157,7 +163,8 @@ class Media:
 def cover_frames(job, m):
     cv = job["cover"]
     if "image" in cv: fr = m.clip(cv["image"], cv.get("x", 0.5), 1.0, SHADE_COVER, dur=cv.get("duration", 5.0))
-    else: fr = m.clip(*cv["footage"], 1.0, SHADE_COVER, trim=0.0)
+    else:                                    # [start, end] or [start, end, slow-down]
+        a, b, *slow = cv["footage"]; fr = m.clip(a, b, slow[0] if slow else 1.0, SHADE_COVER, trim=0.0, shift=cv.get("shift", 0))
     for f in fr:
         c = f.copy(); c.paste(ICON, ICON_XY, ICON)
         title_block(c, job["cover"].get("title_lines", [job["cover"]["title"]]), m.caps)

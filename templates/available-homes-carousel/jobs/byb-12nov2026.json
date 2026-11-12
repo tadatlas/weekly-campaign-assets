@@ -1,11 +1,16 @@
 {
  "name": "BYB Available Homes Carousel",
  "story_step": 2.0,
+ "footage": "footage/byb_clips.mp4",
+ "footage_source": "Atlas iQ Lifestyle Gallery > Byron Bay lifestyle video collection",
  "cover": {
   "title": "Byron Bay",
-  "image": "footage/byb/lighthouse_sunset.jpg",
-  "x": 0.5,
-  "duration": 5.0
+  "footage": [
+   6.6,
+   9.3,
+   1.5
+  ],
+  "shift": -170
  },
  "cards": [
   {
