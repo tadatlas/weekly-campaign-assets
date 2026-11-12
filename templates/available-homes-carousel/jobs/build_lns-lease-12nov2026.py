@@ -28,15 +28,11 @@ P = "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/"
 cards = [
  {"name": "Featured: 17b Stanton Road", "feature": {
    "title": "17b Stanton Road", "suburb": "Mosman",
-   "lines": ["4 beds   3 baths   2 cars", "$4,000 per week", "Inspection Tuesday 17 November, 2:30pm"],
+   "lines": ["Inspection Tuesday 17 November, 2:30pm", "", "4 beds   3 baths   2 cars", "$4,000 per week"],
    "shots": [[P + "178547505035850672.jpg?wm=0", 0.62], [P + "178547505004547703.jpg?wm=0", 0.78],
              [P + "178547505064014276.jpg?wm=0", 0.62], [P + "178547505041747350.jpg?wm=0", 0.12]]}},
- {"name": "Mosman", "intro": {"titles": ["Mosman"], "shots": [[29.5295, 32.032, 1]]}, "homes": sorted(homes.pop("Mosman"), key=key)},
- {"name": "Neutral Bay", "intro": {"titles": ["Neutral Bay"], "shots": [[42.9095, 43.9773, 1.0]]}, "homes": sorted(homes.pop("Neutral Bay"), key=key)},
- {"name": "Northern Beaches", "intro": {"title_lines": ["Northern Beaches"], "shots": [[28.5, 29.5, 2.0]]},
-  "homes": sorted(homes.pop("Seaforth") + homes.pop("Freshwater"), key=key)},
+ {"name": "All rentals", "homes": sorted([h for hs in homes.values() for h in hs], key=key)},
 ]
-assert not homes
 job = {"name": "LNS For Lease Carousel", "caps": "For lease", "footage": "footage/lns_clips.mp4",
        "cover": {"title": "Lower North Shore", "footage": [33.6, 39.5]}, "cards": cards}
 json.dump(job, open(os.path.join(HERE, "lns-lease-12nov2026.json"), "w"), indent=1)

@@ -149,7 +149,7 @@ class Card:
         for i, h in enumerate(self.homes):
             page, r = divmod(i, PER_COL * 2); ci, j = divmod(r, PER_COL)
             self.rows.append((ci, LIST_Y + page * PAGE_STEP + j * ROW_H))
-        intro = card["intro"]; self.shots = intro["shots"]
+        intro = card.get("intro") or {"shots": []}; self.shots = intro["shots"]
         self.lines = intro.get("title_lines")
         self.titles = intro.get("titles")
         if self.titles:
@@ -157,9 +157,10 @@ class Card:
             assert self.titles[-1] == self.homes[0]["suburb"], f"{card['name']}: intro must end on the first home's suburb"
         self.per = PER_SINGLE if len(self.shots) == 1 else PER_MULTI
         self.intro_len = self.per * len(self.shots)
+        self.fade = FADE if self.shots else 0.0          # no intro: the card opens on the list
         n = len(self.homes)
         self.list_len = self.start(n - 1) + STEP + HOLD
-        self.duration = self.intro_len + FADE + self.list_len
+        self.duration = self.intro_len + self.fade + self.list_len
     def page(self, i): return i // (PER_COL * 2)
     def start(self, i): return i * STEP + self.page(i) * SCROLL_T
     def scroll(self, t):
@@ -218,15 +219,15 @@ class Card:
         return c
     def frame(self, t):
         if t < self.intro_len: return self.intro_frame(t)
-        if t < self.intro_len + FADE: return self.fade_frame(t - self.intro_len)
-        return self.list_frame(t - self.intro_len - FADE)
+        if t < self.intro_len + self.fade: return self.fade_frame(t - self.intro_len)
+        return self.list_frame(t - self.intro_len - self.fade)
     def frames(self):
         for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)
 
 # ------------------------------------------------------------------ feature card
 _yf = np.linspace(0, 1, H)[:, None, None]
 SHADE_FEATURE = 0.97 - 0.55 * np.clip((_yf - 0.32) / 0.42, 0, 1)   # photo stays bright up top, dark under the words
-INFO_Y, INFO_STEP = LIST_Y + 6, 46
+INFO_Y, INFO_STEP = LIST_Y + 38, 40              # one clear space under the suburb, matching the spacer lines
 
 class Feature:
     """One home, full bleed: its photos dissolve into each other under a fixed title (address, suburb)
@@ -246,7 +247,8 @@ class Feature:
         c = c.copy(); c.paste(ICON, ICON_XY, ICON)
         title_block(c, [self.f["title"]], self.f["suburb"])
         d = ImageDraw.Draw(c)
-        for k, ln in enumerate(self.f.get("lines", [])): tracked(d, (64, INFO_Y + k * INFO_STEP), ln.upper(), LABEL, WHITE, 5.0)
+        for k, ln in enumerate(self.f.get("lines", [])):      # "" leaves a line's space
+            if ln: tracked(d, (64, INFO_Y + k * INFO_STEP), ln.upper(), LABEL, WHITE, 5.0)
         return c
     def frames(self):
         for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)

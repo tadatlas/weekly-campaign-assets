@@ -16,9 +16,10 @@
     "title": "17b Stanton Road",
     "suburb": "Mosman",
     "lines": [
+     "Inspection Tuesday 17 November, 2:30pm",
+     "",
      "4 beds   3 baths   2 cars",
-     "$4,000 per week",
-     "Inspection Tuesday 17 November, 2:30pm"
+     "$4,000 per week"
     ],
     "shots": [
      [
@@ -41,19 +42,7 @@
    }
   },
   {
-   "name": "Mosman",
-   "intro": {
-    "titles": [
-     "Mosman"
-    ],
-    "shots": [
-     [
-      29.5295,
-      32.032,
-      1
-     ]
-    ]
-   },
+   "name": "All rentals",
    "homes": [
     {
      "street": "301/171-179 Avenue Road",
@@ -72,12 +61,44 @@
      "id": "1P4767"
     },
     {
+     "street": "101/96-98 Ben Boyd Road",
+     "suburb": "Neutral Bay",
+     "features": "3 BEDS   2 BATHS   2 CARS   $3,600 PW",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11393/photo/d/179306550547284517.jpg?wm=0",
+     "render": false,
+     "id": "1P11393"
+    },
+    {
      "street": "13/68 Bradleys Head Road",
      "suburb": "Mosman",
      "features": "1 BED   1 BATH   $925 PW",
      "photo": "https://images.sales.reapit.com.au/26319/cms/9/1291/d/178787150448608125.jpg?wm=0",
      "render": false,
      "id": "1P11412"
+    },
+    {
+     "street": "71/30 Moore Road",
+     "suburb": "Freshwater",
+     "features": "1 BED   1 BATH   $1,650 PW",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0",
+     "render": false,
+     "id": "1P10451"
+    },
+    {
+     "street": "6.01/20 Premier Street",
+     "suburb": "Neutral Bay",
+     "features": "3 BEDS   2 BATHS   2 CARS   $2,950 PW",
+     "photo": "https://images.sales.reapit.com.au/26319/cms/9/810/d/1759810848045651045775015.jpg?wm=0",
+     "render": false,
+     "id": "1P11384"
+    },
+    {
+     "street": "1 Seaforth Crescent",
+     "suburb": "Seaforth",
+     "features": "4 BEDS   5 BATHS   3 CARS   $5,500 PW",
+     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1238/d/177251522026937769.jpg?wm=0",
+     "render": false,
+     "id": "1P11350"
     },
     {
      "street": "205/36 Spit Road",
@@ -118,72 +139,6 @@
      "photo": "https://images.sales.reapit.com.au/26319/cms/9/1184/d/177033228442591405.jpg?wm=0",
      "render": false,
      "id": "1P11285"
-    }
-   ]
-  },
-  {
-   "name": "Neutral Bay",
-   "intro": {
-    "titles": [
-     "Neutral Bay"
-    ],
-    "shots": [
-     [
-      42.9095,
-      43.9773,
-      1.0
-     ]
-    ]
-   },
-   "homes": [
-    {
-     "street": "101/96-98 Ben Boyd Road",
-     "suburb": "Neutral Bay",
-     "features": "3 BEDS   2 BATHS   2 CARS   $3,600 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11393/photo/d/179306550547284517.jpg?wm=0",
-     "render": false,
-     "id": "1P11393"
-    },
-    {
-     "street": "6.01/20 Premier Street",
-     "suburb": "Neutral Bay",
-     "features": "3 BEDS   2 BATHS   2 CARS   $2,950 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/810/d/1759810848045651045775015.jpg?wm=0",
-     "render": false,
-     "id": "1P11384"
-    }
-   ]
-  },
-  {
-   "name": "Northern Beaches",
-   "intro": {
-    "title_lines": [
-     "Northern Beaches"
-    ],
-    "shots": [
-     [
-      28.5,
-      29.5,
-      2.0
-     ]
-    ]
-   },
-   "homes": [
-    {
-     "street": "71/30 Moore Road",
-     "suburb": "Freshwater",
-     "features": "1 BED   1 BATH   $1,650 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0",
-     "render": false,
-     "id": "1P10451"
-    },
-    {
-     "street": "1 Seaforth Crescent",
-     "suburb": "Seaforth",
-     "features": "4 BEDS   5 BATHS   3 CARS   $5,500 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1238/d/177251522026937769.jpg?wm=0",
-     "render": false,
-     "id": "1P11350"
     }
    ]
   }
