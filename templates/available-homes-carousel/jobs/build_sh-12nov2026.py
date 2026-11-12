@@ -96,7 +96,7 @@ GROUPS = [  # (card name, suburbs, intro shots per suburb in display order, titl
     ("Moss Vale", ["Moss Vale"], {"Moss Vale": [F + "cattle.jpg", 0.5]}, None),
     ("Mittagong, Renwick", ["Mittagong", "Renwick"], {"Renwick": [F + "tall_trees.jpg", 0.5], "Mittagong": [F + "golden_hills.jpg", 0.5]}, None),
     ("Exeter, Sutton Forest, Wingello, Bundanoon", ["Exeter", "Sutton Forest", "Wingello", "Bundanoon"],
-     {"Exeter": [F + "sheep_gate.jpg", 0.5], "Sutton Forest": [F + "rolling_green.jpg", 0.5], "Wingello": [F + "misty_pasture.jpg", 0.5], "Bundanoon": [F + "forest_walk.jpg", 0.5]}, None),
+     {"Exeter": [F + "sheep_gate.jpg", 0.5], "Sutton Forest": [F + "still_water.jpg", 0.5], "Wingello": [F + "misty_pasture.jpg", 0.5], "Bundanoon": [F + "ranges_sunset.jpg", 1.0]}, None),
     ("Fitzroy Falls, Avoca", ["Fitzroy Falls", "Avoca"], {"Avoca": [F + "valley_mist.jpg", 0.5], "Fitzroy Falls": [F + "fitzroy_falls.jpg", 0.3]}, None),
     ("Southern Tablelands & South Coast", ["Bungonia", "Kiama Heights"], {"x": [F + "pastel_sunset.jpg", 0.5]}, ["Southern Tablelands &", "South Coast"]),
 ]
@@ -110,7 +110,7 @@ for name, subs, shots, lines in GROUPS:
     cards.append({"name": name, "intro": intro, "homes": hs})
 assert not homes, homes
 job = {"name": "SH Available Homes Carousel",
-       "cover": {"title": "Southern Highlands", "image": F + "ranges_sunset.jpg", "x": 0.2, "duration": 5.0},
+       "cover": {"title": "Southern Highlands", "image": F + "rolling_green.jpg", "x": 0.5, "duration": 5.0},
        "cards": cards}
 print(sum(len(c["homes"]) for c in cards), "homes")
 for c in cards:

@@ -64,15 +64,20 @@ def tracked(d, xy, txt, font, fill, tr=0.0):
     for ch in txt:
         d.text((x, y), ch, font=font, fill=fill); x += font.getlength(ch) + tr
 
-def title_block(c, lines, caps, alpha=1.0):
-    """Rhymes line(s) at HEAD_Y with a Fakt caps line under the last one."""
-    l = Image.new("RGBA", (W - 64, 140 + LINE * (len(lines) - 1)), (0, 0, 0, 0)); d = ImageDraw.Draw(l)
-    for k, ln in enumerate(lines):
-        assert HEAD.getlength(ln) <= W - 128, f"too long for one line: {ln}"
-        d.text((0, k * LINE), ln, font=HEAD, fill=WHITE)
-    tracked(d, (0, SUB_DY + LABEL_DY + LINE * (len(lines) - 1)), caps.upper(), LABEL, WHITE, 5.0)
-    if alpha < 1: l.putalpha(l.getchannel("A").point(lambda v: int(v * alpha)))
-    c.paste(l, (64, HEAD_Y), l)
+def title_block(c, lines, caps, alpha=1.0, caps_alpha=None):
+    """Rhymes line(s) at HEAD_Y with a Fakt caps line under the last one.
+    caps_alpha lets the caps line hold steady while the title fades (suburb to suburb)."""
+    caps_alpha = alpha if caps_alpha is None else caps_alpha
+    for part, a in (("title", alpha), ("caps", caps_alpha)):
+        if a <= 0: continue
+        l = Image.new("RGBA", (W - 64, 140 + LINE * (len(lines) - 1)), (0, 0, 0, 0)); d = ImageDraw.Draw(l)
+        if part == "title":
+            for k, ln in enumerate(lines):
+                assert HEAD.getlength(ln) <= W - 128, f"too long for one line: {ln}"
+                d.text((0, k * LINE), ln, font=HEAD, fill=WHITE)
+        else: tracked(d, (0, SUB_DY + LABEL_DY + LINE * (len(lines) - 1)), caps.upper(), LABEL, WHITE, 5.0)
+        if a < 1: l.putalpha(l.getchannel("A").point(lambda v: int(v * a)))
+        c.paste(l, (64, HEAD_Y), l)
 
 # ------------------------------------------------------------------ media
 class Media:
@@ -177,8 +182,8 @@ class Card:
         c = c.copy(); c.paste(ICON, ICON_XY, ICON)
         if title:
             if self.lines: title_block(c, self.lines, "Available homes")
-            elif a < 0.5: title_block(c, [self.titles[i - 1]], "Available homes", 1 - 2 * a)
-            else: title_block(c, [self.titles[i]], "Available homes", min(1, 2 * a - 1) if a < 1 else 1)
+            elif a < 0.5: title_block(c, [self.titles[i - 1]], "Available homes", 1 - 2 * a, caps_alpha=1)
+            else: title_block(c, [self.titles[i]], "Available homes", min(1, 2 * a - 1) if a < 1 else 1, caps_alpha=1)
         return c
     def list_frame(self, t, title=True):
         n = len(self.homes)

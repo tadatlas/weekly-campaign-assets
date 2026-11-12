@@ -2,8 +2,8 @@
  "name": "SH Available Homes Carousel",
  "cover": {
   "title": "Southern Highlands",
-  "image": "footage/sh/ranges_sunset.jpg",
-  "x": 0.2,
+  "image": "footage/sh/rolling_green.jpg",
+  "x": 0.5,
   "duration": 5.0
  },
  "cards": [
@@ -395,7 +395,7 @@
       0.5
      ],
      [
-      "footage/sh/rolling_green.jpg",
+      "footage/sh/still_water.jpg",
       0.5
      ],
      [
@@ -403,8 +403,8 @@
       0.5
      ],
      [
-      "footage/sh/forest_walk.jpg",
-      0.5
+      "footage/sh/ranges_sunset.jpg",
+      1.0
      ]
     ]
    },
