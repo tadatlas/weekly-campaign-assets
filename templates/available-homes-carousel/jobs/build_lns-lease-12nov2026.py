@@ -28,7 +28,7 @@ P = "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/"
 cards = [
  {"name": "Featured: 17b Stanton Road", "feature": {
    "title": "17b Stanton Road", "suburb": "Mosman",
-   "lines": ["Inspection Tuesday 17 November, 2:30pm", "", "4 beds   3 baths   2 cars", "$4,000 per week"],
+   "lines": ["4 beds   3 baths   2 cars", "$4,000 per week"],
    "shots": [[P + "178547505035850672.jpg?wm=0", 0.62], [P + "178547505004547703.jpg?wm=0", 0.78],
              [P + "178547505064014276.jpg?wm=0", 0.62], [P + "178547505041747350.jpg?wm=0", 0.12]]}},
  {"name": "All rentals", "homes": sorted([h for hs in homes.values() for h in hs], key=key)},
