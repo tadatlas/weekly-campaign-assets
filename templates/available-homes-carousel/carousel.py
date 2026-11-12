@@ -95,6 +95,22 @@ class Media:
                 with urllib.request.urlopen(req) as r, open(dst, "wb") as f: f.write(r.read())
             return dst
         return p if os.path.isabs(p) else os.path.join(self.root, p) if os.path.exists(os.path.join(self.root, p)) else os.path.join(HERE, p)
+    def panel(self, home, z, t, window):
+        """The top panel for a home t seconds into its window on screen: its "clip" (a short video, one shot,
+        no titles) when it has one, slowed to fill the window if it is too short; otherwise its photo with push-in."""
+        if not home.get("clip"): return self.photo(home, z)
+        key = home["clip"]
+        if key not in self._ph:
+            raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", self.path(key), "-an", "-vf",
+                                  f"scale={W}:{PHOTO_H}:force_original_aspect_ratio=increase:flags=lanczos,crop={W}:{PHOTO_H},fps={FPS}",
+                                  "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            self._ph[key] = [Image.fromarray(f) for f in np.frombuffer(raw, np.uint8).reshape(-1, PHOTO_H, W, 3)]
+        fr = self._ph[key]; slow = max(1.0, window * FPS / len(fr))
+        out = fr[min(len(fr) - 1, max(0, int(t * FPS / slow)))]
+        if home.get("render"):
+            out = out.copy(); out.paste(SCRIM, (0, PHOTO_H - SCRIM.height), SCRIM)
+            out.paste(AI_LABEL, (W - 64 - AI_LABEL.width, PHOTO_H - AI_LABEL.height - 22), AI_LABEL)
+        return out
     def photo(self, home, z):
         """Home photo for the top panel, slow zoom z (0..ZOOM). Renders keep an Artist Impression label."""
         key = home["photo"]
@@ -190,12 +206,13 @@ class Card:
     def list_frame(self, t, title=True):
         n = len(self.homes)
         k = max([i for i in range(n) if self.start(i) <= t] or [0]); ts = self.start(k)
-        def z(i):
-            e = self.start(i + 1) + XF if i < n - 1 else self.list_len
-            return ZOOM * max(0, min(1, (t - self.start(i)) / (e - self.start(i))))
-        cur = self.m.photo(self.homes[k], z(k))
+        def pic(i):
+            e = (self.start(i + 1) + XF if i < n - 1 else self.list_len) - self.start(i)
+            z = ZOOM * max(0, min(1, (t - self.start(i)) / e))
+            return self.m.panel(self.homes[i], z, t - self.start(i), e)
+        cur = pic(k)
         a = min(1, max(0, (t - ts) / XF)) if k > 0 else 1
-        if a < 1: cur = Image.blend(self.m.photo(self.homes[k - 1], z(k - 1)), cur, a)
+        if a < 1: cur = Image.blend(pic(k - 1), cur, a)
         c = Image.new("RGB", (W, H), STONE); c.paste(cur, (0, 0)); c.paste(ICON, ICON_XY, ICON)
         if title:
             if a < 1: title_block(c, [self.homes[k - 1]["street"]], self.homes[k - 1]["suburb"], max(0, 1 - 2 * a))

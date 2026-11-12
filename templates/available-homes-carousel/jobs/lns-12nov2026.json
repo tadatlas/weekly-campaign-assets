@@ -45,7 +45,8 @@
      "suburb": "Mosman",
      "features": "6 BEDS   3 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P10213/photo/d/178780311384950348.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/buenavista.mp4"
     },
     {
      "street": "9 Burrawong Avenue",
@@ -59,14 +60,16 @@
      "suburb": "Mosman",
      "features": "5 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11251/photo/d/178823760909918252.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/cross.mp4"
     },
     {
      "street": "21 Hopetoun Avenue",
      "suburb": "Mosman",
      "features": "5 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11277/photo/d/178830458362255028.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/hopetoun.mp4"
     },
     {
      "street": "23A Kardinia Road",
@@ -80,7 +83,8 @@
      "suburb": "Mosman",
      "features": "5 BEDS   4 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11373/photo/d/179323367278648881.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/methuen.mp4"
     },
     {
      "street": "1/155 Middle Head Road",
@@ -115,7 +119,8 @@
      "suburb": "Mosman",
      "features": "6 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P10388/photo/d/179383101651793987.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/princealbert.mp4"
     },
     {
      "street": "32 Queen Street",
@@ -136,28 +141,32 @@
      "suburb": "Mosman",
      "features": "4 BEDS   3 BATHS   3 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P10867/photo/d/179271280336088576.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/redan.mp4"
     },
     {
      "street": "9 Sirius Avenue",
      "suburb": "Mosman",
      "features": "5 BEDS   6 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P8796/photo/d/1770768943159263626307684.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/sirius.mp4"
     },
     {
      "street": "18 Stanton Road",
      "suburb": "Mosman",
      "features": "5 BEDS   3 BATHS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11264/photo/d/178826153800301910.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/stanton18.mp4"
     },
     {
      "street": "20 Stanton Road",
      "suburb": "Mosman",
      "features": "763 SQM",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11239/photo/d/178807204706986324.jpg?wm=0",
-     "render": true
+     "render": true,
+     "clip_story": "footage/lns/clips/stanton20.mp4"
     },
     {
      "street": "1/15 Warringah Road",
@@ -221,7 +230,8 @@
      "suburb": "Kurraba Point",
      "features": "5 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P8757/photo/d/179133203549551610.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/kurraba.mp4"
     },
     {
      "street": "28 Shellcove Road",
@@ -235,7 +245,8 @@
      "suburb": "Cremorne",
      "features": "4 BEDS   3 BATHS   2 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11177/photo/d/178728006607950108.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/lodge.mp4"
     },
     {
      "street": "10 Shellbank Parade",
@@ -299,7 +310,8 @@
      "suburb": "McMahons Point",
      "features": "3 BEDS   3 BATHS   2 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11352/photo/d/179254751376704751.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/union.mp4"
     },
     {
      "street": "34 Jeffreys Street",
@@ -336,7 +348,8 @@
      "suburb": "Northbridge",
      "features": "5 BEDS   5 BATHS   2 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11269/photo/d/1790144099719818097878657.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/baringa.mp4"
     },
     {
      "street": "54 Cliff Avenue",
@@ -350,7 +363,8 @@
      "suburb": "Northbridge",
      "features": "5 BEDS   4 BATHS   2 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P10600/photo/d/178640430650111800.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/coolawin.mp4"
     },
     {
      "street": "73 Minimbah Road",
@@ -364,7 +378,8 @@
      "suburb": "Castle Cove",
      "features": "5 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11087/photo/d/1788245496747925967281019.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/willowie.mp4"
     }
    ]
   },
@@ -389,7 +404,8 @@
      "suburb": "Turramurra",
      "features": "7 BEDS   5 BATHS   4 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11364/photo/d/1791252070436552799589836.jpg?wm=0",
-     "render": false
+     "render": false,
+     "clip_story": "footage/lns/clips/allara.mp4"
     },
     {
      "street": "1 Burrendong Place",

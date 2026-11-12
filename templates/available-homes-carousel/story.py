@@ -5,6 +5,8 @@ story grid (photo panel 1040px tall, Stone panel below; lists stop above the Ins
     python3 story.py jobs/<job>.json            # one MP4 per frame: cover, then one per suburb card
 
 Optional per-home "photo_story" (and "x_story") picks a different photo or crop for the taller story panel.
+Optional per-home "clip_story" plays a short video in the panel instead of the photo: one clean shot (no title
+cards, badges or people), cut from the home's property video. 1-3 seconds is enough; a short clip is slowed to fill.
 """
 import argparse, json, os, sys
 import numpy as np
@@ -33,6 +35,7 @@ def story_job(job):
     for c in job["cards"]:
         for h in c.get("homes", []):
             if "photo_story" in h: h["photo"] = h["photo_story"]
+            if "clip_story" in h: h["clip"] = h["clip_story"]
     return job
 
 def main():
