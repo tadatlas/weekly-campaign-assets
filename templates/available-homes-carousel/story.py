@@ -56,6 +56,7 @@ def main():
         out = os.path.join(out_dir, f"{job['name'].replace('Carousel', 'Story')} {n:02d}.mp4")
         if n == 1: cz.encode(cz.cover_frames(job, m), out); print(out)
         else: cz.encode(cards[n - 2].frames(), out); print(out, round(cards[n - 2].duration, 1), "s")
+        m._ph.clear(); m._shots.clear()        # decoded clips are large: free them between frames
 
 if __name__ == "__main__":
     main()
