@@ -1,11 +1,10 @@
-"""Build jobs/lns-lease-12nov2026.json: Jaime Pratt's LNS rentals (Notion property sync, 11 Nov 19:00Z) plus a featured rental."""
+"""Build jobs/lns-lease-12nov2026.json (83 Bay Street removed: off the website lease list, 12 Nov 5:06pm): Jaime Pratt's LNS rentals (Notion property sync, 11 Nov 19:00Z) plus a featured rental."""
 import json, re, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 R = [  # (id, address, suburb, beds, baths, cars, rent display, photo)
 ("1P10451","71/30 Moore Road Freshwater NSW","Freshwater",1,1,0,"$1,650 pw","https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0"),
 ("1P11202","17b Stanton Road Mosman NSW","Mosman",4,3,2,"$4,000 pw","https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505035850672.jpg?wm=0"),
 ("1P11293","7 Stanton Road Mosman NSW","Mosman",5,4,3,"$4500 pw","https://images.sales.reapit.com.au/26319/cms/9/1204/d/1404461938.jpg?wm=0"),
-("1P4767","83 Bay Street Mosman NSW","Mosman",6,4,4,"$2,950 per week","https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P4767/1404467195-rsd.jpg"),
 ("1P11417","Unit 1/12 Waitovu Street Mosman NSW","Mosman",3,2,1,"$3,400 pw","https://images.sales.reapit.com.au/26319/cms/9/555/d/1404468972.jpg?wm=0"),
 ("1P11412","Unit 13/68 Bradleys Head Road Mosman NSW","Mosman",1,1,0,"$925 pw","https://images.sales.reapit.com.au/26319/cms/9/1291/d/178787150448608125.jpg?wm=0"),
 ("1P11416","Unit 205/36 Spit Road Mosman NSW","Mosman",2,2,1,"$1,300 pw","https://images.sales.reapit.com.au/26319/cms/9/1304/d/1404461278.jpg?wm=0"),
@@ -26,7 +25,7 @@ homes = {}
 for r in R: homes.setdefault(r[2], []).append({"street": street(r), "suburb": r[2], "features": features(r), "photo": r[7], "render": False, "id": r[0]})
 # One full-bleed card per rental, A to Z by street. No list, no featured listing, no opens.
 X = {   # crop position across each landscape photo (0 left, 1 right), chosen from five options per photo so the subject leads
- "1P11247": 0.4,  "1P4767": 0.4,   "1P11393": 0.0,   # Ben Boyd is virtually staged: 0.0 keeps its "Virtually staged" label in frame
+ "1P11247": 0.4,   "1P11393": 0.0,   # Ben Boyd is virtually staged: 0.0 keeps its "Virtually staged" label in frame
  "1P11412": 0.7,  "1P10451": 0.0,  "1P11384": 0.75,
  "1P11350": 0.3,  "1P11416": 0.5,  "1P11202": 0.8,
  "1P11293": 0.2,  "1P11417": 0.6,  "1P11285": 0.65,

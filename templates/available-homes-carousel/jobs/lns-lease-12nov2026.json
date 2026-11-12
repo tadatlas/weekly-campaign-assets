@@ -29,24 +29,6 @@
    }
   },
   {
-   "name": "83 Bay Street",
-   "still": true,
-   "feature": {
-    "title": "83 Bay Street",
-    "suburb": "Mosman",
-    "lines": [
-     "6 BEDS   4 BATHS   4 CARS",
-     "$2,950 per week"
-    ],
-    "shots": [
-     [
-      "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P4767/1404467195-rsd.jpg",
-      0.4
-     ]
-    ]
-   }
-  },
-  {
    "name": "101/96-98 Ben Boyd Road",
    "still": true,
    "feature": {
