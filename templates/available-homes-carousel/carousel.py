@@ -34,6 +34,7 @@ PAGE_STEP = PER_COL * ROW_H + 60
 TOP_CLIP, BOT_CLIP = LIST_Y - 14, 1300
 STEP, XF, HOLD, ZOOM, SCROLL_T = 1.0, 0.3, 2.0, 0.05, 1.3
 PER_SINGLE, PER_MULTI, LINE = 1.2, 0.6, 92
+FADE = 0.5                             # intro dissolves into the list; words swap out then in
 CROP = "crop=864:1080:528:0,scale=1080:1350:flags=lanczos"     # 16:9 footage to 4:5
 
 F = _fonts.ensure()
@@ -99,14 +100,20 @@ class Media:
             out.paste(SCRIM, (0, PHOTO_H - SCRIM.height), SCRIM)
             out.paste(AI_LABEL, (W - 64 - AI_LABEL.width, PHOTO_H - AI_LABEL.height - 22), AI_LABEL)
         return out
-    def clip(self, a, b, slow=1.0, shade=SHADE_INTRO, trim=0.05):
-        """Frames of footage a..b seconds, portrait crop, darkened. slow>1 plays it slower."""
-        key = (a, b, slow, id(shade))
+    def clip(self, a, b, slow=1.0, shade=SHADE_INTRO, trim=0.05, dur=None):
+        """Frames of footage a..b seconds, portrait crop, darkened. slow>1 plays it slower.
+        A still instead of footage: a = image path, b = horizontal crop position (0 left .. 1 right),
+        played for dur seconds with the same slow push-in as the home photos."""
+        key = (a, b, slow, id(shade), dur)
         if key not in self._shots:
-            if isinstance(a, str):        # a still image instead of footage
-                im = Image.open(self.path(a)).convert("RGB"); sc = H / im.height
-                im = im.resize((round(im.width * sc), H), Image.LANCZOS); x = int((im.width - W) * (b if isinstance(b, float) else 0.5))
-                fr = [np.asarray(im.crop((x, 0, x + W, H)))]
+            if isinstance(a, str):
+                im = Image.open(self.path(a)).convert("RGB"); sc = H * (1 + ZOOM) / im.height
+                im = im.resize((round(im.width * sc), round(H * (1 + ZOOM))), Image.LANCZOS)
+                cx = W * (1 + ZOOM) / 2 + (im.width - W * (1 + ZOOM)) * float(b); cy = im.height / 2
+                n = max(1, round((dur or 1.0) * FPS)); fr = []
+                for i in range(n):
+                    s = (1 + ZOOM * i / max(1, n - 1)) / (1 + ZOOM); w, h = W / s, H / s
+                    fr.append(np.asarray(im.resize((W, H), Image.BILINEAR, box=(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2))))
             else:
                 raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{a + trim:.3f}", "-t", f"{b - a - 2 * trim:.3f}", "-i", self.footage,
                                       "-an", "-vf", f"setpts={slow}*PTS,{CROP},fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
@@ -117,8 +124,10 @@ class Media:
 
 # ------------------------------------------------------------------ cover
 def cover_frames(job, m):
-    a, b = job["cover"]["footage"]
-    for f in m.clip(a, b, 1.0, SHADE_COVER, trim=0.0):
+    cv = job["cover"]
+    if "image" in cv: fr = m.clip(cv["image"], cv.get("x", 0.5), 1.0, SHADE_COVER, dur=cv.get("duration", 5.0))
+    else: fr = m.clip(*cv["footage"], 1.0, SHADE_COVER, trim=0.0)
+    for f in fr:
         c = f.copy(); c.paste(ICON, ICON_XY, ICON)
         title_block(c, job["cover"].get("title_lines", [job["cover"]["title"]]), "Available homes")
         yield c
@@ -141,7 +150,7 @@ class Card:
         self.intro_len = self.per * len(self.shots)
         n = len(self.homes)
         self.list_len = self.start(n - 1) + STEP + HOLD
-        self.duration = self.intro_len + self.list_len
+        self.duration = self.intro_len + FADE + self.list_len
     def page(self, i): return i // (PER_COL * 2)
     def start(self, i): return i * STEP + self.page(i) * SCROLL_T
     def scroll(self, t):
@@ -151,14 +160,14 @@ class Card:
             if t >= ts:
                 x = min(1.0, (t - ts) / SCROLL_T); v = (p - 1 + x * x * (3 - 2 * x)) * PAGE_STEP
         return v
-    def intro_frame(self, t):
+    def intro_frame(self, t, title=True):
         i = min(int(t // self.per), len(self.shots) - 1)
-        a, b, slow = self.shots[i]; fr = self.m.clip(a, b, slow)
+        a, b, slow = (self.shots[i] + [1.0])[:3]; fr = self.m.clip(a, b, slow, dur=self.per if isinstance(a, str) else None)
         c = fr[min(int((t - i * self.per) * FPS), len(fr) - 1)].copy()
         c.paste(ICON, ICON_XY, ICON)
-        title_block(c, self.lines if self.lines else [self.titles[i]], "Available homes")
+        if title: title_block(c, self.lines if self.lines else [self.titles[i]], "Available homes")
         return c
-    def list_frame(self, t):
+    def list_frame(self, t, title=True):
         n = len(self.homes)
         k = max([i for i in range(n) if self.start(i) <= t] or [0]); ts = self.start(k)
         def z(i):
@@ -168,8 +177,9 @@ class Card:
         a = min(1, max(0, (t - ts) / XF)) if k > 0 else 1
         if a < 1: cur = Image.blend(self.m.photo(self.homes[k - 1], z(k - 1)), cur, a)
         c = Image.new("RGB", (W, H), STONE); c.paste(cur, (0, 0)); c.paste(ICON, ICON_XY, ICON)
-        if a < 1: title_block(c, [self.homes[k - 1]["street"]], self.homes[k - 1]["suburb"], max(0, 1 - 2 * a))
-        title_block(c, [self.homes[k]["street"]], self.homes[k]["suburb"], max(0, 2 * a - 1) if a < 1 else 1)
+        if title:
+            if a < 1: title_block(c, [self.homes[k - 1]["street"]], self.homes[k - 1]["suburb"], max(0, 1 - 2 * a))
+            title_block(c, [self.homes[k]["street"]], self.homes[k]["suburb"], max(0, 2 * a - 1) if a < 1 else 1)
         sc, done = self.scroll(t), t >= self.start(n - 1) + STEP
         lc = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ld = ImageDraw.Draw(lc)
         for i, (ci, y) in enumerate(self.rows):
@@ -180,8 +190,17 @@ class Card:
             if h.get("features"): tracked(ld, (COLX[ci], yy + 35), h["features"], FAKT_XS, GREY, 2.4)
         lc.putalpha(ImageChops.multiply(lc.getchannel("A"), MASK)); c.paste(lc, (0, 0), lc)
         return c
+    def fade_frame(self, t):
+        a = t / FADE; e = a * a * (3 - 2 * a)
+        c = Image.blend(self.intro_frame(self.intro_len - 1 / FPS, title=False), self.list_frame(0, title=False), e)
+        c.paste(ICON, ICON_XY, ICON)
+        if a < 0.5: title_block(c, self.lines if self.lines else [self.titles[-1]], "Available homes", 1 - 2 * a)
+        else: title_block(c, [self.homes[0]["street"]], self.homes[0]["suburb"], 2 * a - 1)
+        return c
     def frame(self, t):
-        return self.intro_frame(t) if t < self.intro_len else self.list_frame(t - self.intro_len)
+        if t < self.intro_len: return self.intro_frame(t)
+        if t < self.intro_len + FADE: return self.fade_frame(t - self.intro_len)
+        return self.list_frame(t - self.intro_len - FADE)
     def frames(self):
         for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)
 
@@ -200,7 +219,7 @@ def check(job):
     seen = set()
     for c in job["cards"]:
         for h in c["homes"]:
-            assert h["street"] not in seen, f"duplicate listing: {h['street']}"; seen.add(h["street"])
+            k = (h["street"], h["suburb"]); assert k not in seen, f"duplicate listing: {h['street']}"; seen.add(k)
             assert not any(w == "0" for w in h.get("features", "").split()), f"zero in features: {h['street']}"
 
 def main():
