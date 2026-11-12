@@ -24,17 +24,19 @@ def features(r):
 def key(h): return re.sub(r"^[\dA-Za-z./\-]*\d[\dA-Za-z./\-]*\s+", "", h["street"])
 homes = {}
 for r in R: homes.setdefault(r[2], []).append({"street": street(r), "suburb": r[2], "features": features(r), "photo": r[7], "render": False, "id": r[0]})
-P = "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/"
-cards = [
- {"name": "Featured: 17b Stanton Road", "feature": {
-   "title": "17b Stanton Road", "suburb": "Mosman",
-   "lines": ["4 beds   3 baths   2 cars", "$4,000 per week"],
-   "shots": [[P + "178547505035850672.jpg?wm=0", 0.62], [P + "178547505004547703.jpg?wm=0", 0.78],
-             [P + "178547505064014276.jpg?wm=0", 0.62], [P + "178547505041747350.jpg?wm=0", 0.12]]}},
- {"name": "All rentals", "homes": sorted([h for hs in homes.values() for h in hs], key=key)},
-]
+# One full-bleed card per rental, A to Z by street. No list, no featured listing, no opens.
+X = {   # crop position across each landscape photo (0 left, 1 right), chosen from five options per photo so the subject leads
+ "1P11247": 0.4,  "1P4767": 0.4,   "1P11393": 0.0,   # Ben Boyd is virtually staged: 0.0 keeps its "Virtually staged" label in frame
+ "1P11412": 0.7,  "1P10451": 0.0,  "1P11384": 0.75,
+ "1P11350": 0.3,  "1P11416": 0.5,  "1P11202": 0.8,
+ "1P11293": 0.2,  "1P11417": 0.6,  "1P11285": 0.65,
+}
+def rent_line(h): return h["features"].rsplit("   ", 1)[1].replace(" PW", " per week")
+def feat_line(h): return h["features"].rsplit("   ", 1)[0]
+cards = [{"name": h["street"], "still": True, "feature": {"title": h["street"], "suburb": h["suburb"],
+          "lines": [feat_line(h), rent_line(h)], "shots": [[h["photo"], X.get(h["id"], 0.5)]]}}
+         for h in sorted([h for hs in homes.values() for h in hs], key=key)]
 job = {"name": "LNS For Lease Carousel", "caps": "For lease", "footage": "footage/lns_clips.mp4",
        "cover": {"title": "Lower North Shore", "footage": [33.6, 39.5]}, "cards": cards}
 json.dump(job, open(os.path.join(HERE, "lns-lease-12nov2026.json"), "w"), indent=1)
-for c in cards:
-    for h in c.get("homes", []): print(f'{c["name"]:16s} {h["street"]:28s} {h["features"]}')
+for c in cards: print(c["name"], "|", " / ".join(c["feature"]["lines"]))

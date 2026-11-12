@@ -226,7 +226,7 @@ class Card:
 
 # ------------------------------------------------------------------ feature card
 _yf = np.linspace(0, 1, H)[:, None, None]
-SHADE_FEATURE = 0.97 - 0.55 * np.clip((_yf - 0.32) / 0.42, 0, 1)   # photo stays bright up top, dark under the words
+SHADE_FEATURE = 0.97 - 0.62 * np.clip((_yf - 0.28) / 0.40, 0, 1)   # photo stays bright up top, dark under the words
 INFO_Y, INFO_STEP = LIST_Y + 38, 40              # one clear space under the suburb, matching the spacer lines
 
 class Feature:
@@ -291,6 +291,8 @@ def main():
     for n in want:
         out = os.path.join(out_dir, f"{job['name']} {n:02d}.mp4")
         if n == 1: encode(cover_frames(job, m), out); print(out)
+        elif job["cards"][n - 2].get("still"):          # a still card: one image, no motion
+            out = out[:-4] + ".jpg"; cards[n - 2].frame(0).save(out, quality=95); print(out)
         else: encode(cards[n - 2].frames(), out); print(out, round(cards[n - 2].duration, 1), "s")
 
 if __name__ == "__main__":

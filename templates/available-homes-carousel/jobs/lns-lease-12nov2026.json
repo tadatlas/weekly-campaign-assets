@@ -11,134 +11,220 @@
  },
  "cards": [
   {
-   "name": "Featured: 17b Stanton Road",
+   "name": "301/171-179 Avenue Road",
+   "still": true,
    "feature": {
-    "title": "17b Stanton Road",
+    "title": "301/171-179 Avenue Road",
     "suburb": "Mosman",
     "lines": [
-     "4 beds   3 baths   2 cars",
-     "$4,000 per week"
+     "3 BEDS   3 BATHS   3 CARS",
+     "$4,200 per week"
     ],
     "shots": [
      [
-      "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505035850672.jpg?wm=0",
-      0.62
-     ],
-     [
-      "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505004547703.jpg?wm=0",
-      0.78
-     ],
-     [
-      "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505064014276.jpg?wm=0",
-      0.62
-     ],
-     [
-      "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505041747350.jpg?wm=0",
-      0.12
+      "https://images.sales.reapit.com.au/26319/cms/9/1020/d/177459121002030908.jpg?wm=0",
+      0.4
      ]
     ]
    }
   },
   {
-   "name": "All rentals",
-   "homes": [
-    {
-     "street": "301/171-179 Avenue Road",
-     "suburb": "Mosman",
-     "features": "3 BEDS   3 BATHS   3 CARS   $4,200 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1020/d/177459121002030908.jpg?wm=0",
-     "render": false,
-     "id": "1P11247"
-    },
-    {
-     "street": "83 Bay Street",
-     "suburb": "Mosman",
-     "features": "6 BEDS   4 BATHS   4 CARS   $2,950 PW",
-     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P4767/1404467195-rsd.jpg",
-     "render": false,
-     "id": "1P4767"
-    },
-    {
-     "street": "101/96-98 Ben Boyd Road",
-     "suburb": "Neutral Bay",
-     "features": "3 BEDS   2 BATHS   2 CARS   $3,600 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11393/photo/d/179306550547284517.jpg?wm=0",
-     "render": false,
-     "id": "1P11393"
-    },
-    {
-     "street": "13/68 Bradleys Head Road",
-     "suburb": "Mosman",
-     "features": "1 BED   1 BATH   $925 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1291/d/178787150448608125.jpg?wm=0",
-     "render": false,
-     "id": "1P11412"
-    },
-    {
-     "street": "71/30 Moore Road",
-     "suburb": "Freshwater",
-     "features": "1 BED   1 BATH   $1,650 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0",
-     "render": false,
-     "id": "1P10451"
-    },
-    {
-     "street": "6.01/20 Premier Street",
-     "suburb": "Neutral Bay",
-     "features": "3 BEDS   2 BATHS   2 CARS   $2,950 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/810/d/1759810848045651045775015.jpg?wm=0",
-     "render": false,
-     "id": "1P11384"
-    },
-    {
-     "street": "1 Seaforth Crescent",
-     "suburb": "Seaforth",
-     "features": "4 BEDS   5 BATHS   3 CARS   $5,500 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1238/d/177251522026937769.jpg?wm=0",
-     "render": false,
-     "id": "1P11350"
-    },
-    {
-     "street": "205/36 Spit Road",
-     "suburb": "Mosman",
-     "features": "2 BEDS   2 BATHS   1 CAR   $1,300 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1304/d/1404461278.jpg?wm=0",
-     "render": false,
-     "id": "1P11416"
-    },
-    {
-     "street": "17b Stanton Road",
-     "suburb": "Mosman",
-     "features": "4 BEDS   3 BATHS   2 CARS   $4,000 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505035850672.jpg?wm=0",
-     "render": false,
-     "id": "1P11202"
-    },
-    {
-     "street": "7 Stanton Road",
-     "suburb": "Mosman",
-     "features": "5 BEDS   4 BATHS   3 CARS   $4,500 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1204/d/1404461938.jpg?wm=0",
-     "render": false,
-     "id": "1P11293"
-    },
-    {
-     "street": "1/12 Waitovu Street",
-     "suburb": "Mosman",
-     "features": "3 BEDS   2 BATHS   1 CAR   $3,400 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/555/d/1404468972.jpg?wm=0",
-     "render": false,
-     "id": "1P11417"
-    },
-    {
-     "street": "5/17 Warringah Road",
-     "suburb": "Mosman",
-     "features": "4 BEDS   2 BATHS   2 CARS   $3,500 PW",
-     "photo": "https://images.sales.reapit.com.au/26319/cms/9/1184/d/177033228442591405.jpg?wm=0",
-     "render": false,
-     "id": "1P11285"
-    }
-   ]
+   "name": "83 Bay Street",
+   "still": true,
+   "feature": {
+    "title": "83 Bay Street",
+    "suburb": "Mosman",
+    "lines": [
+     "6 BEDS   4 BATHS   4 CARS",
+     "$2,950 per week"
+    ],
+    "shots": [
+     [
+      "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P4767/1404467195-rsd.jpg",
+      0.4
+     ]
+    ]
+   }
+  },
+  {
+   "name": "101/96-98 Ben Boyd Road",
+   "still": true,
+   "feature": {
+    "title": "101/96-98 Ben Boyd Road",
+    "suburb": "Neutral Bay",
+    "lines": [
+     "3 BEDS   2 BATHS   2 CARS",
+     "$3,600 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/listing/1P11393/photo/d/179306550547284517.jpg?wm=0",
+      0.0
+     ]
+    ]
+   }
+  },
+  {
+   "name": "13/68 Bradleys Head Road",
+   "still": true,
+   "feature": {
+    "title": "13/68 Bradleys Head Road",
+    "suburb": "Mosman",
+    "lines": [
+     "1 BED   1 BATH",
+     "$925 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/1291/d/178787150448608125.jpg?wm=0",
+      0.7
+     ]
+    ]
+   }
+  },
+  {
+   "name": "71/30 Moore Road",
+   "still": true,
+   "feature": {
+    "title": "71/30 Moore Road",
+    "suburb": "Freshwater",
+    "lines": [
+     "1 BED   1 BATH",
+     "$1,650 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0",
+      0.0
+     ]
+    ]
+   }
+  },
+  {
+   "name": "6.01/20 Premier Street",
+   "still": true,
+   "feature": {
+    "title": "6.01/20 Premier Street",
+    "suburb": "Neutral Bay",
+    "lines": [
+     "3 BEDS   2 BATHS   2 CARS",
+     "$2,950 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/810/d/1759810848045651045775015.jpg?wm=0",
+      0.75
+     ]
+    ]
+   }
+  },
+  {
+   "name": "1 Seaforth Crescent",
+   "still": true,
+   "feature": {
+    "title": "1 Seaforth Crescent",
+    "suburb": "Seaforth",
+    "lines": [
+     "4 BEDS   5 BATHS   3 CARS",
+     "$5,500 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/1238/d/177251522026937769.jpg?wm=0",
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "name": "205/36 Spit Road",
+   "still": true,
+   "feature": {
+    "title": "205/36 Spit Road",
+    "suburb": "Mosman",
+    "lines": [
+     "2 BEDS   2 BATHS   1 CAR",
+     "$1,300 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/1304/d/1404461278.jpg?wm=0",
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "name": "17b Stanton Road",
+   "still": true,
+   "feature": {
+    "title": "17b Stanton Road",
+    "suburb": "Mosman",
+    "lines": [
+     "4 BEDS   3 BATHS   2 CARS",
+     "$4,000 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505035850672.jpg?wm=0",
+      0.8
+     ]
+    ]
+   }
+  },
+  {
+   "name": "7 Stanton Road",
+   "still": true,
+   "feature": {
+    "title": "7 Stanton Road",
+    "suburb": "Mosman",
+    "lines": [
+     "5 BEDS   4 BATHS   3 CARS",
+     "$4,500 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/1204/d/1404461938.jpg?wm=0",
+      0.2
+     ]
+    ]
+   }
+  },
+  {
+   "name": "1/12 Waitovu Street",
+   "still": true,
+   "feature": {
+    "title": "1/12 Waitovu Street",
+    "suburb": "Mosman",
+    "lines": [
+     "3 BEDS   2 BATHS   1 CAR",
+     "$3,400 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/555/d/1404468972.jpg?wm=0",
+      0.6
+     ]
+    ]
+   }
+  },
+  {
+   "name": "5/17 Warringah Road",
+   "still": true,
+   "feature": {
+    "title": "5/17 Warringah Road",
+    "suburb": "Mosman",
+    "lines": [
+     "4 BEDS   2 BATHS   2 CARS",
+     "$3,500 per week"
+    ],
+    "shots": [
+     [
+      "https://images.sales.reapit.com.au/26319/cms/9/1184/d/177033228442591405.jpg?wm=0",
+      0.65
+     ]
+    ]
+   }
   }
  ]
 }
