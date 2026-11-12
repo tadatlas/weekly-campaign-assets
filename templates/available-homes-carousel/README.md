@@ -63,6 +63,7 @@ An Instagram carousel that gives every home for sale in a region some exposure. 
 - A shot can be a still photo instead: `["footage/sh/bowral_aerial.jpg", 0.5]`, where the number is the crop position across the photo (0 left, 1 right). Stills get a slow push-in.
 - **For Lease version** (`jobs/lns-lease-12nov2026.json`): `"caps": "For lease"` swaps AVAILABLE HOMES on the cover. Each rental is its own full-bleed card: `{"still": true, "feature": {"title": "<street>", "suburb": "<suburb>", "lines": ["4 BEDS   3 BATHS   2 CARS", "$4,000 per week"], "shots": [["<photo url>", 0.5]]}}`. The number is the crop position, chosen per photo so the subject leads. Still cards export as JPG; the cover stays video. No opens on the cards.
 - A virtually staged photo only runs with its "Virtually staged" label in frame.
+- **One video instead of a carousel:** `python3 reel.py jobs/<job>.json post` (1080 × 1350) or `story` (1080 × 1920) runs the cover, then each card's photo with a slow push-in, dissolving into the next while the words swap. Add `"x_story"` to a card where the narrower story crop needs its own position. `--stills` first.
 - The cover can be a still too: `"cover": {"title": "Southern Highlands", "image": "footage/sh/ranges_sunset.jpg", "x": 0.3, "duration": 5}`.
 - `titles` must end on the first home's suburb. The script checks this.
 - `title_lines` replaces `titles` for a combined group title.

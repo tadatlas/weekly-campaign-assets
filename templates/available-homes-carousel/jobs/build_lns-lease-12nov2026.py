@@ -31,12 +31,14 @@ X = {   # crop position across each landscape photo (0 left, 1 right), chosen fr
  "1P11350": 0.3,  "1P11416": 0.5,  "1P11202": 0.8,
  "1P11293": 0.2,  "1P11417": 0.6,  "1P11285": 0.65,
 }
+XSTORY = {"1P10451": 0.15}   # story crop (narrower) where the post crop doesn't suit: Moore Road keeps the ocean in
 def rent_line(h): return h["features"].rsplit("   ", 1)[1].replace(" PW", " per week")
 def feat_line(h): return h["features"].rsplit("   ", 1)[0]
 cards = [{"name": h["street"], "still": True, "feature": {"title": h["street"], "suburb": h["suburb"],
-          "lines": [feat_line(h), rent_line(h)], "shots": [[h["photo"], X.get(h["id"], 0.5)]]}}
+          "lines": [feat_line(h), rent_line(h)], "shots": [[h["photo"], X.get(h["id"], 0.5)]],
+          **({"x_story": XSTORY[h["id"]]} if h["id"] in XSTORY else {})}}
          for h in sorted([h for hs in homes.values() for h in hs], key=key)]
 job = {"name": "LNS For Lease Carousel", "caps": "For lease", "footage": "footage/lns_clips.mp4",
-       "cover": {"title": "Lower North Shore", "footage": [33.6, 39.5]}, "cards": cards}
+       "cover": {"title": "Lower North Shore", "footage": [33.6, 35.33]}, "cards": cards}
 json.dump(job, open(os.path.join(HERE, "lns-lease-12nov2026.json"), "w"), indent=1)
 for c in cards: print(c["name"], "|", " / ".join(c["feature"]["lines"]))
