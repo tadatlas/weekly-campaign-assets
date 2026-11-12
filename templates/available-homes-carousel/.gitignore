@@ -2,3 +2,4 @@ fonts/
 out/
 jobs/footage/
 footage/
+__pycache__/
