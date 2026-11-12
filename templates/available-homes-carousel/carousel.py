@@ -1,0 +1,227 @@
+"""Available Homes Instagram carousel (1080x1350 video cards).
+
+    python3 carousel.py jobs/<job>.json                 # render every card into out/<job>/
+    python3 carousel.py jobs/<job>.json --cards 1 3     # render some cards (1 = cover)
+    python3 carousel.py jobs/<job>.json --stills        # contact sheet of key frames, no video
+
+Card 1 is the cover: lifestyle footage, the region in Rhymes, AVAILABLE HOMES under it.
+Every other card is one suburb group:
+  1. Intro: a footage shot per suburb with its name, hard cuts (0.6s each, 1.2s if one suburb).
+     The last suburb shown is the first home's suburb.
+  2. Match cut into the list: the brandmark, title line and caps line never move between the
+     cover, the intros and the list. Only the words and the picture change.
+  3. The list: 5 homes per column, 10 per page. The photo, address and suburb step to the next
+     home every second; the active home is white, the rest dim. When a page is done, the whole
+     list scrolls up (like the OFI story template) and the next page comes in from below.
+"""
+import argparse, hashlib, json, os, subprocess, sys, urllib.request
+import numpy as np
+from PIL import Image, ImageChops, ImageDraw, ImageFont
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import fonts as _fonts
+
+# ------------------------------------------------------------------ locked design
+W, H, FPS = 1080, 1350, 30
+STONE, WHITE, GREY, DIM = (30, 30, 30), (255, 255, 255), (160, 160, 158), (150, 150, 148)
+PHOTO_H = Y0 = 600
+COLX = (64, 556)
+HEAD_Y, SUB_DY = Y0 + 169, 98          # Rhymes 84 title, Fakt caps line under it
+ICON_XY = (60, Y0 + 65)                # brandmark (78px)
+LIST_Y, ROW_H, PER_COL = Y0 + 326, 66, 5
+PAGE_STEP = PER_COL * ROW_H + 60
+TOP_CLIP, BOT_CLIP = LIST_Y - 14, 1300
+STEP, XF, HOLD, ZOOM, SCROLL_T = 1.0, 0.3, 2.0, 0.05, 1.3
+PER_SINGLE, PER_MULTI, LINE = 1.2, 0.6, 92
+CROP = "crop=864:1080:528:0,scale=1080:1350:flags=lanczos"     # 16:9 footage to 4:5
+
+F = _fonts.ensure()
+HEAD = ImageFont.truetype(f"{F}/RhymesDisplay-Light.ttf", 84)
+FAKT_MED = ImageFont.truetype(f"{F}/Fakt-Medium.ttf", 28)
+FAKT_XS = ImageFont.truetype(f"{F}/Fakt-Medium.ttf", 17)
+FAKT = ImageFont.truetype(f"{F}/Fakt-Normal.ttf", 29)
+ICON = Image.open(f"{HERE}/assets/brandmark_white.png").convert("RGBA").resize((78, 78), Image.LANCZOS)
+_lab = Image.open(f"{HERE}/assets/artist_impression_label.png").convert("RGBA")
+AI_LABEL = _lab.resize((_lab.width // 2, _lab.height // 2), Image.LANCZOS)
+SCRIM = Image.new("RGBA", (W, 150), (0, 0, 0, 0))
+SCRIM.putalpha(Image.linear_gradient("L").resize((W, 150)).point(lambda v: int(v * 0.45)))
+_y = np.linspace(0, 1, H)[:, None, None]
+SHADE_INTRO = np.where(_y > 0.45, 0.62 - 0.12 * (_y - 0.45) / 0.55, 0.62 - 0.22 * np.clip((0.45 - _y) / 0.45, 0, 1))
+SHADE_COVER = np.where(_y > 0.45, 0.72 - 0.10 * (_y - 0.45) / 0.55, 0.72 + 0.13 * np.clip((0.45 - _y) / 0.45, 0, 1))
+MASK = Image.new("L", (W, H), 0)
+_d = ImageDraw.Draw(MASK)
+_d.rectangle((0, TOP_CLIP + 20, W, BOT_CLIP - 30), fill=255)
+for k in range(20): _d.line((0, TOP_CLIP + k, W, TOP_CLIP + k), fill=int(255 * k / 20))
+for k in range(30): _d.line((0, BOT_CLIP - 30 + k, W, BOT_CLIP - 30 + k), fill=int(255 * (1 - k / 30)))
+
+def tracked(d, xy, txt, font, fill, tr=0.0):
+    x, y = xy
+    for ch in txt:
+        d.text((x, y), ch, font=font, fill=fill); x += font.getlength(ch) + tr
+
+def title_block(c, lines, caps, alpha=1.0):
+    """Rhymes line(s) at HEAD_Y with a Fakt caps line under the last one."""
+    l = Image.new("RGBA", (W - 64, 140 + LINE * (len(lines) - 1)), (0, 0, 0, 0)); d = ImageDraw.Draw(l)
+    for k, ln in enumerate(lines):
+        assert HEAD.getlength(ln) <= W - 128, f"too long for one line: {ln}"
+        d.text((0, k * LINE), ln, font=HEAD, fill=WHITE)
+    tracked(d, (0, SUB_DY + LINE * (len(lines) - 1)), caps.upper(), FAKT_MED, WHITE, 4.2)
+    if alpha < 1: l.putalpha(l.getchannel("A").point(lambda v: int(v * alpha)))
+    c.paste(l, (64, HEAD_Y), l)
+
+# ------------------------------------------------------------------ media
+class Media:
+    def __init__(self, job_path, job):
+        self.root = os.path.dirname(os.path.abspath(job_path))
+        self.cache = os.path.join(HERE, "out", ".cache"); os.makedirs(self.cache, exist_ok=True)
+        self.footage = self.path(job.get("footage")) if job.get("footage") else None
+        self._ph, self._shots = {}, {}
+    def path(self, p):
+        if p.startswith("http"):
+            dst = os.path.join(self.cache, hashlib.md5(p.encode()).hexdigest() + ".jpg")
+            if not os.path.exists(dst):
+                req = urllib.request.Request(p, headers={"User-Agent": "Mozilla/5.0"})
+                with urllib.request.urlopen(req) as r, open(dst, "wb") as f: f.write(r.read())
+            return dst
+        return p if os.path.isabs(p) else os.path.join(self.root, p) if os.path.exists(os.path.join(self.root, p)) else os.path.join(HERE, p)
+    def photo(self, home, z):
+        """Home photo for the top panel, slow zoom z (0..ZOOM). Renders keep an Artist Impression label."""
+        key = home["photo"]
+        if key not in self._ph:
+            im = Image.open(self.path(key)).convert("RGB")
+            sc = max(W * (1 + ZOOM) / im.width, PHOTO_H * (1 + ZOOM) / im.height)
+            self._ph[key] = im.resize((round(im.width * sc), round(im.height * sc)), Image.LANCZOS)
+        im = self._ph[key]; s = (1 + z) / (1 + ZOOM)
+        w, h = W / s, PHOTO_H / s; x, y = (im.width - w) / 2, (im.height - h) / 2
+        out = im.resize((W, PHOTO_H), Image.BILINEAR, box=(x, y, x + w, y + h))
+        if home.get("render"):
+            out.paste(SCRIM, (0, PHOTO_H - SCRIM.height), SCRIM)
+            out.paste(AI_LABEL, (W - 64 - AI_LABEL.width, PHOTO_H - AI_LABEL.height - 22), AI_LABEL)
+        return out
+    def clip(self, a, b, slow=1.0, shade=SHADE_INTRO, trim=0.05):
+        """Frames of footage a..b seconds, portrait crop, darkened. slow>1 plays it slower."""
+        key = (a, b, slow, id(shade))
+        if key not in self._shots:
+            if isinstance(a, str):        # a still image instead of footage
+                im = Image.open(self.path(a)).convert("RGB"); sc = H / im.height
+                im = im.resize((round(im.width * sc), H), Image.LANCZOS); x = int((im.width - W) * (b if isinstance(b, float) else 0.5))
+                fr = [np.asarray(im.crop((x, 0, x + W, H)))]
+            else:
+                raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{a + trim:.3f}", "-t", f"{b - a - 2 * trim:.3f}", "-i", self.footage,
+                                      "-an", "-vf", f"setpts={slow}*PTS,{CROP},fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                                     capture_output=True, check=True).stdout
+                fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+            self._shots[key] = [Image.fromarray((f.astype(float) * shade).astype(np.uint8)) for f in fr]
+        return self._shots[key]
+
+# ------------------------------------------------------------------ cover
+def cover_frames(job, m):
+    a, b = job["cover"]["footage"]
+    for f in m.clip(a, b, 1.0, SHADE_COVER, trim=0.0):
+        c = f.copy(); c.paste(ICON, ICON_XY, ICON)
+        title_block(c, job["cover"].get("title_lines", [job["cover"]["title"]]), "Available homes")
+        yield c
+
+# ------------------------------------------------------------------ suburb card
+class Card:
+    def __init__(self, card, m):
+        self.c, self.m, self.homes = card, m, card["homes"]
+        self.rows = []
+        for i, h in enumerate(self.homes):
+            page, r = divmod(i, PER_COL * 2); ci, j = divmod(r, PER_COL)
+            self.rows.append((ci, LIST_Y + page * PAGE_STEP + j * ROW_H))
+        intro = card["intro"]; self.shots = intro["shots"]
+        self.lines = intro.get("title_lines")
+        self.titles = intro.get("titles")
+        if self.titles:
+            assert len(self.titles) == len(self.shots), card["name"]
+            assert self.titles[-1] == self.homes[0]["suburb"], f"{card['name']}: intro must end on the first home's suburb"
+        self.per = PER_SINGLE if len(self.shots) == 1 else PER_MULTI
+        self.intro_len = self.per * len(self.shots)
+        n = len(self.homes)
+        self.list_len = self.start(n - 1) + STEP + HOLD
+        self.duration = self.intro_len + self.list_len
+    def page(self, i): return i // (PER_COL * 2)
+    def start(self, i): return i * STEP + self.page(i) * SCROLL_T
+    def scroll(self, t):
+        n, v = len(self.homes), 0.0
+        for p in range(1, self.page(n - 1) + 1):
+            ts = self.start(p * PER_COL * 2) - SCROLL_T
+            if t >= ts:
+                x = min(1.0, (t - ts) / SCROLL_T); v = (p - 1 + x * x * (3 - 2 * x)) * PAGE_STEP
+        return v
+    def intro_frame(self, t):
+        i = min(int(t // self.per), len(self.shots) - 1)
+        a, b, slow = self.shots[i]; fr = self.m.clip(a, b, slow)
+        c = fr[min(int((t - i * self.per) * FPS), len(fr) - 1)].copy()
+        c.paste(ICON, ICON_XY, ICON)
+        title_block(c, self.lines if self.lines else [self.titles[i]], "Available homes")
+        return c
+    def list_frame(self, t):
+        n = len(self.homes)
+        k = max([i for i in range(n) if self.start(i) <= t] or [0]); ts = self.start(k)
+        def z(i):
+            e = self.start(i + 1) + XF if i < n - 1 else self.list_len
+            return ZOOM * max(0, min(1, (t - self.start(i)) / (e - self.start(i))))
+        cur = self.m.photo(self.homes[k], z(k))
+        a = min(1, max(0, (t - ts) / XF)) if k > 0 else 1
+        if a < 1: cur = Image.blend(self.m.photo(self.homes[k - 1], z(k - 1)), cur, a)
+        c = Image.new("RGB", (W, H), STONE); c.paste(cur, (0, 0)); c.paste(ICON, ICON_XY, ICON)
+        if a < 1: title_block(c, [self.homes[k - 1]["street"]], self.homes[k - 1]["suburb"], max(0, 1 - 2 * a))
+        title_block(c, [self.homes[k]["street"]], self.homes[k]["suburb"], max(0, 2 * a - 1) if a < 1 else 1)
+        sc, done = self.scroll(t), t >= self.start(n - 1) + STEP
+        lc = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ld = ImageDraw.Draw(lc)
+        for i, (ci, y) in enumerate(self.rows):
+            yy = y - sc
+            if yy > H or yy + 70 < 0: continue
+            h = self.homes[i]
+            ld.text((COLX[ci], yy), h["street"], font=FAKT, fill=WHITE if (i == k or done) else DIM)
+            if h.get("features"): tracked(ld, (COLX[ci], yy + 35), h["features"], FAKT_XS, GREY, 2.4)
+        lc.putalpha(ImageChops.multiply(lc.getchannel("A"), MASK)); c.paste(lc, (0, 0), lc)
+        return c
+    def frame(self, t):
+        return self.intro_frame(t) if t < self.intro_len else self.list_frame(t - self.intro_len)
+    def frames(self):
+        for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)
+
+# ------------------------------------------------------------------ output
+def encode(frames, out):
+    tmp = os.path.join(os.path.dirname(out), ".tmp_" + os.path.basename(out))
+    p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
+                          "-i", "-", "-c:v", "libx264", "-crf", "18", "-preset", "veryfast", "-pix_fmt", "yuv420p",
+                          "-movflags", "+faststart", tmp], stdin=subprocess.PIPE)
+    for f in frames: p.stdin.write(f.tobytes())
+    p.stdin.close(); assert p.wait() == 0, out
+    os.replace(tmp, out)
+
+def check(job):
+    """Content rules: never a 0 in features, no listing twice, intro ends on the first home's suburb."""
+    seen = set()
+    for c in job["cards"]:
+        for h in c["homes"]:
+            assert h["street"] not in seen, f"duplicate listing: {h['street']}"; seen.add(h["street"])
+            assert not any(w == "0" for w in h.get("features", "").split()), f"zero in features: {h['street']}"
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument("job"); ap.add_argument("--cards", type=int, nargs="*"); ap.add_argument("--stills", action="store_true")
+    a = ap.parse_args()
+    job = json.load(open(a.job)); check(job); m = Media(a.job, job)
+    name = os.path.splitext(os.path.basename(a.job))[0]
+    out_dir = os.path.join(HERE, "out", name); os.makedirs(out_dir, exist_ok=True)
+    cards = [Card(c, m) for c in job["cards"]]
+    if a.stills:
+        shots = [next(iter(cover_frames(job, m)))]
+        for c in cards:
+            shots += [c.intro_frame(i * c.per + c.per / 2) for i in range(len(c.shots))] + [c.list_frame(0.2)]
+        cols = 6; s = Image.new("RGB", (cols * 275, ((len(shots) + cols - 1) // cols) * 343), "white")
+        for i, im in enumerate(shots): s.paste(im.resize((270, 338)), ((i % cols) * 275, (i // cols) * 343))
+        s.save(os.path.join(out_dir, "stills.jpg"), quality=88); print(os.path.join(out_dir, "stills.jpg")); return
+    want = a.cards or list(range(1, len(cards) + 2))
+    for n in want:
+        out = os.path.join(out_dir, f"{job['name']} {n:02d}.mp4")
+        if n == 1: encode(cover_frames(job, m), out); print(out)
+        else: encode(cards[n - 2].frames(), out); print(out, round(cards[n - 2].duration, 1), "s")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,404 @@
+{
+ "name": "LNS Available Homes Carousel",
+ "region": "Lower North Shore",
+ "footage": "footage/lns_clips.mp4",
+ "footage_source": "Atlas iQ Lifestyle Gallery > 'Lower North Shore' (LNS Lifestyle Clips Collated), 1920x1080",
+ "cover": {
+  "title": "Lower North Shore",
+  "footage": [
+   33.6,
+   39.5
+  ]
+ },
+ "cards": [
+  {
+   "name": "Mosman",
+   "intro": {
+    "titles": [
+     "Mosman"
+    ],
+    "shots": [
+     [
+      29.529500000000002,
+      32.032000000000004,
+      1
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "201/171-179 Avenue Road",
+     "suburb": "Mosman",
+     "features": "2 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10076/photo/d/1788417901480788895433992.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "301/171-179 Avenue Road",
+     "suburb": "Mosman",
+     "features": "3 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11423/photo/d/179434790610954507.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "1 Buena Vista Avenue",
+     "suburb": "Mosman",
+     "features": "6 BEDS   3 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10213/photo/d/178780311384950348.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "9 Burrawong Avenue",
+     "suburb": "Mosman",
+     "features": "6 BEDS   8 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P8555/photo/d/179201800672294876.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "2a Cross Street",
+     "suburb": "Mosman",
+     "features": "5 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11251/photo/d/178823760909918252.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "21 Hopetoun Avenue",
+     "suburb": "Mosman",
+     "features": "5 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11277/photo/d/178830458362255028.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "23A Kardinia Road",
+     "suburb": "Mosman",
+     "features": "5 BEDS   4 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10386/photo/d/178763679665416042.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "3 Methuen Avenue",
+     "suburb": "Mosman",
+     "features": "5 BEDS   4 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11373/photo/d/179323367278648881.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "1/155 Middle Head Road",
+     "suburb": "Mosman",
+     "features": "2 BEDS   2 BATHS   1 CAR",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10972/1776298468829469855841918-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "1/938 Military Road",
+     "suburb": "Mosman",
+     "features": "3 BEDS   3 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11019/177786243679542139-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "6/938 Military Road",
+     "suburb": "Mosman",
+     "features": "3 BEDS   3 BATHS   5 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10982/177785273420482637-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "4D/46-48 Muston Street",
+     "suburb": "Mosman",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10692/photo/d/178530217874019858.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "8 Prince Albert Street",
+     "suburb": "Mosman",
+     "features": "6 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10388/photo/d/179383101651793987.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "32 Queen Street",
+     "suburb": "Mosman",
+     "features": "5 BEDS   4 BATHS   4 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P9825/177249131364233702-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "16 Redan Street",
+     "suburb": "Mosman",
+     "features": "4 BEDS   4 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10981/photo/d/177665166527645006.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "26 Redan Street",
+     "suburb": "Mosman",
+     "features": "4 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10867/photo/d/179271280336088576.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "9 Sirius Avenue",
+     "suburb": "Mosman",
+     "features": "5 BEDS   6 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P8796/photo/d/1770768943159263626307684.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "18 Stanton Road",
+     "suburb": "Mosman",
+     "features": "5 BEDS   3 BATHS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11264/photo/d/178826153800301910.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "20 Stanton Road",
+     "suburb": "Mosman",
+     "features": "763 SQM",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11239/photo/d/178807204706986324.jpg?wm=0",
+     "render": true
+    },
+    {
+     "street": "1/15 Warringah Road",
+     "suburb": "Mosman",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10228/177312094766795938-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "3/7 Warringah Road",
+     "suburb": "Mosman",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11088/photo/d/178945498943745505.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "Neutral Bay, Kurraba Point, Cremorne",
+   "intro": {
+    "titles": [
+     "Kurraba Point",
+     "Cremorne",
+     "Neutral Bay"
+    ],
+    "shots": [
+     [
+      35.36866666666667,
+      36.302933333333335,
+      1
+     ],
+     [
+      36.302933333333335,
+      37.971266666666665,
+      1
+     ],
+     [
+      7.307300000000001,
+      8.008000000000001,
+      1.2
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "202/5 Colindia Avenue",
+     "suburb": "Neutral Bay",
+     "features": "3 BEDS   2 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P8658/171582014636419268-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "LG02/11 Wyagdon Street",
+     "suburb": "Neutral Bay",
+     "features": "2 BEDS   2 BATHS   1 CAR",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11118/1783477466827695056967489-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "202/85 Kurraba Road",
+     "suburb": "Kurraba Point",
+     "features": "5 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P8757/photo/d/179133203549551610.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "28 Shellcove Road",
+     "suburb": "Kurraba Point",
+     "features": "6 BEDS   3 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10447/176274587898411851-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "2 Lodge Road",
+     "suburb": "Cremorne",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11177/photo/d/178728006607950108.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "10 Shellbank Parade",
+     "suburb": "Cremorne",
+     "features": "5 BEDS   8 BATHS   3 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P8763/177094921897680059-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "26 Wonga Road",
+     "suburb": "Cremorne",
+     "features": "6 BEDS   6 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10147/photo/d/177087533687527756.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "North Sydney, McMahons Point, Kirribilli",
+   "intro": {
+    "titles": [
+     "McMahons Point",
+     "Kirribilli",
+     "North Sydney"
+    ],
+    "shots": [
+     [
+      42.909533333333336,
+      43.977266666666665,
+      1
+     ],
+     [
+      42.175466666666665,
+      42.909533333333336,
+      1.6
+     ],
+     [
+      27.027,
+      27.8278,
+      1.1
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "2304/168 Walker Street",
+     "suburb": "North Sydney",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11127/photo/d/178658708409866867.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "2504/168 Walker Street",
+     "suburb": "North Sydney",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11128/photo/d/178460858317199660.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "11/34-40 Union Street",
+     "suburb": "McMahons Point",
+     "features": "3 BEDS   3 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11352/photo/d/179254751376704751.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "34 Jeffreys Street",
+     "suburb": "Kirribilli",
+     "features": "4 BEDS   4 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P9873/photo/d/179384654378707902.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "Northbridge, Castle Cove",
+   "intro": {
+    "titles": [
+     "Castle Cove",
+     "Northbridge"
+    ],
+    "shots": [
+     [
+      45.6456,
+      46.57986666666667,
+      1.6
+     ],
+     [
+      3.2032000000000003,
+      4.0040000000000004,
+      1
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "18 Baringa Road",
+     "suburb": "Northbridge",
+     "features": "5 BEDS   5 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11269/photo/d/1790144099719818097878657.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "54 Cliff Avenue",
+     "suburb": "Northbridge",
+     "features": "3 BEDS   2 BATHS   1 CAR",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10928/photo/d/177985546756625328.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "6 Coolawin Road",
+     "suburb": "Northbridge",
+     "features": "5 BEDS   4 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10600/photo/d/178640430650111800.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "73 Minimbah Road",
+     "suburb": "Northbridge",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10268/photo/d/1771925128451445563657055.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "34 Willowie Road",
+     "suburb": "Castle Cove",
+     "features": "5 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11087/photo/d/1788245496747925967281019.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "Northern Beaches & Upper North Shore",
+   "intro": {
+    "title_lines": [
+     "Northern Beaches &",
+     "Upper North Shore"
+    ],
+    "shots": [
+     [
+      28.5,
+      29.5,
+      2.0
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "18 Allara Avenue",
+     "suburb": "Turramurra",
+     "features": "7 BEDS   5 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11364/photo/d/1791252070436552799589836.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "1 Burrendong Place",
+     "suburb": "Avalon Beach",
+     "features": "6 BEDS   3 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10979/177570169157033325-rsd.jpg",
+     "render": false
+    }
+   ]
+  }
+ ]
+}
