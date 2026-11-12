@@ -1,10 +1,10 @@
 # Available Homes carousel (Instagram, video cards)
 
-An Instagram carousel that gives every home for sale in a region some exposure. It was first made for the Lower North Shore on 12 November 2026. `jobs/lns-12nov2026.json` is that carousel, and rendering it reproduces the posted files frame for frame.
+An Instagram carousel that gives every home for sale in a region some exposure. It was first made for the Lower North Shore on 12 November 2026. `jobs/lns-12nov2026.json` is that carousel, and rendering it reproduces the final files frame for frame.
 
 ## Make one
 
-1. **Footage.** Download the region's lifestyle clips from the Atlas iQ Lifestyle Gallery (category "<Region> Lifestyle Clips (Collated)") into `jobs/footage/`. The folder is gitignored, so footage is never committed.
+1. **Footage.** Download the region's lifestyle clips from the Atlas iQ Lifestyle Gallery (category "<Region> Lifestyle Clips (Collated)") into `jobs/footage/`. A region with no clips uses gallery photos instead (see **Job file**). The folder is gitignored, so footage is never committed.
 2. **Job file.** Copy `jobs/lns-12nov2026.json` and fill it in. See **Job file** below.
 3. **Stills first:**
    ```
@@ -22,11 +22,11 @@ An Instagram carousel that gives every home for sale in a region some exposure. 
 ## Locked design
 
 - **Cards:** 1080 × 1350 video, 30 fps. The photo panel is the top 600 px, with a Stone panel below.
-- **Fixed positions:** the brandmark (78 px), the Rhymes Light 84 title and the Fakt caps line sit in exactly the same place on every card and every frame. That's what makes the match cuts work. Never move them for one card.
+- **Fixed positions:** the brandmark (78 px), the Rhymes Light 84 title and the caps line under it (Fakt SemiBold 20, 0.25em tracking) sit in exactly the same place on every card and every frame. That keeps every transition steady. Never move them for one card.
 - **Cover:** lifestyle footage, darkened. It shows the region name in Rhymes with AVAILABLE HOMES under it.
 - **Suburb cards:** one card per suburb group.
-  - The card opens on a footage shot per suburb, with the suburb name and AVAILABLE HOMES. Each shot is a hard cut: 0.6 s per suburb, or 1.2 s when there's only one. The last suburb shown is the first home's suburb.
-  - It then cuts straight to the list. The title line becomes the address, and the caps line becomes that home's suburb.
+  - The card opens on a shot per suburb, with the suburb name and AVAILABLE HOMES. Each suburb holds for 1.2 s (1.8 s when there's only one) and dissolves into the next over 0.4 s. Footage slows down to cover the time if the shot is short. The last suburb shown is the first home's suburb.
+  - It then dissolves into the list over 0.5 s. The suburb name fades out before the address fades in, so the words never overlap, and the brandmark holds still. The caps line becomes that home's suburb.
 - **The list:**
   - Five homes per column, 10 per page, sorted A to Z by street name without the number. The list has no suburb labels, because the suburb sits under the address.
   - Every second the photo, address and suburb move to the next home. The active home is white and the others are dimmed.
@@ -59,7 +59,9 @@ An Instagram carousel that gives every home for sale in a region some exposure. 
 }
 ```
 
-- `shots` are seconds in the footage. Use one shot per suburb and keep each shot to a single take with no cut inside it. A slow-down above 1 stretches a short shot so it covers the time.
+- `shots` are seconds in the footage: `[start, end]`, or `[start, end, slow-down]` to slow it further. Use one shot per suburb and keep each shot to a single take with no cut inside it.
+- A shot can be a still photo instead: `["footage/sh/bowral_aerial.jpg", 0.5]`, where the number is the crop position across the photo (0 left, 1 right). Stills get a slow push-in.
+- The cover can be a still too: `"cover": {"title": "Southern Highlands", "image": "footage/sh/ranges_sunset.jpg", "x": 0.3, "duration": 5}`.
 - `titles` must end on the first home's suburb. The script checks this.
 - `title_lines` replaces `titles` for a combined group title.
 
