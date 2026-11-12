@@ -1,0 +1,44 @@
+"""Build jobs/lns-lease-12nov2026.json: Jaime Pratt's LNS rentals (Notion property sync, 11 Nov 19:00Z) plus a featured rental."""
+import json, re, os
+HERE = os.path.dirname(os.path.abspath(__file__))
+R = [  # (id, address, suburb, beds, baths, cars, rent display, photo)
+("1P10451","71/30 Moore Road Freshwater NSW","Freshwater",1,1,0,"$1,650 pw","https://images.sales.reapit.com.au/26319/listing/1P10451/photo/d/1758242529648614594144063.jpg?wm=0"),
+("1P11202","17b Stanton Road Mosman NSW","Mosman",4,3,2,"$4,000 pw","https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/178547505035850672.jpg?wm=0"),
+("1P11293","7 Stanton Road Mosman NSW","Mosman",5,4,3,"$4500 pw","https://images.sales.reapit.com.au/26319/cms/9/1204/d/1404461938.jpg?wm=0"),
+("1P4767","83 Bay Street Mosman NSW","Mosman",6,4,4,"$2,950 per week","https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P4767/1404467195-rsd.jpg"),
+("1P11417","Unit 1/12 Waitovu Street Mosman NSW","Mosman",3,2,1,"$3,400 pw","https://images.sales.reapit.com.au/26319/cms/9/555/d/1404468972.jpg?wm=0"),
+("1P11412","Unit 13/68 Bradleys Head Road Mosman NSW","Mosman",1,1,0,"$925 pw","https://images.sales.reapit.com.au/26319/cms/9/1291/d/178787150448608125.jpg?wm=0"),
+("1P11416","Unit 205/36 Spit Road Mosman NSW","Mosman",2,2,1,"$1,300 pw","https://images.sales.reapit.com.au/26319/cms/9/1304/d/1404461278.jpg?wm=0"),
+("1P11247","Unit 301/171-179 Avenue Road Mosman NSW","Mosman",3,3,3,"$4,200 pw","https://images.sales.reapit.com.au/26319/cms/9/1020/d/177459121002030908.jpg?wm=0"),
+("1P11285","Unit 5/17 Warringah Road Mosman NSW","Mosman",4,2,2,"$3,500 pw","https://images.sales.reapit.com.au/26319/cms/9/1184/d/177033228442591405.jpg?wm=0"),
+("1P11393","101/96-98 Ben Boyd Road Neutral Bay NSW","Neutral Bay",3,2,2,"$3,600 pw","https://images.sales.reapit.com.au/26319/listing/1P11393/photo/d/179306550547284517.jpg?wm=0"),  # hero is virtually staged; its label would be cropped off
+("1P11384","6.01/20 Premier Street Neutral Bay NSW","Neutral Bay",3,2,2,"$2,950 pw","https://images.sales.reapit.com.au/26319/cms/9/810/d/1759810848045651045775015.jpg?wm=0"),
+("1P11350","1 Seaforth Crescent Seaforth NSW","Seaforth",4,5,3,"$5,500.00 pw","https://images.sales.reapit.com.au/26319/cms/9/1238/d/177251522026937769.jpg?wm=0"),
+]
+def street(r): return re.sub(r"^Unit\s+", "", re.sub(r"\s+" + re.escape(r[2]) + r"\s+NSW$", "", r[1]))
+def rent(s):  # "$4500 pw", "$5,500.00 pw", "$2,950 per week" -> "$4,500 PW"
+    n = int(float(re.sub(r"[^\d.]", "", s.split("p")[0]))); return f"${n:,} PW"
+def plural(n, w): return f"{n} {w}{'' if n == 1 else 'S'}"
+def features(r):
+    return "   ".join([plural(n, w) for n, w in ((r[3], "BED"), (r[4], "BATH"), (r[5], "CAR")) if n] + [rent(r[6])])
+def key(h): return re.sub(r"^[\dA-Za-z./\-]*\d[\dA-Za-z./\-]*\s+", "", h["street"])
+homes = {}
+for r in R: homes.setdefault(r[2], []).append({"street": street(r), "suburb": r[2], "features": features(r), "photo": r[7], "render": False, "id": r[0]})
+P = "https://images.sales.reapit.com.au/26319/listing/1P11202/photo/d/"
+cards = [
+ {"name": "Featured: 17b Stanton Road", "feature": {
+   "title": "17b Stanton Road", "suburb": "Mosman",
+   "lines": ["4 beds   3 baths   2 cars", "$4,000 per week", "Inspection Tuesday 17 November, 2:30pm"],
+   "shots": [[P + "178547505035850672.jpg?wm=0", 0.62], [P + "178547505004547703.jpg?wm=0", 0.78],
+             [P + "178547505064014276.jpg?wm=0", 0.62], [P + "178547505041747350.jpg?wm=0", 0.12]]}},
+ {"name": "Mosman", "intro": {"titles": ["Mosman"], "shots": [[29.5295, 32.032, 1]]}, "homes": sorted(homes.pop("Mosman"), key=key)},
+ {"name": "Neutral Bay", "intro": {"titles": ["Neutral Bay"], "shots": [[42.9095, 43.9773, 1.0]]}, "homes": sorted(homes.pop("Neutral Bay"), key=key)},
+ {"name": "Northern Beaches", "intro": {"title_lines": ["Northern Beaches"], "shots": [[28.5, 29.5, 2.0]]},
+  "homes": sorted(homes.pop("Seaforth") + homes.pop("Freshwater"), key=key)},
+]
+assert not homes
+job = {"name": "LNS For Lease Carousel", "caps": "For lease", "footage": "footage/lns_clips.mp4",
+       "cover": {"title": "Lower North Shore", "footage": [33.6, 39.5]}, "cards": cards}
+json.dump(job, open(os.path.join(HERE, "lns-lease-12nov2026.json"), "w"), indent=1)
+for c in cards:
+    for h in c.get("homes", []): print(f'{c["name"]:16s} {h["street"]:28s} {h["features"]}')

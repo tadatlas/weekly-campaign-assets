@@ -86,6 +86,7 @@ class Media:
         self.cache = os.path.join(HERE, "out", ".cache"); os.makedirs(self.cache, exist_ok=True)
         self.footage = self.path(job.get("footage")) if job.get("footage") else None
         self._ph, self._shots = {}, {}
+        self.caps = job.get("caps", "Available homes")      # caps line on the cover and intros
     def path(self, p):
         if p.startswith("http"):
             dst = os.path.join(self.cache, hashlib.md5(p.encode()).hexdigest() + ".jpg")
@@ -137,7 +138,7 @@ def cover_frames(job, m):
     else: fr = m.clip(*cv["footage"], 1.0, SHADE_COVER, trim=0.0)
     for f in fr:
         c = f.copy(); c.paste(ICON, ICON_XY, ICON)
-        title_block(c, job["cover"].get("title_lines", [job["cover"]["title"]]), "Available homes")
+        title_block(c, job["cover"].get("title_lines", [job["cover"]["title"]]), m.caps)
         yield c
 
 # ------------------------------------------------------------------ suburb card
@@ -181,9 +182,9 @@ class Card:
         if a < 1: c = Image.blend(at(self.shot(i - 1), self.per + tl), c, a * a * (3 - 2 * a))
         c = c.copy(); c.paste(ICON, ICON_XY, ICON)
         if title:
-            if self.lines: title_block(c, self.lines, "Available homes")
-            elif a < 0.5: title_block(c, [self.titles[i - 1]], "Available homes", 1 - 2 * a, caps_alpha=1)
-            else: title_block(c, [self.titles[i]], "Available homes", min(1, 2 * a - 1) if a < 1 else 1, caps_alpha=1)
+            if self.lines: title_block(c, self.lines, self.m.caps)
+            elif a < 0.5: title_block(c, [self.titles[i - 1]], self.m.caps, 1 - 2 * a, caps_alpha=1)
+            else: title_block(c, [self.titles[i]], self.m.caps, min(1, 2 * a - 1) if a < 1 else 1, caps_alpha=1)
         return c
     def list_frame(self, t, title=True):
         n = len(self.homes)
@@ -212,7 +213,7 @@ class Card:
         a = t / FADE; e = a * a * (3 - 2 * a)
         c = Image.blend(self.intro_frame(self.intro_len - 1 / FPS, title=False), self.list_frame(0, title=False), e)
         c.paste(ICON, ICON_XY, ICON)
-        if a < 0.5: title_block(c, self.lines if self.lines else [self.titles[-1]], "Available homes", 1 - 2 * a)
+        if a < 0.5: title_block(c, self.lines if self.lines else [self.titles[-1]], self.m.caps, 1 - 2 * a)
         else: title_block(c, [self.homes[0]["street"]], self.homes[0]["suburb"], 2 * a - 1)
         return c
     def frame(self, t):
@@ -221,6 +222,35 @@ class Card:
         return self.list_frame(t - self.intro_len - FADE)
     def frames(self):
         for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)
+
+# ------------------------------------------------------------------ feature card
+_yf = np.linspace(0, 1, H)[:, None, None]
+SHADE_FEATURE = 0.97 - 0.55 * np.clip((_yf - 0.32) / 0.42, 0, 1)   # photo stays bright up top, dark under the words
+INFO_Y, INFO_STEP = LIST_Y + 6, 46
+
+class Feature:
+    """One home, full bleed: its photos dissolve into each other under a fixed title (address, suburb)
+    with info lines below (features, rent or price, inspection)."""
+    def __init__(self, card, m):
+        f = card["feature"]; self.m, self.f = m, f
+        self.shots, self.per = f["shots"], f.get("per", 1.8)
+        self.duration = self.per * len(self.shots) + XS
+    def shot(self, i):
+        a, b = self.shots[i][:2]; return self.m.clip(a, b, 1.0, SHADE_FEATURE, dur=self.per + XS)
+    def frame(self, t):
+        i = min(int(t // self.per), len(self.shots) - 1); tl = t - i * self.per
+        at = lambda fr, x: fr[min(int(x * FPS), len(fr) - 1)]
+        c = at(self.shot(i), tl)
+        a = tl / XS if (i > 0 and tl < XS) else 1.0
+        if a < 1: c = Image.blend(at(self.shot(i - 1), self.per + tl), c, a * a * (3 - 2 * a))
+        c = c.copy(); c.paste(ICON, ICON_XY, ICON)
+        title_block(c, [self.f["title"]], self.f["suburb"])
+        d = ImageDraw.Draw(c)
+        for k, ln in enumerate(self.f.get("lines", [])): tracked(d, (64, INFO_Y + k * INFO_STEP), ln.upper(), LABEL, WHITE, 5.0)
+        return c
+    def frames(self):
+        for f in range(round(self.duration * FPS)): yield self.frame(f / FPS)
+    def stills(self): return [self.frame(i * self.per + self.per / 2) for i in range(len(self.shots))]
 
 # ------------------------------------------------------------------ output
 def encode(frames, out):
@@ -236,7 +266,7 @@ def check(job):
     """Content rules: never a 0 in features, no listing twice, intro ends on the first home's suburb."""
     seen = set()
     for c in job["cards"]:
-        for h in c["homes"]:
+        for h in c.get("homes", []):
             k = (h["street"], h["suburb"]); assert k not in seen, f"duplicate listing: {h['street']}"; seen.add(k)
             assert not any(w == "0" for w in h.get("features", "").split()), f"zero in features: {h['street']}"
 
@@ -246,10 +276,11 @@ def main():
     job = json.load(open(a.job)); check(job); m = Media(a.job, job)
     name = os.path.splitext(os.path.basename(a.job))[0]
     out_dir = os.path.join(HERE, "out", name); os.makedirs(out_dir, exist_ok=True)
-    cards = [Card(c, m) for c in job["cards"]]
+    cards = [Feature(c, m) if "feature" in c else Card(c, m) for c in job["cards"]]
     if a.stills:
         shots = [next(iter(cover_frames(job, m)))]
         for c in cards:
+            if isinstance(c, Feature): shots += c.stills(); continue
             shots += [c.intro_frame(i * c.per + c.per / 2) for i in range(len(c.shots))] + [c.list_frame(0.2)]
         cols = 6; s = Image.new("RGB", (cols * 275, ((len(shots) + cols - 1) // cols) * 343), "white")
         for i, im in enumerate(shots): s.paste(im.resize((270, 338)), ((i % cols) * 275, (i // cols) * 343))
