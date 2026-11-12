@@ -1,0 +1,172 @@
+{
+ "name": "BYB Available Homes Carousel",
+ "story_step": 2.0,
+ "cover": {
+  "title": "Byron Bay",
+  "image": "footage/byb/lighthouse_sunset.jpg",
+  "x": 0.5,
+  "duration": 5.0
+ },
+ "cards": [
+  {
+   "name": "Byron Bay",
+   "intro": {
+    "titles": [
+     "Byron Bay"
+    ],
+    "shots": [
+     [
+      "footage/byb/cape_byron.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "108/116-118 Jonson Street",
+     "suburb": "Byron Bay",
+     "features": "2 BEDS   2 BATHS   1 CAR",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P3890/178779582611673387-rsd.jpg",
+     "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P3890/178779582808335547-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "28 Pacific Vista Drive",
+     "suburb": "Byron Bay",
+     "features": "4 BEDS   3 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10532/178902398018834315-rsd.jpg",
+     "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10532/178902398514333601-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "4/1-3 Sunrise Boulevard",
+     "suburb": "Byron Bay",
+     "features": "2 BEDS   1 BATH",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11360/photo/d/1793843039905329104629061.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11360/photo/d/1793843038065345887343603.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "Byron Hinterland",
+   "intro": {
+    "title_lines": [
+     "Byron Hinterland"
+    ],
+    "shots": [
+     [
+      "footage/byb/hinterland_sunset.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "684 Bangalow Road",
+     "suburb": "Talofa",
+     "features": "21 BEDS   20 BATHS   40 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10717/photo/d/178480284372056285.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10717/photo/d/178480294785283332.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "7 Booyong Road",
+     "suburb": "Clunes",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10429/1762990839288578031927330-rsd.jpg",
+     "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10429/1762990836349942085640127-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "443 Coorabell Road",
+     "suburb": "Coorabell",
+     "features": "5 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11278/photo/d/179024174492341866.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11278/photo/d/179023198198641618.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "9 Edward Place",
+     "suburb": "Knockrow",
+     "features": "8 BEDS   6 BATHS   4 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10786/photo/d/178278746668362163.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10786/photo/d/178278745293113420.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "769 Fernleigh Road",
+     "suburb": "Brooklet",
+     "features": "5 BEDS   4 BATHS   10 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10762/1771803146768822964313301-rsd.jpg",
+     "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10762/1771803146535435474551406-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "33-35 Main Street",
+     "suburb": "Clunes",
+     "features": "3163 SQM",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P9858/photo/d/173197072679953514.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P9858/photo/d/173197070632720003.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "20 Pioneers Crescent",
+     "suburb": "Bangalow",
+     "features": "4 BEDS   2 BATHS   4 CARS",
+     "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P9705/172620786026187728-rsd.jpg",
+     "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P9705/172620786186493322-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "296 Tyagarah Road",
+     "suburb": "Myocum",
+     "features": "3 BEDS   3 BATHS   3 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P9718/photo/d/178901845684490376.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P9718/photo/d/178901810738811469.jpg?wm=0",
+     "render": false
+    }
+   ]
+  },
+  {
+   "name": "Northern Rivers",
+   "intro": {
+    "title_lines": [
+     "Northern Rivers"
+    ],
+    "shots": [
+     [
+      "footage/byb/rural_outlook.jpg",
+      0.5
+     ]
+    ]
+   },
+   "homes": [
+    {
+     "street": "34a Deloraine Road",
+     "suburb": "Lismore Heights",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/178097610889922861.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/1780983623642650519672535.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "57 Kudgeree Avenue",
+     "suburb": "Cudgera Creek",
+     "features": "26587 SQM",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/178902462905522360.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/1789344935031242477062917.jpg?wm=0",
+     "render": false
+    },
+    {
+     "street": "510 Wilsons Creek Road",
+     "suburb": "Wilsons Creek",
+     "features": "9 BEDS   13 BATHS   10 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10526/photo/d/179271381356137717.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10526/photo/d/179271381371701362.jpg?wm=0",
+     "render": false
+    }
+   ]
+  }
+ ]
+}
