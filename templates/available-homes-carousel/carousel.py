@@ -98,6 +98,12 @@ class Media:
     def panel(self, home, z, t, window):
         """The top panel for a home t seconds into its window on screen: its "clip" (a short video, one shot,
         no titles) when it has one, slowed to fill the window if it is too short; otherwise its photo with push-in."""
+        if home.get("photo2") and not home.get("clip"):     # two photos: dissolve to the second halfway through
+            sw = (window - XF) / 2; second = dict(home, photo=home["photo2"])
+            z1 = ZOOM * max(0, min(1, t / (sw + XF))); z2 = ZOOM * max(0, min(1, (t - sw) / (window - sw)))
+            if t < sw: return self.photo(home, z1)
+            if t >= sw + XF: return self.photo(second, z2)
+            a = (t - sw) / XF; return Image.blend(self.photo(home, z1), self.photo(second, z2), a * a * (3 - 2 * a))
         if not home.get("clip"): return self.photo(home, z)
         key = home["clip"]
         if key not in self._ph:

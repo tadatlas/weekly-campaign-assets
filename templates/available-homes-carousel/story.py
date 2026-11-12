@@ -7,6 +7,8 @@ story grid (photo panel 1040px tall, Stone panel below; lists stop above the Ins
 Optional per-home "photo_story" (and "x_story") picks a different photo or crop for the taller story panel.
 Optional per-home "clip_story" plays a short video in the panel instead of the photo: one clean shot (no title
 cards, badges or people), cut from the home's property video. 1-3 seconds is enough; a short clip is slowed to fill.
+Optional per-home "photo2_story" adds a second photo that dissolves in halfway through the home's turn; set the
+job's "story_step" (seconds per home, e.g. 2.0) so each photo gets about a second.
 """
 import argparse, json, os, sys
 import numpy as np
@@ -36,6 +38,8 @@ def story_job(job):
         for h in c.get("homes", []):
             if "photo_story" in h: h["photo"] = h["photo_story"]
             if "clip_story" in h: h["clip"] = h["clip_story"]
+            if "photo2_story" in h: h["photo2"] = h["photo2_story"]
+    if "story_step" in job: cz.STEP = job["story_step"]      # longer per home when homes show two photos
     return job
 
 def main():

@@ -86,9 +86,63 @@ def key(h):  # A to Z by street name without the number; named and withheld list
     if not re.search(r"\d", s): return (1, s == AOR, s)
     return (0, re.sub(r"^(Villa\s+)?[\dA-Za-z/\-]*\d[\dA-Za-z/\-]*\s+", "", s), s)
 
+# Story version only: a second photo per home (from the listing on atlas.com.au), no graphics, pins, text or signs.
+PHOTO2 = {
+ "1P11132": "https://images.sales.reapit.com.au/26319/listing/1P11132/photo/d/178398984768250308.jpg",
+ "1P11241": "https://images.sales.reapit.com.au/26319/listing/1P11241/photo/d/178892212646825549.jpg?wm=0",
+ "1P11199": "https://images.sales.reapit.com.au/26319/listing/1P11199/photo/d/178658406718052571.jpg?wm=0",
+ "1P11380": "https://images.sales.reapit.com.au/26319/listing/1P11380/photo/d/179314605455907592.jpg?wm=0",
+ "1P11201": "https://images.sales.reapit.com.au/26319/listing/1P11201/photo/d/178944361744594588.jpg?wm=0",
+ "1P11326": "https://images.sales.reapit.com.au/26319/listing/1P11326/photo/d/179090475819711693.jpg?wm=0",
+ "1P11044": "https://images.sales.reapit.com.au/26319/listing/1P11044/photo/d/179091687541695533.jpg?wm=0",
+ "1P10828": "https://images.sales.reapit.com.au/26319/listing/1P10828/photo/d/178330222141059386.jpg?wm=0",
+ "1P11208": "https://images.sales.reapit.com.au/26319/listing/1P11208/photo/d/178588978627706012.jpg?wm=0",
+ "1P11172": "https://images.sales.reapit.com.au/26319/listing/1P11172/photo/d/179263817472239984.jpg?wm=0",
+ "1P11406": "https://images.sales.reapit.com.au/26319/listing/1P11406/photo/d/179358600433090344.jpg?wm=0",
+ "1P10964": "https://images.sales.reapit.com.au/26319/listing/1P10964/photo/d/177689698336930009.jpg?wm=0",
+ "1P11303": "https://images.sales.reapit.com.au/26319/listing/1P11303/photo/d/179187218322982074.jpg?wm=0",
+ "1P11154": "https://images.sales.reapit.com.au/26319/listing/1P11154/photo/d/178494257623092793.jpg?wm=0",
+ "1P10300": "https://images.sales.reapit.com.au/26319/listing/1P10300/photo/d/178936795207541336.jpg?wm=0",
+ "1P11311": "https://images.sales.reapit.com.au/26319/listing/1P11311/photo/d/179074396416660648.jpg?wm=0",
+ "1P10713": "https://images.sales.reapit.com.au/26319/listing/1P10713/photo/d/178770596155357329.jpg?wm=0",
+ "1P10917": "https://images.sales.reapit.com.au/26319/listing/1P10917/photo/d/178772297792212297.jpg?wm=0",
+ "1P10756": "https://images.sales.reapit.com.au/26319/listing/1P10756/photo/d/177914942140097618.jpg?wm=0",
+ "1P11374": "https://images.sales.reapit.com.au/26319/listing/1P11374/photo/d/179375552800820553.jpg?wm=0",
+ "1P11253": "https://images.sales.reapit.com.au/26319/listing/1P11253/photo/d/179254487588632051.jpg?wm=0",
+ "1P11055": "https://images.sales.reapit.com.au/26319/listing/1P11055/photo/d/178951578243881059.jpg?wm=0",
+ "1P11150": "https://images.sales.reapit.com.au/26319/listing/1P11150/photo/d/179031036473368497.jpg?wm=0",
+ "1P11136": "https://images.sales.reapit.com.au/26319/listing/1P11136/photo/d/179134961149930159.jpg?wm=0",
+ "1P11161": "https://images.sales.reapit.com.au/26319/listing/1P11161/photo/d/178899982536987337.jpg?wm=0",
+ "1P11214": "https://images.sales.reapit.com.au/26319/listing/1P11214/photo/d/178648891568288413.jpg?wm=0",
+ "1P11351": "https://images.sales.reapit.com.au/26319/listing/1P11351/photo/d/179212117495658199.jpg?wm=0",
+ "1P11020": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11020/177793645546366564-rsd.jpg",
+ "1P11169": "https://images.sales.reapit.com.au/26319/listing/1P11169/photo/d/178426420962907609.jpg?wm=0",
+ "1P11147": "https://images.sales.reapit.com.au/26319/listing/1P11147/photo/d/178426251964641788.jpg?wm=0",
+ "1P11290": "https://images.sales.reapit.com.au/26319/listing/1P11290/photo/d/179012125072590987.jpg?wm=0",
+ "1P11110": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11110/178364028636380550-rsd.jpg",
+ "1P11340": "https://images.sales.reapit.com.au/26319/listing/1P11340/photo/d/179184426742349374.jpg?wm=0",
+ "1P10579": "https://images.sales.reapit.com.au/26319/listing/1P10579/photo/d/179081571670694460.jpg?wm=0",
+ "1P11142": "https://images.sales.reapit.com.au/26319/listing/1P11142/photo/d/178407953134396002.jpg?wm=0",
+ "1P10875": "https://images.sales.reapit.com.au/26319/listing/1P10875/photo/d/178763570859716629.jpg?wm=0",
+ "1P10714": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10714/178487112498160518-rsd.jpg",
+ "1P10716": "https://images.sales.reapit.com.au/26319/listing/1P10716/photo/d/178478807441068097.jpg?wm=0",
+ "1P11392": "https://images.sales.reapit.com.au/26319/listing/1P11392/photo/d/179332198853239564.jpg?wm=0",
+ "1P11148": "https://images.sales.reapit.com.au/26319/listing/1P11148/photo/d/178401207551086147.jpg?wm=0",
+ "1P11219": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11219/178848498730223900-rsd.jpg",
+ "1P10576": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10576/177000387145736184-rsd.jpg",
+ "1P11018": "https://images.sales.reapit.com.au/26319/listing/1P11018/photo/d/178718813889376377.jpg?wm=0",
+ "1P10441": "https://images.sales.reapit.com.au/26319/listing/1P10441/photo/d/176066160438897808.jpg?wm=0",
+ "1P10513": "https://images.sales.reapit.com.au/26319/listing/1P10513/photo/d/176059311992337235.jpg?wm=0",
+ "1P11204": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P11204/178641274439167041-rsd.jpg",
+ "1P11356": "https://images.sales.reapit.com.au/26319/listing/1P11356/photo/d/179126599551357128.jpg?wm=0",
+ "1P11205": "https://images.sales.reapit.com.au/26319/listing/1P11205/photo/d/178702634230022126.jpg?wm=0",
+ "1P11210": "https://images.sales.reapit.com.au/26319/listing/1P11210/photo/d/178953057711948734.jpg?wm=0",
+ "1P11153": "https://images.sales.reapit.com.au/26319/listing/1P11153/photo/d/178720505750308099.jpg?wm=0",
+}
 homes = {}
 for r in R:
     homes.setdefault(r[2], []).append({"street": street(r), "suburb": r[2], "features": features(r), "photo": SECOND.get(r[0], r[7]), "render": False, "id": r[0]})
+    if r[0] in PHOTO2: homes[r[2]][-1]["photo2_story"] = PHOTO2[r[0]]
 F = "footage/sh/"
 GROUPS = [  # (card name, suburbs, intro shots per suburb in display order, title_lines)
     ("Bowral", ["Bowral"], {"Bowral": [F + "bowral_aerial.jpg", 0.5]}, None),
@@ -109,7 +163,7 @@ for name, subs, shots, lines in GROUPS:
         intro = {"titles": order, "shots": [shots[s] for s in order]}
     cards.append({"name": name, "intro": intro, "homes": hs})
 assert not homes, homes
-job = {"name": "SH Available Homes Carousel",
+job = {"name": "SH Available Homes Carousel", "story_step": 2.0,
        "cover": {"title": "Southern Highlands", "image": F + "rolling_green.jpg", "x": 0.5, "duration": 5.0},
        "cards": cards}
 print(sum(len(c["homes"]) for c in cards), "homes")
