@@ -33,13 +33,16 @@ LIST_Y, ROW_H, PER_COL = Y0 + 326, 66, 5
 PAGE_STEP = PER_COL * ROW_H + 60
 TOP_CLIP, BOT_CLIP = LIST_Y - 14, 1300
 STEP, XF, HOLD, ZOOM, SCROLL_T = 1.0, 0.3, 2.0, 0.05, 1.3
-PER_SINGLE, PER_MULTI, LINE = 1.2, 0.6, 92
+PER_SINGLE, PER_MULTI, LINE = 1.8, 1.2, 92
+XS = 0.4                               # dissolve between suburb shots
 FADE = 0.5                             # intro dissolves into the list; words swap out then in
 CROP = "crop=864:1080:528:0,scale=1080:1350:flags=lanczos"     # 16:9 footage to 4:5
 
 F = _fonts.ensure()
 HEAD = ImageFont.truetype(f"{F}/RhymesDisplay-Light.ttf", 84)
 FAKT_MED = ImageFont.truetype(f"{F}/Fakt-Medium.ttf", 28)
+LABEL = ImageFont.truetype(f"{F}/Fakt-SemiBold.ttf", 20)          # caps line: Fakt SemiBold, 0.25em tracking
+LABEL_DY = FAKT_MED.getbbox("H")[1] - LABEL.getbbox("H")[1]          # keep the caps' top where it was
 FAKT_XS = ImageFont.truetype(f"{F}/Fakt-Medium.ttf", 17)
 FAKT = ImageFont.truetype(f"{F}/Fakt-Normal.ttf", 29)
 ICON = Image.open(f"{HERE}/assets/brandmark_white.png").convert("RGBA").resize((78, 78), Image.LANCZOS)
@@ -67,7 +70,7 @@ def title_block(c, lines, caps, alpha=1.0):
     for k, ln in enumerate(lines):
         assert HEAD.getlength(ln) <= W - 128, f"too long for one line: {ln}"
         d.text((0, k * LINE), ln, font=HEAD, fill=WHITE)
-    tracked(d, (0, SUB_DY + LINE * (len(lines) - 1)), caps.upper(), FAKT_MED, WHITE, 4.2)
+    tracked(d, (0, SUB_DY + LABEL_DY + LINE * (len(lines) - 1)), caps.upper(), LABEL, WHITE, 5.0)
     if alpha < 1: l.putalpha(l.getchannel("A").point(lambda v: int(v * alpha)))
     c.paste(l, (64, HEAD_Y), l)
 
@@ -160,12 +163,22 @@ class Card:
             if t >= ts:
                 x = min(1.0, (t - ts) / SCROLL_T); v = (p - 1 + x * x * (3 - 2 * x)) * PAGE_STEP
         return v
+    def shot(self, i):
+        """Shot i's frames, long enough to cover its time on screen plus the dissolve out of it."""
+        a, b, slow = (self.shots[i] + [1.0])[:3]; need = self.per + XS
+        if isinstance(a, str): return self.m.clip(a, b, slow, dur=need)
+        return self.m.clip(a, b, max(slow, need / (b - a - 0.1)))
     def intro_frame(self, t, title=True):
-        i = min(int(t // self.per), len(self.shots) - 1)
-        a, b, slow = (self.shots[i] + [1.0])[:3]; fr = self.m.clip(a, b, slow, dur=self.per if isinstance(a, str) else None)
-        c = fr[min(int((t - i * self.per) * FPS), len(fr) - 1)].copy()
-        c.paste(ICON, ICON_XY, ICON)
-        if title: title_block(c, self.lines if self.lines else [self.titles[i]], "Available homes")
+        i = min(int(t // self.per), len(self.shots) - 1); tl = t - i * self.per
+        at = lambda fr, x: fr[min(int(x * FPS), len(fr) - 1)]
+        c = at(self.shot(i), tl)
+        a = tl / XS if (i > 0 and tl < XS) else 1.0
+        if a < 1: c = Image.blend(at(self.shot(i - 1), self.per + tl), c, a * a * (3 - 2 * a))
+        c = c.copy(); c.paste(ICON, ICON_XY, ICON)
+        if title:
+            if self.lines: title_block(c, self.lines, "Available homes")
+            elif a < 0.5: title_block(c, [self.titles[i - 1]], "Available homes", 1 - 2 * a)
+            else: title_block(c, [self.titles[i]], "Available homes", min(1, 2 * a - 1) if a < 1 else 1)
         return c
     def list_frame(self, t, title=True):
         n = len(self.homes)

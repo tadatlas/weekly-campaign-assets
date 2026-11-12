@@ -1,4 +1,4 @@
-"""Fetch the brand fonts (Rhymes Display Light, Fakt Normal/Medium) from the
+"""Fetch the brand fonts (Rhymes Display Light, Fakt Normal/Medium/SemiBold) from the
 atlas-app-fonts repo and convert them to TTF in ./fonts. Run once per machine."""
 import os, urllib.request
 from fontTools.ttLib import TTFont
@@ -9,6 +9,7 @@ FILES = {
     "RhymesDisplay-Light.ttf": "rhymes%20woff/Rhymes%20Display%20Light.woff",
     "Fakt-Normal.ttf": "Fakt%20WOFF/FaktTT-Normal.woff",
     "Fakt-Medium.ttf": "Fakt%20WOFF/FaktTT-Medium.woff",
+    "Fakt-SemiBold.ttf": "Fakt%20WOFF/FaktTT-SemiBold.woff",
 }
 def ensure():
     os.makedirs(OUT, exist_ok=True)
