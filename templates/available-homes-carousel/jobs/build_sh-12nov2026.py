@@ -98,7 +98,7 @@ GROUPS = [  # (card name, suburbs, intro shots per suburb in display order, titl
     ("Exeter, Sutton Forest, Wingello, Bundanoon", ["Exeter", "Sutton Forest", "Wingello", "Bundanoon"],
      {"Exeter": [F + "sheep_gate.jpg", 0.5], "Sutton Forest": [F + "still_water.jpg", 0.5], "Wingello": [F + "misty_pasture.jpg", 0.5], "Bundanoon": [F + "ranges_sunset.jpg", 1.0]}, None),
     ("Fitzroy Falls, Avoca", ["Fitzroy Falls", "Avoca"], {"Avoca": [F + "valley_mist.jpg", 0.5], "Fitzroy Falls": [F + "fitzroy_falls.jpg", 0.3]}, None),
-    ("Southern Tablelands & South Coast", ["Bungonia", "Kiama Heights"], {"x": [F + "pastel_sunset.jpg", 0.5]}, ["Southern Tablelands &", "South Coast"]),
+    ("Southern Tablelands & South Coast", ["Bungonia", "Kiama Heights"], {"x": [F + "pastel_sunset.jpg", 0.5]}, ["Southern Tablelands", "& South Coast"]),
 ]
 cards = []
 for name, subs, shots, lines in GROUPS:
