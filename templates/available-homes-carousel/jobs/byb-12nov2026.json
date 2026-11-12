@@ -4,7 +4,11 @@
  "footage": "footage/byb_clips.mp4",
  "footage_source": "Atlas iQ Lifestyle Gallery > Byron Bay lifestyle video collection",
  "cover": {
-  "title": "Byron Bay",
+  "title": "Byron Bay & Northern Rivers",
+  "title_lines": [
+   "Byron Bay &",
+   "Northern Rivers"
+  ],
   "footage": [
    6.6,
    9.3,
@@ -14,18 +18,8 @@
  },
  "cards": [
   {
-   "name": "Byron Bay",
-   "intro": {
-    "titles": [
-     "Byron Bay"
-    ],
-    "shots": [
-     [
-      "footage/byb/cape_byron.jpg",
-      0.5
-     ]
-    ]
-   },
+   "name": "Byron Bay & Northern Rivers",
+   "intro": null,
    "homes": [
     {
      "street": "108/116-118 Jonson Street",
@@ -50,23 +44,7 @@
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P11360/photo/d/1793843039905329104629061.jpg?wm=0",
      "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11360/photo/d/1793843038065345887343603.jpg?wm=0",
      "render": false
-    }
-   ]
-  },
-  {
-   "name": "Byron Hinterland",
-   "intro": {
-    "title_lines": [
-     "Byron Hinterland"
-    ],
-    "shots": [
-     [
-      "footage/byb/hinterland_sunset.jpg",
-      0.5
-     ]
-    ]
-   },
-   "homes": [
+    },
     {
      "street": "684 Bangalow Road",
      "suburb": "Talofa",
@@ -92,6 +70,14 @@
      "render": false
     },
     {
+     "street": "34a Deloraine Road",
+     "suburb": "Lismore Heights",
+     "features": "4 BEDS   2 BATHS   2 CARS",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/178097610889922861.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/1780983623642650519672535.jpg?wm=0",
+     "render": false
+    },
+    {
      "street": "9 Edward Place",
      "suburb": "Knockrow",
      "features": "8 BEDS   6 BATHS   4 CARS",
@@ -105,6 +91,14 @@
      "features": "5 BEDS   4 BATHS   10 CARS",
      "photo": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10762/1771803146768822964313301-rsd.jpg",
      "photo2_story": "https://agentboxcdn.com.au/clients-data/26319/public_html/media/lt/1/1P10762/1771803146535435474551406-rsd.jpg",
+     "render": false
+    },
+    {
+     "street": "57 Kudgeree Avenue",
+     "suburb": "Cudgera Creek",
+     "features": "26587 SQM",
+     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/178902462905522360.jpg?wm=0",
+     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/1789344935031242477062917.jpg?wm=0",
      "render": false
     },
     {
@@ -129,38 +123,6 @@
      "features": "3 BEDS   3 BATHS   3 CARS",
      "photo": "https://images.sales.reapit.com.au/26319/listing/1P9718/photo/d/178901845684490376.jpg?wm=0",
      "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P9718/photo/d/178901810738811469.jpg?wm=0",
-     "render": false
-    }
-   ]
-  },
-  {
-   "name": "Northern Rivers",
-   "intro": {
-    "title_lines": [
-     "Northern Rivers"
-    ],
-    "shots": [
-     [
-      "footage/byb/rural_outlook.jpg",
-      0.5
-     ]
-    ]
-   },
-   "homes": [
-    {
-     "street": "34a Deloraine Road",
-     "suburb": "Lismore Heights",
-     "features": "4 BEDS   2 BATHS   2 CARS",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/178097610889922861.jpg?wm=0",
-     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/1780983623642650519672535.jpg?wm=0",
-     "render": false
-    },
-    {
-     "street": "57 Kudgeree Avenue",
-     "suburb": "Cudgera Creek",
-     "features": "26587 SQM",
-     "photo": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/178902462905522360.jpg?wm=0",
-     "photo2_story": "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/1789344935031242477062917.jpg?wm=0",
      "render": false
     },
     {

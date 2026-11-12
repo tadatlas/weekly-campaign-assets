@@ -17,9 +17,7 @@ R = [  # (street, suburb, beds, baths, cars, land, hero, second, render label; r
  ["34a Deloraine Road", "Lismore Heights", 4, 2, 2, "542sqm", "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/178097610889922861.jpg?wm=0", "https://images.sales.reapit.com.au/26319/listing/1P10980/photo/d/1780983623642650519672535.jpg?wm=0", False],
  ["57 Kudgeree Avenue", "Cudgera Creek", 0, 0, 0, "26587sqm", "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/178902462905522360.jpg?wm=0", "https://images.sales.reapit.com.au/26319/listing/1P11250/photo/d/1789344935031242477062917.jpg?wm=0", False],
 ]
-GROUPS = [("Byron Bay", ["Byron Bay"], "footage/byb/cape_byron.jpg", 0.5, None),
-          ("Byron Hinterland", ["Coorabell", "Knockrow", "Myocum", "Talofa", "Bangalow", "Clunes", "Brooklet"], "footage/byb/hinterland_sunset.jpg", 0.5, ["Byron Hinterland"]),
-          ("Northern Rivers", ["Wilsons Creek", "Lismore Heights", "Cudgera Creek"], "footage/byb/rural_outlook.jpg", 0.5, ["Northern Rivers"])]
+# One list after the cover: Byron Bay first, then the rest of the region. The cover names the region, so no suburb intros.
 def plural(n, w): return f"{n} {w}{'' if n == 1 else 'S'}"
 def land(s):
     m = re.match(r"([\d.]+)(sqm|acre|hectare)", s or "")
@@ -30,14 +28,12 @@ def features(r):
     parts = [plural(n, w) for n, w in ((r[2], "BED"), (r[3], "BATH"), (r[4], "CAR")) if n]
     return "   ".join(parts) if parts else land(r[5])
 def key(h): return re.sub(r"^[\dA-Za-z/\-]*\d[\dA-Za-z/\-]*\s+", "", h["street"])
-cards = []
-for name, subs, img, x, lines in GROUPS:
-    hs = sorted([{"street": r[0], "suburb": r[1], "features": features(r), "photo": r[6], "photo2_story": r[7], "render": r[8]} for r in R if r[1] in subs], key=key)
-    intro = {"title_lines": lines, "shots": [[img, x]]} if lines else {"titles": [name], "shots": [[img, x]]}
-    cards.append({"name": name, "intro": intro, "homes": hs})
+hs = sorted([{"street": r[0], "suburb": r[1], "features": features(r), "photo": r[6], "photo2_story": r[7], "render": r[8]} for r in R],
+            key=lambda h: (h["suburb"] != "Byron Bay", key(h)))
+cards = [{"name": "Byron Bay & Northern Rivers", "intro": None, "homes": hs}]
 assert sum(len(c["homes"]) for c in cards) == len(R)
 job = {"name": "BYB Available Homes Carousel", "story_step": 2.0,
        "footage": "footage/byb_clips.mp4", "footage_source": "Atlas iQ Lifestyle Gallery > Byron Bay lifestyle video collection",
-       "cover": {"title": "Byron Bay", "footage": [6.6, 9.3, 1.5], "shift": -170}, "cards": cards}
+       "cover": {"title": "Byron Bay & Northern Rivers", "title_lines": ["Byron Bay &", "Northern Rivers"], "footage": [6.6, 9.3, 1.5], "shift": -170}, "cards": cards}
 json.dump(job, open("/home/claude/weekly-campaign-assets/templates/available-homes-carousel/jobs/byb-12nov2026.json", "w"), indent=1)
 for c in cards: print(c["name"], [h["street"] for h in c["homes"]])
