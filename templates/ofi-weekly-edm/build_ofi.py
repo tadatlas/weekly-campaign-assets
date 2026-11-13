@@ -156,7 +156,10 @@ def fill(tpl, p, region):
     href = utm(p["url"], REG_SLUG[region], p["pid"])
     return (tpl.replace("{HREF}", href).replace("{IMG}", p["img"])
                .replace("{ALT}", p["alt"].replace('"', ""))
-               .replace("{STREET}", street).replace("{SUBURB}", suburb)
+               # the street links to the listing: Gmail never auto-links text already inside a link, so it can't
+               # fold the street + suburb + specs into one "address" link (which hid the copy on Gmail mobile)
+               .replace("{STREET}", f'<a href="{href}" target="_blank" class="ofi-street" style="color: #1e1e1e; text-decoration: none">{street}</a>')
+               .replace("{SUBURB}", suburb)
                .replace("{SPEC}", p["spec"])
                .replace("{TIME}", f'<span class="dtl">{time}</span>'))
 
@@ -410,6 +413,7 @@ LP2_MOBILE = """@media only screen and (max-width:600px) {
  .es-content-body td.ofi-card-gap { display: none !important }
  .es-content-body table.ofi-pair { table-layout: fixed !important }
  .es-content-body td.ofi-card p { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important }
+ .es-content-body td.ofi-card p a.ofi-street { font-size: inherit !important; line-height: inherit !important; color: #1e1e1e !important; text-decoration: none !important }
 }
 @media only screen and (max-width:374px) {
  .es-content-body td.lp2-thumb, .es-content-body td.lp2-row td.lp2-gap { display: none !important }
@@ -606,6 +610,11 @@ def gmail_safe_style_blocks(css_list):
     for b in out:
         assert len(b.encode()) <= GMAIL_BLOCK + 100, len(b.encode())
     return out
+
+# footer logo had an empty alt
+new_body, na = re.subn(r'(<img\b[^>]*?)alt=""([^>]*atlas_logo_combined2\.png)', r'\1alt="Atlas"\2', new_body)
+new_body, nb = re.subn(r'(<img\b[^>]*atlas_logo_combined2\.png"[^>]*?)alt=""', r'\1alt="Atlas"', new_body)
+assert 'alt=""' not in new_body, "image without alt text"
 
 STYLE_BLOCKS = "\n".join(gmail_safe_style_blocks([re.sub(r"</?style[^>]*>", "", x) for x in styles]))
 # inline CSS variables (Stripo dark-mode layer) can make Gmail discard the style attribute
