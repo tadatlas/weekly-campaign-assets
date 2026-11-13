@@ -517,6 +517,101 @@ def brandify(html):
 new_body = brandify(new_body)
 styles = [brandify(x) for x in styles]
 
+# ---------- Gmail-safe CSS ----------
+# The Gmail apps drop a whole <style> block when it is over ~16 KB or contains a
+# selector they don't support (attribute selectors like a[x-apple-data-detectors],
+# ids, the * wildcard). Stripo's CSS was one 43 KB block, so on Gmail mobile every
+# mobile rule was lost and the desktop layout showed, shrunk. Here the CSS is
+# de-duplicated, stripped of unsupported selectors, and split into blocks under
+# 15 KB. Rules Gmail can't read (Apple/Samsung fixes) go in a block of their own,
+# so Gmail can drop that block without losing the rest.
+GMAIL_BLOCK = 15000
+
+def _statements(css):
+    """split CSS into top-level statements: ('rule', sel, body) or ('at', prelude, inner)"""
+    out, i, n = [], 0, len(css)
+    while i < n:
+        j = css.find("{", i)
+        if j < 0:
+            break
+        prelude = css[i:j].strip()
+        depth, k = 1, j + 1
+        while depth and k < n:
+            depth += {"{": 1, "}": -1}.get(css[k], 0)
+            k += 1
+        inner = css[j + 1:k - 1]
+        out.append(("at", prelude, inner) if prelude.startswith("@") else ("rule", prelude, inner))
+        i = k
+    return out
+
+def _gmail_ok(sel):
+    return not re.search(r"\[|#|(^|\s)\*(\s|$)|\s\*$", sel)
+
+def _min(x):
+    return re.sub(r"\s*([{};:,])\s*", r"\1", re.sub(r"\s+", " ", x)).strip()
+
+def gmail_safe_style_blocks(css_list):
+    css = "\n".join(re.sub(r"/\*.*?\*/", "", c, flags=re.S) for c in css_list)
+    safe, other, seen = [], [], set()
+    def take(sel, body, media=None):
+        sels = [x.strip() for x in sel.split(",") if x.strip()]
+        # "X *" (everything inside X) isn't supported by Gmail: name the children it covers instead
+        sels = [y for x in sels for y in ([x[:-1].rstrip() + " " + t for t in ("a", "span", "strong")]
+                                          if re.fullmatch(r".+\s\*", x) else [x])]
+        ok = [x for x in sels if _gmail_ok(x)]
+        bad = [x for x in sels if not _gmail_ok(x) and not re.fullmatch(r".*\s\*", x) and x != "*"]
+        body = _min(body)
+        for group, dest in ((ok, safe), (bad, other)):
+            if group:
+                key = (media, ",".join(group), body)
+                if key not in seen:
+                    seen.add(key); dest.append((media, ",".join(group) + "{" + body + "}"))
+    for kind, pre, inner in _statements(css):
+        if kind == "rule":
+            take(pre, inner)
+        elif pre.startswith("@media"):
+            for k2, p2, i2 in _statements(inner):
+                if k2 == "rule":
+                    take(p2, i2, _min(pre))
+        else:                       # @font-face etc. stay as they are
+            other.append((None, _min(pre) + "{" + _min(inner) + "}"))
+    def pack(items):
+        blocks, cur, cur_media, size = [], [], None, 0
+        def flush():
+            nonlocal cur, cur_media, size
+            if cur:
+                txt = "".join(cur)
+                blocks.append(txt if cur_media is None else cur_media + "{" + txt + "}")
+            cur, size = [], 0
+        for media, rule in items:
+            extra = len(rule) + (len(media) + 2 if media and media != cur_media else 0)
+            if media != cur_media or size + extra > GMAIL_BLOCK - 200:
+                # group consecutive rules of the same media query; start a new chunk when full
+                if media != cur_media or size + extra > GMAIL_BLOCK - 200:
+                    flush()
+                cur_media = media
+            cur.append(rule); size += len(rule)
+        flush()
+        # merge small neighbouring chunks into blocks under the limit
+        merged, buf = [], ""
+        for b in blocks:
+            if len((buf + b).encode()) > GMAIL_BLOCK:
+                merged.append(buf); buf = ""
+            buf += b
+        if buf:
+            merged.append(buf)
+        return merged
+    out = [f'<style type="text/css">{b}</style>' for b in pack(safe)]
+    out += [f'<style type="text/css">{b}</style>' for b in pack(other)]
+    for b in out:
+        assert len(b.encode()) <= GMAIL_BLOCK + 100, len(b.encode())
+    return out
+
+STYLE_BLOCKS = "\n".join(gmail_safe_style_blocks([re.sub(r"</?style[^>]*>", "", x) for x in styles]))
+# inline CSS variables (Stripo dark-mode layer) can make Gmail discard the style attribute
+new_body = re.sub(r"background-image:\s*none,\s*var\(--[^)]*\);?\s*", "", new_body)
+assert "var(--" not in new_body
+
 doc = f"""<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
@@ -526,9 +621,7 @@ doc = f"""<!DOCTYPE html>
 <meta name="x-apple-disable-message-reformatting" />
 <title>{TITLE_DATE} Weekly OFI Email</title>
 {FONT_CSS}
-{styles[0]}
-{styles[1]}
-{styles[2]}
+{STYLE_BLOCKS}
 </head>
 <body class="body" style="width:100%;height:100%;padding:0;Margin:0">
 {new_body}
