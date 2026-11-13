@@ -198,96 +198,130 @@ LNS_SEC = lns_head2 + build_rows(data["LNS"], "LNS") + lns_tail
 SH_SEC = sh_head2 + build_rows(data["STH"], "STH") + sh_tail
 BYB_SEC = byb_head2 + build_rows(data["BYB"], "BYB") + byb_tail
 
-# ---------- 4. title band + launchpad from the tiles segment ----------
+# ---------- 4. top section: brand header + region list (Figma "OFI template" 15:48 desktop, 37:3 mobile) ----------
 t0 = seg["tiles"]
 cb = t0.find('class="es-content-body"')
 first_tr = t0.find("<tr>", t0.find(">", cb))
 open0 = t0[:first_tr]
-title_tr = t0[first_tr:tr_block(t0, first_tr)]
-assert "Plan your Saturday" in title_tr
-
 close0 = lns_tail  # same closing structure for every es-content table
 
-# title band (light sand, sits directly above LNS)
-band = paint(open0, LIGHT_SAND) + title_tr + close0
-# tighten: band keeps 60px top; LNS header drops from 60px to 30px top
-LNS_SEC = LNS_SEC.replace("padding: 60px 30px 15px", "padding: 30px 30px 15px", 1)
+INK = "#1e1e1e"
+HEADER_BG = "#20211f"
+ALL_BG = "#ebe4df"
+# Rhymes Light is registered at weight 400, Fakt Normal at 400 and Fakt Medium at 500
+# (see FONT_CSS). Every stack falls back to Times / Helvetica.
+RHYMES = "'Rhymes Display', 'times new roman', times, baskerville, georgia, serif"
+FAKT = "Fakt, helvetica, 'helvetica neue', arial, verdana, sans-serif"
+LOGO = ("https://eupsscf.stripocdn.email/content/guids/CABINET_399e3ce7c0233178f8ffdcf5f73b4ebe7cc6aec5daeb767c90c6e81e04368330"
+        "/images/atlas_logo_combined2.png")
+NT = 'role="presentation" cellpadding="0" cellspacing="0" border="0" class="es-table-not-adapt"'
+NTW = 'role="presentation" cellpadding="0" cellspacing="0" border="0"'  # full-width: Stripo keeps these at 100%
+TBL = "border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt"
 
-# launchpad
-caps_p = re.search(r'<p class="es-text-mobile-size-11"[^>]*>', title_tr).group(0)
-title_p = re.search(r'<p class="es-m-lh-12 es-text-mobile-size-26"[^>]*>', title_tr).group(0)
-lp_title_tr = (title_tr.replace(">OPEN INSPECTIONS BY REGION<", ">BROWSE BY REGION<")
-               .replace(">Plan your Saturday<",
-                        '><span class="dtl">Open this Saturday,</span><'))
-SUB_P = ('<p class="lp-sub" style="mso-line-height-rule: exactly; font-family: \'times new roman\', times, baskerville, georgia, serif; '
-         'line-height: 26px; letter-spacing: 0; font-weight: normal; color: #5e5e5e; font-size: 22px; Margin: 0">'
-         '<span class="dtl">and available by appointment.</span></p>')
-lp_title_tr = lp_title_tr.replace('Open this Saturday,</span></p>', 'Open this Saturday,</span></p>' + SUB_P, 1)
-assert SUB_P in lp_title_tr
+def fakt_p(text, cls, size, color=INK, weight=400, track="1px", lh=None, align="left"):
+    lh = lh or f"{round(size * 1.5)}px"
+    return (f'<p class="{cls}" style="Margin: 0; mso-line-height-rule: exactly; font-family: {FAKT}; '
+            f'font-size: {size}px; line-height: {lh}; letter-spacing: {track}; font-weight: {weight}; '
+            f'font-style: normal; text-transform: uppercase; color: {color}; text-align: {align}">{text}</p>')
 
-name_p_m = re.search(r'<p class="es-text-mobile-size-18"[^>]*>', lns_head)
-assert name_p_m
-NAME_P = name_p_m.group(0)
+def rhymes_p(text, cls, size, track="0"):
+    return (f'<p class="{cls}" style="Margin: 0; mso-line-height-rule: exactly; font-family: {RHYMES}; '
+            f'font-size: {size}px; line-height: {round(size * 1.15)}px; letter-spacing: {track}; '
+            f'font-weight: 400; font-style: normal; color: {INK}">{text}</p>')
 
-btn_m = re.search(r'<span class="es-button-border".*?</span>', lns_head, re.S)
-assert btn_m
-BTN = btn_m.group(0)
+def ulink(text, href):
+    """Fakt caps link with the underline drawn as a cell border (Outlook ignores borders on <a>)."""
+    return (f'<td class="lp2-u" style="padding: 0 0 1px; Margin: 0; border-bottom: 1px solid {INK}; white-space: nowrap">'
+            f'<a href="{href}" target="_blank" class="lp2-link" style="mso-line-height-rule: exactly; '
+            f'font-family: {FAKT}; font-size: 14px; line-height: 21px; letter-spacing: 1px; font-weight: 400; '
+            f'text-transform: uppercase; text-decoration: none; color: {INK}; white-space: nowrap">{text}</a></td>')
 
-def make_btn(text, href):
-    b = re.sub(r'href="[^"]*"', f'href="{href}"', BTN, count=1)
-    return re.sub(r">\s*VIEW REGION\s*</a>", f"> {text}\n</a>", b)
+def link_pair(h1, h2):
+    return (f'<table {NT} style="{TBL}"><tr>{ulink("OPEN HOMES", h1)}'
+            f'<td class="lp2-lgap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+            f'{ulink("BY APPOINTMENT", h2)}</tr></table>')
 
-IMG_TR_L = re.search(r"<tr><td align=\"center\".*?</tr>", left_raw.replace("\n", "\u0001"), re.S)
-# simpler: rebuild tile inner rows from scratch using card snippets
-img_a_l = re.search(r'<a href[^>]*>\s*<img[^>]*/>\s*</a>', left_raw, re.S).group(0)
-img_a_r = re.search(r'<a href[^>]*>\s*<img[^>]*/>\s*</a>', right_raw, re.S).group(0)
-gap15 = '<tr><td align="center" height="15" style="padding: 0; Margin: 0"></td></tr>'
-gap10 = '<tr><td align="center" height="10" style="padding: 0; Margin: 0"></td></tr>'
+# -- brand header: logo left, OPEN HOMES / SATURDAY 14 NOVEMBER right --
+hdr_i = head_part.find('class="es-module-4556')
+assert hdr_i > 0, "brand header cell not found"
+hdr_tr = head_part.rfind("<tr>", 0, hdr_i)
+hdr_end = tr_block(head_part, hdr_tr)
+assert "THIS WEEKEND" in head_part[hdr_tr:hdr_end]
+SAT_LABEL = f"SATURDAY {SAT.day} {SAT.strftime('%B').upper()}"
+HEADER_TR = (
+    f'<tr><td align="left" bgcolor="{HEADER_BG}" class="lp2-hdr" style="Margin: 0; background-color: {HEADER_BG}; padding: 23px 30px">'
+    f'<table {NTW} width="100%" style="{TBL}; width: 100%"><tr>'
+    f'<td align="left" valign="middle" style="padding: 0; Margin: 0; font-size: 0; line-height: 0">'
+    f'<img src="{LOGO}" width="140" height="28" alt="Atlas" style="display: block; border: 0; outline: none; text-decoration: none; width: 140px; height: 28px; font-size: 14px; color: #ffffff" /></td>'
+    f'<td align="right" valign="middle" style="padding: 0; Margin: 0">'
+    + fakt_p("OPEN HOMES", "lp2-hdr-t", 14, "#ffffff", align="right")
+    + fakt_p(f'<span class="dtl">{SAT_LABEL}</span>', "lp2-hdr-t", 14, "#ffffff", align="right")
+    + '</td></tr></table></td></tr>')
+head_part = head_part[:hdr_tr] + HEADER_TR + head_part[hdr_end:]
 
-def tile_cell(base_chunk, img_a, img_url, alt, name, btn1, btn2):
-    pt = base_chunk.find('role="presentation"')
-    open_end = base_chunk.find(">", base_chunk.rfind("<table", 0, pt)) + 1
-    close = base_chunk.find("</table>", open_end)
-    a = re.sub(r'href="[^"]*"', 'href="{H}"', img_a, count=1)
-    a = re.sub(r'src="[^"]*"', f'src="{img_url}"', a, count=1)
-    a = re.sub(r'alt="[^"]*"', f'alt="{alt}"', a, count=1)
-    inner = (f'<tr><td align="center" style="padding: 0; Margin: 0; font-size: 0">{a}</td></tr>'
-             + gap15
-             + f'<tr><td align="left" esd-text="true" class="es-m-text esd-text" style="padding: 0; Margin: 0">{NAME_P}{name}</p></td></tr>'
-             + gap10
-             + f'<tr><td align="left" style="padding: 0; Margin: 0" class="lp-links esd-text">{btn1}&nbsp;&nbsp;&nbsp;&nbsp;{btn2}</td></tr>')
-    return base_chunk[:open_end] + inner + base_chunk[close:]
+# -- region list --
+THUMB = {"LNS": "lns", "STH": "sh", "BYB": "byb"}
+REGION_NAME = {"LNS": "Lower North Shore", "STH": "Southern Highlands", "BYB": "Byron Bay"}
 
-def tile(region_key, side):
-    base = left_raw if side == "l" else right_raw
-    img_a = img_a_l if side == "l" else img_a_r
-    if region_key == "ALL":
-        name = "All regions"
-        img_url = f"{CDN}/tile-all.jpg"
-        h_img = utm(ALL_INSPECT, "all_regions", "tile_image")
-        b1 = make_btn("OPEN HOMES", utm(ALL_INSPECT, "all_regions", "open_homes"))
-        b2 = make_btn("BY APPOINTMENT", utm(ALL_APPT, "all_regions", "by_appointment"))
-    else:
-        slug = REG_SLUG[region_key]
-        name = {"LNS": "Lower North Shore", "STH": "Southern Highlands", "BYB": "Byron Bay"}[region_key]
-        img_url = f"{CDN}/tile-{region_key.lower() if region_key != 'STH' else 'sh'}.jpg"
-        h_img = utm(OFFICE[region_key], slug, "tile_image")
-        b1 = make_btn("OPEN HOMES", utm(INSPECT[region_key], slug, "open_homes"))
-        b2 = make_btn("BY APPOINTMENT", utm(OFFICE[region_key], slug, "by_appointment"))
-    c = tile_cell(base, img_a, img_url, name, name, b1, b2)
-    return c.replace("{H}", h_img)
+def region_row(key):
+    slug = REG_SLUG[key]
+    img = f"{CDN}/thumb-{THUMB[key]}.jpg"
+    h_img = utm(OFFICE[key], slug, "tile_image")
+    return (
+        f'<tr><td class="lp2-row" style="padding: 20px 0; Margin: 0">'
+        f'<table {NTW} width="100%" style="{TBL}; width: 100%"><tr>'
+        f'<td class="lp2-thumb" width="144" valign="middle" style="width: 144px; padding: 0; Margin: 0; font-size: 0; line-height: 0">'
+        f'<a href="{h_img}" target="_blank"><img src="{img}" width="144" height="72" alt="{REGION_NAME[key]}" class="lp2-img" '
+        f'style="display: block; border: 0; outline: none; text-decoration: none; width: 144px; height: 72px" /></a></td>'
+        f'<td class="lp2-gap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+        f'<td valign="middle" style="padding: 0; Margin: 0">'
+        + rhymes_p(REGION_NAME[key], "lp2-name", 23)
+        + f'<table {NT} style="{TBL}"><tr><td class="lp2-ngap" height="14" style="height: 14px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr></table>'
+        + link_pair(utm(INSPECT[key], slug, "open_homes"), utm(OFFICE[key], slug, "by_appointment"))
+        + '</td></tr></table></td></tr>')
 
-def tile_row(k1, k2, last=False):
-    row = tile(k1, "l") + tile(k2, "r")
-    # wrap in the card-row outer structure: reuse ROW's outer skeleton by swapping cells
-    outer = ROW.split(SPLITTER)[0]
-    # ROW = left_raw + right_raw, and tile() already returns full left/right chunks
-    return last_variant(row) if last else row
+LIST_TR = (
+    f'<tr><td align="left" class="lp2-pad" style="padding: 40px 30px 20px; Margin: 0">'
+    + fakt_p("OPEN INSPECTIONS BY REGION", "lp2-eyebrow", 10, weight=500, track="1.5px", lh="14px")
+    + f'<table {NT} style="{TBL}"><tr><td height="12" style="height: 12px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr></table>'
+    + rhymes_p("Plan your Saturday", "lp2-title", 36, "-0.7px")
+    + f'<table {NTW} width="100%" style="{TBL}; width: 100%; Margin-top: 20px">'
+    + region_row("LNS") + region_row("STH") + region_row("BYB")
+    + '</table></td></tr>')
 
-lp = (paint(open0, "#ffffff") + lp_title_tr
-      + tile_row("LNS", "STH")
-      + tile_row("BYB", "ALL", last=True)
-      + close0)
+ALL_TR = (
+    f'<tr><td align="left" bgcolor="{ALL_BG}" class="lp2-all" style="background-color: {ALL_BG}; padding: 10px 30px; Margin: 0">'
+    f'<table {NT.replace("es-table-not-adapt", "es-table-not-adapt lp2-all-in")} style="{TBL}; Margin: 0"><tr>'
+    f'<td class="lp2-all-lbl" width="144" height="36" align="center" valign="middle" style="width: 144px; height: 36px; padding: 0; Margin: 0; white-space: nowrap">'
+    + fakt_p("ALL REGIONS", "lp2-all-t", 14, align="center")
+    + f'</td><td class="lp2-gap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+    f'<td valign="middle" style="padding: 0; Margin: 0">'
+    + link_pair(utm(ALL_INSPECT, "all_regions", "open_homes"), utm(ALL_APPT, "all_regions", "by_appointment"))
+    + '</td></tr></table></td></tr>')
+
+lp = paint(open0, "#ffffff") + LIST_TR + ALL_TR + close0
+
+# Mobile sizes from the 375px frame (37:3). Selectors are scoped to beat Stripo's
+# generic ".es-content-body p / a { font-size: 14px !important }" and "p, a { line-height: 150% }".
+LP2_MOBILE = """@media only screen and (max-width:600px) {
+ .es-header-body td.lp2-hdr { padding: 23px 20px !important }
+ .es-header-body p.lp2-hdr-t { font-size: 12px !important; line-height: 18px !important }
+ .es-content-body td.lp2-pad { padding: 32px 20px 24px !important }
+ .es-content-body p.lp2-title { font-size: 32px !important; line-height: 37px !important }
+ .es-content-body p.lp2-eyebrow { font-size: 10px !important; line-height: 14px !important }
+ .es-content-body td.lp2-row { padding: 16px 0 !important }
+ .es-content-body td.lp2-thumb { width: 96px !important }
+ .es-content-body img.lp2-img { width: 96px !important; height: 48px !important }
+ .es-content-body td.lp2-gap { width: 16px !important }
+ .es-content-body p.lp2-name { font-size: 19px !important; line-height: 22px !important }
+ .es-content-body td.lp2-ngap { height: 5px !important }
+ .es-content-body a.lp2-link { font-size: 12px !important; line-height: 18px !important }
+ .es-content-body td.lp2-lgap { width: 20px !important }
+ .es-content-body td.lp2-all { padding: 4px 20px !important }
+ .es-content-body table.lp2-all-in { Margin: 0 auto !important }
+ .es-content-body td.lp2-all-lbl { width: auto !important; height: 44px !important }
+ .es-content-body p.lp2-all-t { font-size: 12px !important; line-height: 18px !important; white-space: nowrap !important }
+}"""
 
 # ---------- 5. off-market ----------
 offm = swap_lt(seg["offm"], utm(OFFMARKET, "all_regions", "offmarket_register"))
@@ -313,24 +347,13 @@ assert "unsubscribe/2" not in foot and "_t.e.s.t_" not in foot
 
 # ---------- 7. assemble ----------
 # foot_part = dark Atlas footer (inside wrapper) + wrapper close + AC compliance footer
-new_body = head_part + lp + band + LNS_SEC + SH_SEC + BYB_SEC + offm + foot
+new_body = head_part + lp + LNS_SEC + SH_SEC + BYB_SEC + offm + foot
 
 big = styles[-1] if ".es-" in styles[-1] else None
 assert big and "@media" in big
 styles[-1] = styles[-1].replace("@media", "@media only screen and (max-width:600px) { .ofi-heading-wrap { white-space: normal !important } }\n@media", 1)
-# launchpad underlined links: give module 1072 the same mobile override the
-# region modules have, or the generic mobile button rule stretches the underline
-pat = re.compile(r"\.es-module-4629\s+a\.es-button\.es-button-8305\s*\{[^}]*\}")
-hits = pat.findall(styles[-1])
-assert hits, "scoped 8305 override not found"
-styles[-1] = pat.sub(lambda mm: mm.group(0) + "\n" + re.sub(r"\.es-module-4629\s+", ".lp-links ", mm.group(0)), styles[-1])
-
-# launchpad sub-line smaller on mobile too
-styles[-1] = pat.sub(lambda mm: mm.group(0), styles[-1])  # no-op keep
-MOB_SUB = ".lp-sub { font-size: 19px !important; line-height: 24px !important }"
-pm = re.compile(r"(\.lp-links a\.es-button\.es-button-8305[^}]*\})")
-assert pm.search(styles[-1])
-styles[-1] = pm.sub(lambda mm: mm.group(1) + "\n" + MOB_SUB, styles[-1], count=1)
+# top section mobile sizes
+styles[-1] = styles[-1].replace("@media", LP2_MOBILE + "\n@media", 1)
 
 # neutralise auto-detected date/time links (Outlook iOS, Apple Mail turn them blue)
 DTL = (".dtl a, .dtl a:link, .dtl a:visited, a[x-apple-data-detectors] "
@@ -349,14 +372,17 @@ FONT_CSS = f"""<style type="text/css">
 @font-face {{ font-family: 'Fakt'; font-style: normal; font-weight: 400;
   src: url('{FCDN}/Fakt%20WOFF/FaktTT-Normal.woff2') format('woff2'),
        url('{FCDN}/Fakt%20WOFF/FaktTT-Normal.woff') format('woff'); }}
+@font-face {{ font-family: 'Fakt'; font-style: normal; font-weight: 500;
+  src: url('{FCDN}/Fakt%20WOFF/FaktTT-Medium.woff2') format('woff2'),
+       url('{FCDN}/Fakt%20WOFF/FaktTT-Medium.woff') format('woff'); }}
 @font-face {{ font-family: 'Fakt'; font-style: normal; font-weight: 700;
   src: url('{FCDN}/Fakt%20WOFF/FaktTT-Medium.woff2') format('woff2'),
        url('{FCDN}/Fakt%20WOFF/FaktTT-Medium.woff') format('woff'); }}
 </style>"""
 
 def brandify(html):
-    html = html.replace("'times new roman', times, baskerville, georgia, serif",
-                        "'Rhymes Display', 'times new roman', times, baskerville, georgia, serif")
+    html = re.sub(r"(?<!'Rhymes Display', )'times new roman', times, baskerville, georgia, serif",
+                  "'Rhymes Display', 'times new roman', times, baskerville, georgia, serif", html)
     html = re.sub(r"(?<!Fakt, )helvetica, 'helvetica neue', arial, verdana,",
                   "Fakt, helvetica, 'helvetica neue', arial, verdana,", html)
     return html
@@ -390,7 +416,8 @@ assert "lt.php" not in doc, "tracking link left behind"
 N = sum(len(data[k]) for k in ("LNS", "STH", "BYB"))
 pids = re.findall(r"utm_content=(1p\d+)", doc)
 assert len(set(pids)) == N, (len(set(pids)), N)
-for must in ["Plan your Saturday", "BROWSE BY REGION", "hq.atlas.com.au/offmarket", "Open this Saturday,"]:
+for must in ["Plan your Saturday", "OPEN INSPECTIONS BY REGION", "ALL REGIONS", "hq.atlas.com.au/offmarket",
+             f"SATURDAY {SAT.day} {SAT.strftime('%B').upper()}", "thumb-lns.jpg", "thumb-sh.jpg", "thumb-byb.jpg"]:
     assert must in doc, must
 for k in ("LNS", "STH", "BYB"):
     for p in data[k]:
