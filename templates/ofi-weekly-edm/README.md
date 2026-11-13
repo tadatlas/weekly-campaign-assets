@@ -16,13 +16,24 @@ The Saturday open-homes email for Lower North Shore, Southern Highlands and Byro
 
 ## Locked design
 
-- **Top section** (Figma `OFI template`, frames 15:48 desktop and 37:3 mobile):
-  - **Header:** dark #20211f, 88px high. The Atlas logo at 140 × 28 sits on the left. On the right are two Fakt Normal caps lines, OPEN HOMES and SATURDAY 14 NOVEMBER, white, 14px with 1px tracking (12px on mobile).
-  - **Region list** (white): a Fakt Medium 10px caps eyebrow, "OPEN INSPECTIONS BY REGION", then "Plan your Saturday" in Rhymes Light 36px (32px on mobile). Below that, one row per region in the order Lower North Shore, Southern Highlands, Byron Bay. Each row has a 2:1 thumbnail (144 × 72, or 96 × 48 on mobile), the region name in Rhymes Light 23px (19px on mobile), and the links OPEN HOMES and BY APPOINTMENT.
-  - **All regions bar:** a #ebe4df band with ALL REGIONS and the same two links. OPEN HOMES goes to every region's inspections, and BY APPOINTMENT goes to atlas.com.au/contact.
-  - **Links:** Fakt Normal caps, 14px with 1px tracking (12px on mobile), #1e1e1e, with a 1px underline drawn as a cell border so it holds in Outlook.
-  - The top section replaces the old 2 × 2 tile launchpad and the separate "Plan your Saturday" title band, so Lower North Shore follows the All regions bar directly.
-- **Section colours:** Lower North Shore is light sand #EFE9E5, Southern Highlands is white and Byron Bay is #EFE9E5. Never use hairline separators.
+- **Top section** (Figma `OFI template`, frames 15:48 desktop and 37:3 mobile, set to the email's type scale below):
+  - **Header:** #1e1e1e (the same near-black as the footer), 88px high. The Atlas logo (140 × 28) sits on the left. The right has OPEN HOMES and SATURDAY 14 NOVEMBER in the caps style.
+  - **Region list** (white): the eyebrow "OPEN INSPECTIONS BY REGION", then "Plan your Saturday" in Rhymes Light 36px (32px on mobile). Then one row per region in the order Lower North Shore, Southern Highlands, Byron Bay. Each row has a 2:1 thumbnail (144 × 72 on desktop, 80 × 40 on mobile), the region name in Rhymes Light 22px (18px on mobile), and the OPEN HOMES and BY APPOINTMENT links.
+  - **Narrow phones:** below 375px the thumbnails are hidden so the two links stay on one line.
+  - **All regions bar:** light sand #EFE9E5, with the label ALL and the same two links on one row at every width. The label is ALL rather than ALL REGIONS so the row fits on a 360px phone. OPEN HOMES goes to every region's inspections, and BY APPOINTMENT goes to atlas.com.au/contact.
+  - **Links:** the caps style, with a 0.5px #1e1e1e underline 5px below the text. Every link underline in the email, VIEW REGION included, is 0.5px. The underline is drawn as a cell border so it holds in Outlook.
+- **Type scale** (one style per role, the same on desktop and mobile unless noted):
+  - Rhymes Light, weight 400: headline 36px (mobile 32px); off-market title 28px (mobile 26px); region names 22px (mobile 18px), the same in the top list and the section headers; street names 18px (mobile 16px).
+  - Fakt Normal, weight 400: caps labels and links are 11px with 2px tracking at every width. That covers the eyebrows, VIEW REGION, OPEN HOMES, BY APPOINTMENT, ALL, REGISTER, suburbs, specs, OPEN INSPECTION and the header. Times are 12px.
+  - All text in the content sections is #1e1e1e. The footer keeps its own smaller sizes.
+- **Property cards:** each pair of cards is one table with a row per element (image, street, suburb, specs, OPEN INSPECTION, time). A street name that wraps makes the whole row taller, so both cards in the pair always line up. On mobile the two columns share the width equally, with a 12px gap made from padding on each card. A separate gap cell would be squeezed to nothing between two 50% columns.
+- **One line per copy line:** no card line may wrap, at any width down to a 360px phone (where each card column is 149px). The build shortens the copy to fit:
+  - Times use "Sat" ("Sat 11:00am – 11:30am").
+  - Street types are abbreviated (Street → St, Road → Rd, Crescent → Cres and so on).
+  - Suburbs drop " NSW".
+  - If a street name is still too long, the build prints a warning. Add `"street_short"` to that property in the dataset (e.g. "71/2-18 Centennial Rd" for "Villa 71/2-18 Centennial Road").
+  - As a safety net, mobile cuts any line that still overflows with "…" rather than wrapping it.
+- **Section colours:** after the top section, the sections alternate, starting with white: Lower North Shore is white, Southern Highlands is light sand #EFE9E5, and Byron Bay is white. Off-market keeps its dark panel. Use one sand only (#EFE9E5). Never use hairline separators.
 - **Section titles:** a Fakt caps label with a Rhymes title only, e.g. "OPEN INSPECTIONS BY REGION" over "Plan your Saturday". Never stack three lines, and never add the globe.
 - **Off-market** comes after the regions. REGISTER goes to hq.atlas.com.au/offmarket.
 - **Fonts:** Rhymes Display Light (registered at weight 400) and Fakt Normal (400), with Fakt Medium at 500 and 700, all loaded with @font-face from `tadatlas/atlas-app-fonts`. Rhymes falls back to Times and Fakt falls back to Helvetica. Keep Rhymes text at `font-weight: 400`, or clients will fake a bold.
@@ -41,6 +52,7 @@ The Saturday open-homes email for Lower North Shore, Southern Highlands and Byro
 - **Fat buttons on mobile:** any new button class needs its own mobile CSS rule, or it inherits Stripo's generic padding.
 - **Stripo mobile rules:** `.es-content-body p, a` are forced to 14px on mobile, and `.es-table-not-adapt` tables are forced to `width: auto`. The top section uses `lp2-*` classes with scoped mobile rules (`LP2_MOBILE` in `build_ofi.py`), and keeps `es-table-not-adapt` off its full-width tables.
 - **Double footer:** don't keep the archive's ActiveCampaign footer table.
+- **No unsubscribe in the template:** ActiveCampaign adds its own, so the build drops the footer's plain-text UNSUBSCRIBE line. PRIVACY POLICY links to atlas.com.au/privacy-policy. The social links match the atlas.com.au footer: facebook.com/atlassydneyandeastcoast, instagram.com/atlas_sydney_eastcoast and linkedin.com/company/atlas-realestate-au.
 
 ## Files
 

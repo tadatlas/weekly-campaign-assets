@@ -121,13 +121,44 @@ LEFT_T = tokenize(left_raw, "34 Jeffreys Street", "KIRRIBILLI NSW",
 RIGHT_T = tokenize(right_raw, "11/34-40 Union Street", "MCMAHONS POINT NSW",
                    "3 BED &nbsp;3 BATH &nbsp;2 CAR", "Saturday 10:00am – 10:30am")
 
+# ---- one line per copy line: card copy is shortened to fit a 360px phone ----
+# Advance widths (em) of Rhymes Display Light and Fakt Normal, read from the font files.
+FONT_W = {"rhymes":{"a":0.473,"b":0.513,"c":0.46,"d":0.531,"e":0.447,"f":0.286,"g":0.465,"h":0.548,"i":0.262,"j":0.24,"k":0.495,"l":0.255,"m":0.817,"n":0.555,"o":0.538,"p":0.533,"q":0.519,"r":0.372,"s":0.39,"t":0.318,"u":0.545,"v":0.462,"w":0.693,"x":0.455,"y":0.447,"z":0.436,"A":0.679,"B":0.63,"C":0.72,"D":0.776,"E":0.65,"F":0.613,"G":0.78,"H":0.784,"I":0.324,"J":0.401,"K":0.717,"L":0.622,"M":0.939,"N":0.79,"O":0.767,"P":0.584,"Q":0.767,"R":0.646,"S":0.557,"T":0.642,"U":0.774,"V":0.668,"W":0.908,"X":0.692,"Y":0.669,"Z":0.62,"0":0.539,"1":0.339,"2":0.473,"3":0.456,"4":0.484,"5":0.454,"6":0.492,"7":0.424,"8":0.505,"9":0.492," ":0.216,"/":0.449,"-":0.352,"\u2013":0.5,"&":0.726,"'":0.175,",":0.221,".":0.199,"(":0.297,")":0.297,"#":0.7},"fakt":{"a":0.524,"b":0.584,"c":0.516,"d":0.584,"e":0.524,"f":0.308,"g":0.584,"h":0.564,"i":0.24,"j":0.24,"k":0.504,"l":0.24,"m":0.864,"n":0.564,"o":0.56,"p":0.584,"q":0.58,"r":0.36,"s":0.484,"t":0.328,"u":0.56,"v":0.468,"w":0.724,"x":0.464,"y":0.468,"z":0.444,"A":0.644,"B":0.664,"C":0.712,"D":0.704,"E":0.612,"F":0.576,"G":0.76,"H":0.728,"I":0.268,"J":0.512,"K":0.652,"L":0.544,"M":0.904,"N":0.736,"O":0.76,"P":0.636,"Q":0.764,"R":0.652,"S":0.648,"T":0.588,"U":0.696,"V":0.62,"W":0.936,"X":0.596,"Y":0.608,"Z":0.584,"0":0.568,"1":0.568,"2":0.568,"3":0.568,"4":0.568,"5":0.568,"6":0.568,"7":0.568,"8":0.568,"9":0.568," ":0.22,"/":0.4,"-":0.396,"\u2013":0.556,"&":0.712,"'":0.216,",":0.256,".":0.256,"(":0.284,")":0.284,"#":0.616}}
+MOBILE_COL = 149   # card column width on a 360px phone: (360 - 2*25 margin - 12 gap) / 2
+ABBR = [("Street", "St"), ("Road", "Rd"), ("Crescent", "Cres"), ("Avenue", "Ave"), ("Parade", "Pde"),
+        ("Place", "Pl"), ("Drive", "Dr"), ("Lane", "Ln"), ("Terrace", "Tce"), ("Close", "Cl"),
+        ("Court", "Ct"), ("Highway", "Hwy"), ("Boulevard", "Blvd"), ("Circuit", "Cct"), ("Esplanade", "Esp")]
+
+def text_w(txt, font, size, track=0.0):
+    return sum(FONT_W[font].get(ch, 0.6) * size + track for ch in txt)
+
+def card_copy(p):
+    """the one-line versions of a card's copy"""
+    street = p.get("street_short") or p["street"]
+    for full, short in ABBR:
+        street = re.sub(rf"\b{full}\b", short, street)
+    suburb = re.sub(r"\s+NSW$", "", p["suburb"].strip())
+    time = re.sub(r"^Saturday\b", "Sat", p["time"].strip())
+    return street, suburb, time
+
+TOO_LONG = []
+def check_fit(p):
+    street, suburb, time = card_copy(p)
+    for label, txt, w in [("street", street, text_w(street, "rhymes", 16)),
+                          ("suburb", suburb, text_w(suburb, "fakt", 11, 2)),
+                          ("spec", p["spec"].replace("&nbsp;", " "), text_w(p["spec"].replace("&nbsp;", " "), "fakt", 11, 2)),
+                          ("time", time, text_w(time, "fakt", 12))]:
+        if round(w) > MOBILE_COL:
+            TOO_LONG.append(f'{p["street"]}: {label} "{txt}" is {w:.0f}px, the mobile column is {MOBILE_COL}px')
+
 def fill(tpl, p, region):
+    street, suburb, time = card_copy(p)
     href = utm(p["url"], REG_SLUG[region], p["pid"])
     return (tpl.replace("{HREF}", href).replace("{IMG}", p["img"])
                .replace("{ALT}", p["alt"].replace('"', ""))
-               .replace("{STREET}", p["street"]).replace("{SUBURB}", p["suburb"])
+               .replace("{STREET}", street).replace("{SUBURB}", suburb)
                .replace("{SPEC}", p["spec"])
-               .replace("{TIME}", f'<span class="dtl">{p["time"]}</span>'))
+               .replace("{TIME}", f'<span class="dtl">{time}</span>'))
 
 # empty right column: keep structure, blank the presentation table
 pt = right_raw.find('role="presentation"')
@@ -141,16 +172,64 @@ def last_variant(row):
     row = row.replace("es-m-p25b es-module-8275", "es-m-p50b es-module-9157")
     return row.replace("padding: 15px 30px", "padding: 15px 30px 60px")
 
+# ---- property cards: one table per pair, one table row per element ----
+# The archive's cards were two independent stacked tables, so a street name that
+# wrapped to two lines pushed that card's suburb, specs and time below its
+# neighbour's. Here both cards share each row (image, street, suburb, specs,
+# label, time), so a taller cell makes the whole row taller and every card in a
+# pair keeps the same layout in every client, Outlook included.
+ROW_OPEN = LEFT_T[:LEFT_T.index("<table")]                       # <tr><td class="es-m-p25r ... es-module-8275" style="padding: 15px 30px">
+assert ROW_OPEN.startswith("<tr><td") and "es-module-8275" in ROW_OPEN
+ROW_CLOSE = "</td></tr>"
+IMG_A = re.search(r'<a href="\{HREF\}".*?</a>', LEFT_T, re.S).group(0)
+IMG_A = re.sub(r'width="263"', 'width="{W}"', IMG_A, count=1)
+
+def _cell(label):
+    """the <td ...>...</td> in LEFT_T whose text contains `label`"""
+    i = LEFT_T.index(label)
+    a = LEFT_T.rfind("<td", 0, i)
+    return LEFT_T[a:LEFT_T.index("</td>", i) + len("</td>")]
+
+CELLS = [_cell("{STREET}"), _cell("{SUBURB}"), _cell("{SPEC}"), _cell("OPEN INSPECTION"), _cell("{TIME}")]
+GAP_AFTER = [5, 15, 15, 0, 0]        # spacing below each text row, as in the archive card
+
+def _text_td(cell, p, region, side):
+    """re-use the archive cell's td + p styles, add width/valign for the shared row"""
+    if p is None:
+        return f'<td class="ofi-card ofi-card-{side}" valign="top" style="padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+    c = fill(cell, p, region)
+    c = c.replace("<td ", f'<td valign="top" ', 1)
+    return re.sub(r'class="([^"]*)"', rf'class="\1 ofi-card ofi-card-{side}"', c, count=1)
+
+def _gap_td():
+    return '<td class="es-m-w0 es-m-p10r ofi-card-gap" style="padding: 0; Margin: 0; width: 15px; font-size: 0; line-height: 0">&nbsp;</td>'
+
+def _spacer(h):
+    return (f'<tr><td colspan="3" height="{h}" style="height: {h}px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr>')
+
+def card_pair(pl, pr, region):
+    def img(p, w, side):
+        if p is None:
+            return f'<td class="ofi-card ofi-card-{side}" style="padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+        a = fill(IMG_A.replace("{W}", str(w)), p, region)
+        return (f'<td class="ofi-card ofi-card-{side}" width="{w}" valign="top" align="left" '
+                f'style="width: {w}px; padding: 0; Margin: 0; font-size: 0; line-height: 0">{a}</td>')
+    rows = ['<tr>' + img(pl, 263, "l") + _gap_td() + img(pr, 262, "r") + '</tr>', _spacer(15)]
+    for cell, gap in zip(CELLS, GAP_AFTER):
+        rows.append('<tr>' + _text_td(cell, pl, region, "l") + _gap_td() + _text_td(cell, pr, region, "r") + '</tr>')
+        if gap:
+            rows.append(_spacer(gap))
+    table = ('<table role="presentation" cellpadding="0" cellspacing="0" border="0" class="ofi-pair" width="540" '
+             'style="width: 540px; border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt">'
+             + "".join(rows) + '</table>')
+    return ROW_OPEN + table + ROW_CLOSE
+
 def build_rows(props, region):
-    rows, i = [], 0
-    while i < len(props):
-        l = fill(LEFT_T, props[i], region)
-        if i + 1 < len(props):
-            r = fill(RIGHT_T, props[i + 1], region)
-        else:
-            r = EMPTY_RIGHT
-        rows.append(l + r)
-        i += 2
+    for p in props:
+        check_fit(p)
+    rows = []
+    for i in range(0, len(props), 2):
+        rows.append(card_pair(props[i], props[i + 1] if i + 1 < len(props) else None, region))
     rows[-1] = last_variant(rows[-1])
     return "".join(rows)
 
@@ -190,9 +269,9 @@ def paint(block, color):
     assert not leftover, f"unpainted colour left in tag: {leftover} // {new}"
     return block.replace(tag, new, 1)
 
-lns_head2 = paint(lns_head2, LIGHT_SAND)
-sh_head2 = paint(sh_head2, "#ffffff")
-byb_head2 = paint(byb_head2, LIGHT_SAND)
+lns_head2 = paint(lns_head2, "#ffffff")   # rhythm under the top section: white, sand, white
+sh_head2 = paint(sh_head2, LIGHT_SAND)
+byb_head2 = paint(byb_head2, "#ffffff")
 
 LNS_SEC = lns_head2 + build_rows(data["LNS"], "LNS") + lns_tail
 SH_SEC = sh_head2 + build_rows(data["STH"], "STH") + sh_tail
@@ -206,8 +285,8 @@ open0 = t0[:first_tr]
 close0 = lns_tail  # same closing structure for every es-content table
 
 INK = "#1e1e1e"
-HEADER_BG = "#20211f"
-ALL_BG = "#ebe4df"
+HEADER_BG = INK          # same near-black as the footer
+ALL_BG = LIGHT_SAND      # the one sand used for every sand surface
 # Rhymes Light is registered at weight 400, Fakt Normal at 400 and Fakt Medium at 500
 # (see FONT_CSS). Every stack falls back to Times / Helvetica.
 RHYMES = "'Rhymes Display', 'times new roman', times, baskerville, georgia, serif"
@@ -218,7 +297,7 @@ NT = 'role="presentation" cellpadding="0" cellspacing="0" border="0" class="es-t
 NTW = 'role="presentation" cellpadding="0" cellspacing="0" border="0"'  # full-width: Stripo keeps these at 100%
 TBL = "border-collapse: collapse; border-spacing: 0px; mso-table-lspace: 0pt; mso-table-rspace: 0pt"
 
-def fakt_p(text, cls, size, color=INK, weight=400, track="1px", lh=None, align="left"):
+def fakt_p(text, cls, size=11, color=INK, weight=400, track="2px", lh="16px", align="left"):
     lh = lh or f"{round(size * 1.5)}px"
     return (f'<p class="{cls}" style="Margin: 0; mso-line-height-rule: exactly; font-family: {FAKT}; '
             f'font-size: {size}px; line-height: {lh}; letter-spacing: {track}; font-weight: {weight}; '
@@ -231,13 +310,13 @@ def rhymes_p(text, cls, size, track="0"):
 
 def ulink(text, href):
     """Fakt caps link with the underline drawn as a cell border (Outlook ignores borders on <a>)."""
-    return (f'<td class="lp2-u" style="padding: 0 0 1px; Margin: 0; border-bottom: 1px solid {INK}; white-space: nowrap">'
-            f'<a href="{href}" target="_blank" class="lp2-link" style="mso-line-height-rule: exactly; '
-            f'font-family: {FAKT}; font-size: 14px; line-height: 21px; letter-spacing: 1px; font-weight: 400; '
+    return (f'<td class="lp2-u" style="padding: 0 0 5px; Margin: 0; border-bottom: 0.5px solid {INK}; white-space: nowrap">'
+            f'<a href="{href}" target="_blank" class="lp2-link" style="mso-line-height-rule: exactly; display: inline-block; '
+            f'font-family: {FAKT}; font-size: 11px; line-height: 13px; letter-spacing: 2px; font-weight: 400; '
             f'text-transform: uppercase; text-decoration: none; color: {INK}; white-space: nowrap">{text}</a></td>')
 
 def link_pair(h1, h2):
-    return (f'<table {NT} style="{TBL}"><tr>{ulink("OPEN HOMES", h1)}'
+    return (f'<table {NT.replace("es-table-not-adapt", "es-table-not-adapt lp2-pair")} style="{TBL}"><tr>{ulink("OPEN HOMES", h1)}'
             f'<td class="lp2-lgap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
             f'{ulink("BY APPOINTMENT", h2)}</tr></table>')
 
@@ -254,8 +333,8 @@ HEADER_TR = (
     f'<td align="left" valign="middle" style="padding: 0; Margin: 0; font-size: 0; line-height: 0">'
     f'<img src="{LOGO}" width="140" height="28" alt="Atlas" style="display: block; border: 0; outline: none; text-decoration: none; width: 140px; height: 28px; font-size: 14px; color: #ffffff" /></td>'
     f'<td align="right" valign="middle" style="padding: 0; Margin: 0">'
-    + fakt_p("OPEN HOMES", "lp2-hdr-t", 14, "#ffffff", align="right")
-    + fakt_p(f'<span class="dtl">{SAT_LABEL}</span>', "lp2-hdr-t", 14, "#ffffff", align="right")
+    + fakt_p("OPEN HOMES", "lp2-hdr-t", color="#ffffff", align="right")
+    + fakt_p(f'<span class="dtl">{SAT_LABEL}</span>', "lp2-hdr-t", color="#ffffff", align="right")
     + '</td></tr></table></td></tr>')
 head_part = head_part[:hdr_tr] + HEADER_TR + head_part[hdr_end:]
 
@@ -275,14 +354,14 @@ def region_row(key):
         f'style="display: block; border: 0; outline: none; text-decoration: none; width: 144px; height: 72px" /></a></td>'
         f'<td class="lp2-gap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
         f'<td valign="middle" style="padding: 0; Margin: 0">'
-        + rhymes_p(REGION_NAME[key], "lp2-name", 23)
-        + f'<table {NT} style="{TBL}"><tr><td class="lp2-ngap" height="14" style="height: 14px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr></table>'
+        + rhymes_p(REGION_NAME[key], "lp2-name", 22)
+        + f'<table {NT} style="{TBL}"><tr><td class="lp2-ngap" height="10" style="height: 10px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr></table>'
         + link_pair(utm(INSPECT[key], slug, "open_homes"), utm(OFFICE[key], slug, "by_appointment"))
         + '</td></tr></table></td></tr>')
 
 LIST_TR = (
     f'<tr><td align="left" class="lp2-pad" style="padding: 40px 30px 20px; Margin: 0">'
-    + fakt_p("OPEN INSPECTIONS BY REGION", "lp2-eyebrow", 10, weight=500, track="1.5px", lh="14px")
+    + fakt_p("OPEN INSPECTIONS BY REGION", "lp2-eyebrow")
     + f'<table {NT} style="{TBL}"><tr><td height="12" style="height: 12px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td></tr></table>'
     + rhymes_p("Plan your Saturday", "lp2-title", 36, "-0.7px")
     + f'<table {NTW} width="100%" style="{TBL}; width: 100%; Margin-top: 20px">'
@@ -292,10 +371,10 @@ LIST_TR = (
 ALL_TR = (
     f'<tr><td align="left" bgcolor="{ALL_BG}" class="lp2-all" style="background-color: {ALL_BG}; padding: 10px 30px; Margin: 0">'
     f'<table {NT.replace("es-table-not-adapt", "es-table-not-adapt lp2-all-in")} style="{TBL}; Margin: 0"><tr>'
-    f'<td class="lp2-all-lbl" width="144" height="36" align="center" valign="middle" style="width: 144px; height: 36px; padding: 0; Margin: 0; white-space: nowrap">'
-    + fakt_p("ALL REGIONS", "lp2-all-t", 14, align="center")
-    + f'</td><td class="lp2-gap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
-    f'<td valign="middle" style="padding: 0; Margin: 0">'
+    f'<td class="lp2-all-lbl" width="144" height="36" align="left" valign="middle" style="width: 144px; height: 36px; padding: 0 0 6px; Margin: 0; white-space: nowrap">'
+    + fakt_p("ALL", "lp2-all-t")
+    + f'</td><td class="lp2-gap lp2-all-gap" width="24" style="width: 24px; padding: 0; Margin: 0; font-size: 0; line-height: 0">&nbsp;</td>'
+    f'<td valign="middle" class="lp2-all-links" style="padding: 0; Margin: 0">'
     + link_pair(utm(ALL_INSPECT, "all_regions", "open_homes"), utm(ALL_APPT, "all_regions", "by_appointment"))
     + '</td></tr></table></td></tr>')
 
@@ -304,24 +383,39 @@ lp = paint(open0, "#ffffff") + LIST_TR + ALL_TR + close0
 # Mobile sizes from the 375px frame (37:3). Selectors are scoped to beat Stripo's
 # generic ".es-content-body p / a { font-size: 14px !important }" and "p, a { line-height: 150% }".
 LP2_MOBILE = """@media only screen and (max-width:600px) {
- .es-header-body td.lp2-hdr { padding: 23px 20px !important }
- .es-header-body p.lp2-hdr-t { font-size: 12px !important; line-height: 18px !important }
- .es-content-body td.lp2-pad { padding: 32px 20px 24px !important }
+ .es-header-body td.lp2-hdr { padding: 23px 25px !important }
+ .es-header-body p.lp2-hdr-t { font-size: 11px !important; line-height: 16px !important }
+ .es-content-body td.lp2-pad { padding: 32px 25px 24px !important }
  .es-content-body p.lp2-title { font-size: 32px !important; line-height: 37px !important }
- .es-content-body p.lp2-eyebrow { font-size: 10px !important; line-height: 14px !important }
- .es-content-body td.lp2-row { padding: 16px 0 !important }
- .es-content-body td.lp2-thumb { width: 96px !important }
- .es-content-body img.lp2-img { width: 96px !important; height: 48px !important }
- .es-content-body td.lp2-gap { width: 16px !important }
- .es-content-body p.lp2-name { font-size: 19px !important; line-height: 22px !important }
- .es-content-body td.lp2-ngap { height: 5px !important }
- .es-content-body a.lp2-link { font-size: 12px !important; line-height: 18px !important }
- .es-content-body td.lp2-lgap { width: 20px !important }
- .es-content-body td.lp2-all { padding: 4px 20px !important }
- .es-content-body table.lp2-all-in { Margin: 0 auto !important }
- .es-content-body td.lp2-all-lbl { width: auto !important; height: 44px !important }
- .es-content-body p.lp2-all-t { font-size: 12px !important; line-height: 18px !important; white-space: nowrap !important }
+ .es-content-body p.lp2-eyebrow { font-size: 11px !important; line-height: 16px !important }
+ .es-content-body td.lp2-row { padding: 12px 0 !important }
+ .es-content-body td.lp2-thumb { width: 80px !important }
+ .es-content-body img.lp2-img { width: 80px !important; height: 40px !important }
+ .es-content-body td.lp2-gap { width: 14px !important }
+ .es-content-body p.lp2-name { font-size: 18px !important; line-height: 22px !important }
+ .es-content-body td.lp2-ngap { height: 2px !important }
+ .es-content-body a.lp2-link { font-size: 11px !important; line-height: 13px !important }
+ .es-content-body table.lp2-pair { width: 100% !important }
+ .es-content-body table.lp2-pair td.lp2-u { display: inline-block !important; vertical-align: top; Margin: 4px 0 !important }
+ .es-content-body table.lp2-pair td.lp2-lgap { display: inline-block !important; width: 14px !important }
+ .es-content-body td.lp2-all { padding: 10px 25px !important }
+ .es-content-body td.lp2-all-lbl { width: 80px !important; height: 36px !important }  /* = thumbnail column, so the links line up */
+ .es-content-body p.lp2-all-t { font-size: 11px !important; line-height: 16px !important; text-align: left !important; white-space: nowrap !important }
+ .es-content-body td.lp2-all-gap { width: 14px !important }
+ .es-content-body td.lp2-all-links table.lp2-pair td.lp2-u { Margin: 0 !important }
+ .es-content-body td.ofi-card { width: 50% !important }
+ /* the gap lives in the card padding: a separate gap cell gets squeezed to 0 between two 50% columns */
+ .es-content-body td.ofi-card-l { padding: 0 6px 0 0 !important }
+ .es-content-body td.ofi-card-r { padding: 0 0 0 6px !important }
+ .es-content-body td.ofi-card-gap { display: none !important }
+ .es-content-body table.ofi-pair { table-layout: fixed !important }
+ .es-content-body td.ofi-card p { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important }
+}
+@media only screen and (max-width:374px) {
+ .es-content-body td.lp2-thumb, .es-content-body td.lp2-row td.lp2-gap { display: none !important }
+ .es-content-body td.lp2-all-lbl { width: auto !important }
 }"""
+
 
 # ---------- 5. off-market ----------
 offm = swap_lt(seg["offm"], utm(OFFMARKET, "all_regions", "offmarket_register"))
@@ -344,6 +438,17 @@ aci = foot.find('class="es-footer ac-footer"')
 assert aci > 0
 foot = foot[:foot.rfind("<table", 0, aci)].rstrip()
 assert "unsubscribe/2" not in foot and "_t.e.s.t_" not in foot
+# ActiveCampaign adds its own unsubscribe link, so drop the archive's plain-text UNSUBSCRIBE row
+ui = foot.find(">UNSUBSCRIBE</p>")
+assert ui > 0, "footer UNSUBSCRIBE row not found"
+u_tr = foot.rfind("<tr>", 0, ui)
+foot = foot[:u_tr] + foot[tr_block(foot, u_tr):]
+assert "UNSUBSCRIBE" not in foot.upper().replace("UNSUBSCRIBE/2", "")
+# PRIVACY POLICY was plain text: link it to the site's policy page
+PRIVACY = "https://www.atlas.com.au/privacy-policy"
+pp = re.search(r'(<p [^>]*color: #5e5e5e[^>]*>)PRIVACY POLICY</p>', foot)
+assert pp, "footer PRIVACY POLICY not found"
+foot = foot.replace(pp.group(0), pp.group(1) + f'<a href="{PRIVACY}" target="_blank" style="color: #5e5e5e; text-decoration: none">PRIVACY POLICY</a></p>', 1)
 
 # ---------- 7. assemble ----------
 # foot_part = dark Atlas footer (inside wrapper) + wrapper close + AC compliance footer
@@ -362,6 +467,28 @@ DTL = (".dtl a, .dtl a:link, .dtl a:visited, a[x-apple-data-detectors] "
        "font-weight: inherit !important; line-height: inherit !important; }")
 m0 = re.search(r"<style[^>]*>", styles[-1])
 styles[-1] = styles[-1][:m0.end()] + "\n" + DTL + "\n" + styles[-1][m0.end():]
+
+# ---------- type system: one caps style and one ink across the email ----------
+# Caps labels and links are Fakt Normal 11px / 2px tracking on desktop AND mobile.
+# Stripo dropped some of them to 10px on mobile; the off-market button was 10px / 1.5px.
+new_body, n = re.subn(r'(<p class="[^"]*)es-text-mobile-size-10([^"]*" style="[^"]*letter-spacing: 2px[^"]*font-size: 11px)',
+                      r"\1es-text-mobile-size-11\2", new_body)
+new_body, n2 = re.subn(r'(<p class="[^"]*)es-text-mobile-size-10([^"]*" style="[^"]*font-size: 11px[^"]*letter-spacing: 2px)',
+                       r"\1es-text-mobile-size-11\2", new_body)
+assert n + n2 >= 38, ("caps labels not re-sized on mobile", n, n2)
+m = re.search(r'<a [^>]*class="es-button es-button-7720"[^>]*>', new_body)
+assert m, "off-market button not found"
+reg = m.group(0).replace("letter-spacing: 1.5px", "letter-spacing: 2px")
+reg = re.sub(r"font-size: ?10px", "font-size: 11px", reg)
+new_body = new_body.replace(m.group(0), reg)
+for i, st in enumerate(styles):
+    st = re.sub(r"(a\.es-button\.es-button-(?:7720|2326|3667|8305)\s*\{\s*font-size:\s*)10px", r"\g<1>11px", st)
+    styles[i] = st
+# every link underline is a 0.5px rule (VIEW REGION's button border was 1px)
+new_body, nu = re.subn(r"border-width: ?0px 0px 1px 0px", "border-width: 0px 0px 0.5px 0px", new_body)
+assert nu == 3, ("expected 3 VIEW REGION underlines", nu)
+# property card text was #333333 / #292929 beside #1e1e1e names; use the one ink
+new_body = re.sub(r"color: ?#(?:333333|292929)\b", "color: #1e1e1e", new_body, flags=re.I)
 
 # ---------- brand fonts: Rhymes + Fakt, falling back to Times / Helvetica ----------
 FCDN = "https://cdn.jsdelivr.net/gh/tadatlas/atlas-app-fonts@main"
@@ -416,17 +543,23 @@ assert "lt.php" not in doc, "tracking link left behind"
 N = sum(len(data[k]) for k in ("LNS", "STH", "BYB"))
 pids = re.findall(r"utm_content=(1p\d+)", doc)
 assert len(set(pids)) == N, (len(set(pids)), N)
-for must in ["Plan your Saturday", "OPEN INSPECTIONS BY REGION", "ALL REGIONS", "hq.atlas.com.au/offmarket",
+for must in ["Plan your Saturday", "OPEN INSPECTIONS BY REGION", ">ALL</p>", "hq.atlas.com.au/offmarket",
              f"SATURDAY {SAT.day} {SAT.strftime('%B').upper()}", "thumb-lns.jpg", "thumb-sh.jpg", "thumb-byb.jpg"]:
     assert must in doc, must
 for k in ("LNS", "STH", "BYB"):
     for p in data[k]:
-        assert p["street"] in doc, p["street"]
+        assert card_copy(p)[0] in doc, card_copy(p)[0]
         assert not re.search(r"(^|\s)0 (BED|BATH|CAR)", p["spec"]), p["street"]
 assert "OPEN TODAY" not in doc
 
 open(OUT, "w", encoding="utf-8").write(doc)
 print("written", OUT, len(doc), "bytes")
+if TOO_LONG:
+    print("\nWARNING: these card lines are too long for one line on a 360px phone. They will be cut with an ellipsis on")
+    print("mobile. Add a shorter \"street_short\" to the dataset (e.g. drop \"Villa\" or the unit prefix):")
+    for t in TOO_LONG:
+        print("  -", t)
+    print()
 print("tables balanced:", doc.count("<table") == doc.count("</table>"), doc.count("<table"))
 print("divs:", doc.count("<div"), doc.count("</div>"))
 
