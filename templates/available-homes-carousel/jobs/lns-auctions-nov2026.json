@@ -1,0 +1,16 @@
+{
+ "name": "LNS Auctions Carousel",
+ "caps": "Auctions",
+ "cover": {"title": "Lower North Shore", "image": "../../../auction-edm/2026-11/cover-sydney-harbour-dusk.jpg", "x": 0.7, "duration": 5},
+ "cards": [
+  {"name": "2 Lodge Road", "still": true, "feature": {"title": "2 Lodge Road", "suburb": "Cremorne",
+   "lines": ["4 BEDS   3 BATHS   2 CARS", "Auction Wednesday 25 November, 6:00pm"],
+   "shots": [["https://images.sales.reapit.com.au/26319/listing/1P11177/photo/d/178728006485332611.jpg?wm=0", 0.5]]}},
+  {"name": "2a Cross Street", "still": true, "feature": {"title": "2a Cross Street", "suburb": "Mosman",
+   "lines": ["5 BEDS   5 BATHS   4 CARS", "Auction Saturday 28 November, 1:00pm"],
+   "shots": [["https://images.sales.reapit.com.au/26319/listing/1P11251/photo/d/178823760909918252.jpg?wm=0", 0.5]]}},
+  {"name": "301/171-179 Avenue Road", "still": true, "feature": {"title": "301/171-179 Avenue Road", "suburb": "Mosman",
+   "lines": ["3 BEDS   3 BATHS   3 CARS", "Auction Saturday 28 November, 2:30pm"],
+   "shots": [["https://images.sales.reapit.com.au/26319/listing/1P11423/photo/d/179434790610954507.jpg?wm=0", 0.4]]}}
+ ]
+}
