@@ -11,6 +11,7 @@ Images and videos for Atlas campaigns: the weekly OFI email, Instagram stories, 
 | `templates/ofi-weekly-edm/` | The weekly all-regions OFI email template: build script, base, example week and QA. See its README |
 | `templates/available-homes-carousel/` | The Available Homes Instagram carousel (video cards per suburb): renderer, job files and rules. See its README |
 | `founding-directors-edit/` | Founding Director's Edit cover photos (`<yyyy-mm>/`) and Stone logos (`brand/`) |
+| `auction-edm/<yyyy-mm>/` | Images for auction preview EDMs, e.g. the Michael Coombs portrait for the November 2026 Mosman & Cremorne send |
 | Top level `00.png`–`10.png` | The first set: Lower North Shore open homes, Saturday 27 June 2026 (`00` is the cover, `01`–`10` one per property) |
 
 ## How to link to a file
