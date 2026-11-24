@@ -22,8 +22,8 @@ A pinned URL always serves the exact file from that commit, so later commits do 
 ## Register of campaigns
 | Campaign | Folder | Used by | Pinned commit | Status |
 |---|---|---|---|---|
-| LNS Welcome Series (5 emails) | lns-welcome-series/ | ActiveCampaign automation | <commit-sha> | In build — treat as live |
+| LNS Welcome Series (5 emails) | lns-welcome-series/ | ActiveCampaign automation | d9c440c38e5dbc37127236f161ae4044da70c413 | In build — treat as live |
 ## Change log
 | Date | Change | Authorised by |
 |---|---|---|
-| <today's date> | Section created. 15 LNS Welcome Series images added. | Theo Adricula |
+| 25 Nov 2026 | Section created. 15 LNS Welcome Series images added. | Theo Adricula |
