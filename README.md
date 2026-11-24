@@ -43,3 +43,9 @@ To upload on github.com:
 1. **Don't rename, move or delete files that an email or Notion still links to.** The image disappears the moment the file changes.
 2. **Remove old weeks only once nothing links to them.**
 3. **Keep each file under 20 MB.** jsDelivr won't serve anything larger. Two story videos in `stories/sh-07nov2026/videos/` are over this (`SH_By_Appointment_Sat7Nov.mp4`, 44 MB, and `SH_OFI_Cover_Sat7Nov.mp4`, 25 MB), so share those from Canva or Dropbox instead of linking to them here.
+
+## Brand Campaigns — live assets, do not change
+The brand-campaigns/ folder holds images used by live Atlas campaigns and automations.
+Do not change, move, rename or delete anything in it, and do not rewrite this repo's
+history or make it private, unless authorised by Theo Adricula.
+See brand-campaigns/README.md.
