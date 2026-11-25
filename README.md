@@ -10,6 +10,7 @@ Images and videos for Atlas campaigns: the weekly OFI email, Instagram stories, 
 | `stories/<region>-<ddmonyyyy>/` | Story assets per region and week (`lns`, `sh`, `byb`): cover, property cards, open-time `tabs/`, `stills/` and `videos/` |
 | `templates/ofi-weekly-edm/` | The weekly all-regions OFI email template: build script, base, example week and QA. See its README |
 | `templates/available-homes-carousel/` | The Available Homes Instagram carousel (video cards per suburb): renderer, job files and rules. See its README |
+| `property-spotlight/<address>-<monyyyy>/` | Images for dedicated property spotlight emails that aren't on the listing. E.g. `property-spotlight/26-redan-street-nov2026/mosman-village.jpg` |
 | `founding-directors-edit/` | Founding Director's Edit cover photos (`<yyyy-mm>/`) and Stone logos (`brand/`) |
 | Top level `00.png`–`10.png` | The first set: Lower North Shore open homes, Saturday 27 June 2026 (`00` is the cover, `01`–`10` one per property) |
 
