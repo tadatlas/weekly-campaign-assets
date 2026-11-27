@@ -12,6 +12,7 @@ Images and videos for Atlas campaigns: the weekly OFI email, Instagram stories, 
 | `templates/available-homes-carousel/` | The Available Homes Instagram carousel (video cards per suburb): renderer, job files and rules. See its README |
 | `property-spotlight/<address>-<monyyyy>/` | Images for dedicated property spotlight emails that aren't on the listing. E.g. `property-spotlight/26-redan-street-nov2026/mosman-village-2x1.jpg` |
 | `founding-directors-edit/` | Founding Director's Edit cover photos (`<yyyy-mm>/`) and Stone logos (`brand/`) |
+| `auction-edm/<yyyy-mm>/` | Images for auction preview EDMs, e.g. the Michael Coombs portrait for the November 2026 Mosman & Cremorne send |
 | Top level `00.png`–`10.png` | The first set: Lower North Shore open homes, Saturday 27 June 2026 (`00` is the cover, `01`–`10` one per property) |
 
 ## How to link to a file
