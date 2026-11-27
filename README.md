@@ -11,6 +11,7 @@ Images and videos for Atlas campaigns: the weekly OFI email, Instagram stories, 
 | `templates/ofi-weekly-edm/` | The weekly all-regions OFI email template: build script, base, example week and QA. See its README |
 | `templates/available-homes-carousel/` | The Available Homes Instagram carousel (video cards per suburb): renderer, job files and rules. See its README |
 | `property-spotlight/<address>-<monyyyy>/` | Images for dedicated property spotlight emails that aren't on the listing. E.g. `property-spotlight/26-redan-street-nov2026/mosman-village-2x1.jpg` |
+| `vpa/<address>-<monyyyy>/` | Approved VPA ad creative (the images that ran on Meta), shared to the listing agents through My Listings in Atlas iQ (Agent Kit rows). Remove the folder when the campaign ends; the Agent Kit rows are archived the same day. E.g. `vpa/127-bowral-street-nov2026/carousel-1.jpg` |
 | `founding-directors-edit/` | Founding Director's Edit cover photos (`<yyyy-mm>/`) and Stone logos (`brand/`) |
 | Top level `00.png`–`10.png` | The first set: Lower North Shore open homes, Saturday 27 June 2026 (`00` is the cover, `01`–`10` one per property) |
 
